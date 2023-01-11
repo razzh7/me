@@ -6,9 +6,10 @@ interface ProjectItem {
   title: string
   description: string
   href: string
-  Icon: IconType
+  icon: IconType
 }
-const Item: FC<ProjectItem> = ({ title, description, href, Icon }) => {
+const Item: FC<ProjectItem> = props => {
+  const { title, description, href, icon: Icon } = props
   return (
     <a href={href} className={styles.item} target="_blank">
       <div className={styles.left}>
