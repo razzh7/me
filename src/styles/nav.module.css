@@ -43,6 +43,10 @@
 }
 
 @media screen and (max-width: 600px) {
+  .container {
+    padding: 10px 25px;
+  }
+
   .pc {
     display: none;
   }
