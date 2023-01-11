@@ -11,7 +11,7 @@ interface ProjectItem {
 const Item: FC<ProjectItem> = props => {
   const { title, description, href, icon: Icon } = props
   return (
-    <a href={href} className={styles.item} target="_blank">
+    <a href={href} className={styles.item} target="_blank" rel="noreferrer">
       <div className={styles.left}>
         <Icon className={styles.icon} />
       </div>

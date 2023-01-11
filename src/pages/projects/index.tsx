@@ -18,80 +18,80 @@ const projects = () => {
       <p className={styles.name}>Projects</p>
       <div className={styles.list}>
         <Item
-          title="PageTracker"
-          description="A PageTracker on Web with Typescript."
-          icon={GiLandMine}
-          href="https://github.com/rzhAvenir/page-tracker"
+          title="maserati-crawler"
+          description="A maserati car crawler program."
+          icon={CgDebug}
+          href="https://github.com/rzhAvenir/maserati-crawler"
         />
         <Item
           title="vue-admin"
-          description="A PageTracker on Web with Typescript."
+          description="A elementui admin powered by Vue."
           icon={RiVuejsFill}
           href="https://rzhavenir.github.io/vue-admin-webapp/"
         />
         <Item
-          title="ExpressAuth"
-          description="A PageTracker on Web with Typescript."
+          title="express-auth"
+          description="A json web token login demo with Express."
           icon={SiExpress}
           href="https://github.com/rzhAvenir/express-auth"
         />
         <Item
           title="vue-admin-auth"
-          description="A PageTracker on Web with Typescript."
+          description="A permission system admin with Vue."
           icon={MdAdminPanelSettings}
           href="https://github.com/rzhAvenir/vue-express-rbac"
         />
         <Item
           title="Soyeux"
-          description="A PageTracker on Web with Typescript."
+          description="A carousel on Web with JavaScript."
           icon={MdOutlineViewCarousel}
           href="https://github.com/rzhAvenir/soyeux"
         />
         <Item
           title="mini-redux"
-          description="A PageTracker on Web with Typescript."
+          description="Use the most simple JavaScript to implement Redux core."
           icon={SiRedux}
           href="https://github.com/rzhAvenir/mini-redux"
         />
         <Item
-          title="FordShop"
-          description="A PageTracker on Web with Typescript."
+          title="ford-shop"
+          description="A car shop with HTML,CSS,JavaScript."
           icon={FaShopify}
           href="http://razzh.gitee.io/ford-mall"
         />
         <Item
           title="vue3-taro3-template"
-          description="A PageTracker on Web with Typescript."
+          description="A vue3 and taro3 template."
           icon={RiMiniProgramFill}
           href="https://github.com/rzhAvenir/taro-vue3-template"
         />
         <Item
-          title="maserati-crawler"
-          description="A PageTracker on Web with Typescript."
-          icon={CgDebug}
-          href="https://github.com/rzhAvenir/maserati-crawler"
+          title="page-tracker"
+          description="A page watch on Web with Typescript."
+          icon={GiLandMine}
+          href="https://github.com/rzhAvenir/page-tracker"
         />
         <Item
           title="promise-learn"
-          description="A PageTracker on Web with Typescript."
+          description="According to A Plus standard, use JavaScript implement promise main"
           icon={SiFuturelearn}
           href="https://github.com/rzhAvenir/Promise-learn"
         />
         <Item
           title="vue-learn"
-          description="A PageTracker on Web with Typescript."
+          description="A learn demo, step by step implement Vue2."
           icon={SiSololearn}
           href="https://github.com/rzhAvenir/vue-learn"
         />
         <Item
           title="starter-ts"
-          description="A PageTracker on Web with Typescript."
+          description="A ts-template starter with Typescript."
           icon={SiTypescript}
           href="https://github.com/rzhAvenir/starter-ts"
         />
         <Item
-          title="elementUI-table-template"
-          description="A PageTracker on Web with Typescript."
+          title="elementui-table-template"
+          description="Base on elementui-table component wrapper again."
           icon={RiTableLine}
           href="https://github.com/rzhAvenir/element-table-template"
         />
