@@ -7,6 +7,8 @@ html,
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 html {
@@ -28,9 +30,25 @@ a {
 }
 
 .layout[theme-mode='light'] {
+  --surface1: #cccccc;
+  --surface2: #f2f2f2;
+  --surface3: #ffffff;
+  --surface4: #f9f9f9;
   --element1: #121212;
+  --element2: #555555;
+  --element3: #000000;
+  --element4: #918f8f;
+  --element5: #b3b3b3;
 }
 
 .layout[theme-mode='dark'] {
+  --surface1: #ebebeb;
+  --surface2: #333333;
+  --surface3: #121212;
+  --surface4: #191919;
   --element1: #d5d5d5;
+  --element2: #bbbbbb;
+  --element3: #ffffff;
+  --element4: #cac6c6;
+  --element5: #8e8c8c;
 }
