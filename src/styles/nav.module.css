@@ -30,6 +30,7 @@
 
 .pc {
   display: block;
+  color: var(--element1);
 }
 
 .mobile {
