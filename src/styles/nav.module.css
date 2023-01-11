@@ -1,0 +1,54 @@
+@font-face {
+  font-family: Pacifico;
+  src: url(../fonts/pacifico/Pacifico.ttf);
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 32px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.signature {
+  margin-right: auto;
+  font-family: Pacifico, serif;
+  font-size: 25px;
+  color: #000;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+}
+
+.pc {
+  display: block;
+}
+
+.mobile {
+  display: none;
+}
+
+.blank {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .pc {
+    display: none;
+  }
+
+  .mobile {
+    display: flex;
+  }
+
+  .nav {
+    gap: 13px;
+  }
+}
