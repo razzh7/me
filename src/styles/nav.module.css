@@ -19,12 +19,13 @@
   margin-right: auto;
   font-family: Pacifico, serif;
   font-size: 25px;
-  color: #000;
+  color: var(--element1);
 }
 
 .icon {
   display: flex;
   align-items: center;
+  color: var(--element1);
 }
 
 .pc {

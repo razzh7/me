@@ -1,5 +1,5 @@
 import { FiMoon, FiSun } from 'react-icons/fi'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import styles from '@/styles/nav.module.css'
 
 interface ThemeButton {
@@ -12,7 +12,9 @@ const ThemeButton: FC<ThemeButton> = ({ className, theme, setTheme }) => {
   const handleClick = () => {
     setTheme((prev: string) => (prev === 'light' ? 'dark' : 'light'))
     localStorage.setItem('theme-xh', theme === 'light' ? 'dark' : 'light')
+  }
 
+  useEffect(() => {
     if (theme === 'light') {
       document.documentElement.classList.add('light')
       document.documentElement.classList.remove('dark')
@@ -20,8 +22,8 @@ const ThemeButton: FC<ThemeButton> = ({ className, theme, setTheme }) => {
       document.documentElement.classList.add('dark')
       document.documentElement.classList.remove('light')
     }
-  }
-  // clxs()
+  }, [theme])
+
   return (
     <>
       <span className={`${theme == 'dark' ? className : styles.blank}`} onClick={handleClick}>

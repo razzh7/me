@@ -1,7 +1,21 @@
+:root {
+  font-size: 16px;
+  --bg: #fff;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
+}
+
+html {
+  background-color: var(--bg);
+  transition: 0.3s;
+}
+
+html.dark {
+  --bg: #050505;
 }
 
 p {
@@ -13,6 +27,10 @@ a {
   text-decoration: none;
 }
 
-:root {
-  font-size: 16px;
+.layout[theme-mode='light'] {
+  --element1: #121212;
+}
+
+.layout[theme-mode='dark'] {
+  --element1: #d5d5d5;
 }
