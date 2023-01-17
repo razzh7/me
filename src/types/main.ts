@@ -1,15 +1,3 @@
-export interface ParamsId {
-  id: string
-}
-
-export interface PostItem {
-  params: ParamsId
-}
-
-export interface Posts {
-  posts: PostItem[]
-}
-
 export interface PostContent {
   id: string
   title: string
@@ -19,4 +7,16 @@ export interface PostContent {
 
 export interface PostProps {
   content: PostContent
+}
+
+export interface ParamsId {
+  id: string
+}
+
+export interface PostItem {
+  params: ParamsId
+}
+
+export interface Posts {
+  posts: PostContent[]
 }

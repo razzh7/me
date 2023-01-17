@@ -1,14 +1,14 @@
 import { FC } from 'react'
-// import { Posts } from '@/types/main'
+import { Posts } from '@/types/main'
 import Link from 'next/link'
 import styles from '@/styles/posts.module.css'
 
-const Posts = ({ posts }) => {
+const Posts: FC<Posts> = ({ posts }) => {
   return (
     <ul>
       {posts.map(item => (
         <li className={styles.item} key={item.id}>
-          <Link href="#">
+          <Link href={`/blog/${item.id}`}>
             <div className={styles.name}>{item.id}</div>
             <div className={styles.time}>{item.date}</div>
           </Link>
