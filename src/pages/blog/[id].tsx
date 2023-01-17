@@ -13,7 +13,7 @@ const Post = ({ content }: PostProps) => {
         <p className={styles.title}>{title}</p>
         <p className={styles.date}>{date}</p>
       </div>
-      <article className="md">
+      <article className="prose">
         <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
       </article>
     </Wrapper>
@@ -33,7 +33,7 @@ export const getStaticPaths = () => {
 
 export const getStaticProps = async ({ params }: PostItem) => {
   const content = await getPostContent(params.id)
-
+  console.log('content', content)
   return {
     props: {
       content: content

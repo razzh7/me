@@ -11,7 +11,7 @@ date: 2022-10-07
 
 当组件初始化的时候，如果组件中有 `computed` 属性，那么则会 [initComputed](https://github.com/vuejs/vue/blob/v2.6.14/src/core/instance/state.js#L170-L211):
 
-```js {20,21,22,23,24,25}
+```js {2,3,4}
 const computedWatcherOptions = { lazy: true }
 function initComputed(vm: Component, computed: Object) {
   // $flow-disable-line
@@ -56,7 +56,7 @@ function initComputed(vm: Component, computed: Object) {
 
 这里的第 3 点 `new Watcher` 是传入 `const computedWatcherOptions = { lazy: true }`，意味着初始化计算属性的时候并不会立刻进行求值：
 
-```js {14,15,16}
+```js
 class Watcher {
   constructor(
     vm: Component,

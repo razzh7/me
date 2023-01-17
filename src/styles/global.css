@@ -44,7 +44,8 @@ li {
   --element4: #918f8f;
   --element5: #b3b3b3;
   --element6: #e0e0e0;
-  --hljs0: #f3f3f3;
+  --element7: #f1f1f1;
+  --element8: #476582;
 }
 
 .layout[theme-mode='dark'] {
@@ -58,5 +59,31 @@ li {
   --element4: #cac6c6;
   --element5: #8e8c8c;
   --element6: #333333;
-  --hljs0: #333333;
+  --element7: #3a3a3a;
+  --element8: #aac8e4;
+}
+
+.shiki {
+  /* font-family: 'mononoki', 'DM Mono', 'Input Mono', 'Fira Code', monospace; */
+  font-size: 1.05em;
+  line-height: 1.4;
+  /* margin: 0.5em 0; */
+  padding: 10px 20px;
+  margin: 0;
+  overflow: auto;
+}
+
+.shiki-light {
+  background: #f8f8f8 !important;
+}
+.shiki-dark {
+  background: #0e0e0e !important;
+}
+
+html.dark .shiki-light {
+  display: none;
+}
+
+html:not(.dark) .shiki-dark {
+  display: none;
 }
