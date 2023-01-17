@@ -80,6 +80,18 @@ li {
   background: #0e0e0e !important;
 }
 
+/* 
+Shiki line hightlight:
+https://github.com/antfu/markdown-it-shiki#highlight-lines 
+*/
+
+.shiki .highlighted {
+  background: #7f7f7f20;
+  display: block;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
 html.dark .shiki-light {
   display: none;
 }

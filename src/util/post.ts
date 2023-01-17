@@ -48,6 +48,7 @@ export const getPostContent = async (id: string) => {
 
   // 设置代码块主题
   md.use(Shiki, {
+    highlightLines: true,
     theme: {
       light: 'vitesse-light',
       dark: 'vitesse-dark'
