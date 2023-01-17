@@ -33,7 +33,7 @@ export const getStaticPaths = () => {
 
 export const getStaticProps = async ({ params }: PostItem) => {
   const content = await getPostContent(params.id)
-  console.log('content', content)
+
   return {
     props: {
       content: content

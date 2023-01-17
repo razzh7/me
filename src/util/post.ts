@@ -2,14 +2,6 @@ import path from 'path'
 import fs from 'fs'
 import { format } from 'date-fns'
 import matter from 'gray-matter'
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
-import rehypePrism from 'rehype-prism-plus'
-import remarkRehype from 'remark-rehype'
-import rehypeDocument from 'rehype-document'
-import rehypeFormat from 'rehype-format'
-import rehypeStringify from 'rehype-stringify'
-import rehypeHighlight from 'rehype-highlight'
 import MarkdownIt from 'markdown-it'
 import Shiki from 'markdown-it-shiki'
 
@@ -53,20 +45,8 @@ export const getPostContent = async (id: string) => {
   const postContent = fs.readFileSync(targetPath, 'utf8')
 
   const matterResult = matter(postContent)
-  // const content = await unified()
-  //   .use(remarkParse)
-  //   .use(remarkRehype)
-  //   .use(rehypeHighlight)
-  //   .use(rehypePrism)
-  //   .use(rehypeDocument)
-  //   .use(rehypeFormat)
-  //   .use(rehypeStringify)
-  //   .process(matterResult.content)
 
-  // var result = md.render(matterResult.content)
-  // console.log('res', result)
-
-  // const htmlContent = content.value
+  // 设置代码块主题
   md.use(Shiki, {
     theme: {
       light: 'vitesse-light',
