@@ -49,6 +49,7 @@ export const getPostContent = async (id: string) => {
   md.setTheme()
   // 设置a链接target="_bank"
   md.setLinkOpen()
+  md.setAnchor()
   // render markdown to html
   const htmlContent = md.render(matterResult.content)
 
