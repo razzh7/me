@@ -2,11 +2,10 @@ import path from 'path'
 import fs from 'fs'
 import { format } from 'date-fns'
 import matter from 'gray-matter'
-import MarkdownIt from 'markdown-it'
-import Shiki from 'markdown-it-shiki'
+import Markdown from './markdownit'
 
 const postsDirectory = path.join(process.cwd(), 'src', 'posts')
-const md = new MarkdownIt()
+
 export const getAllSortedPosts = () => {
   const postNames = fs.readdirSync(postsDirectory)
   const allPosts = postNames.map(name => {
@@ -45,16 +44,14 @@ export const getPostContent = async (id: string) => {
   const postContent = fs.readFileSync(targetPath, 'utf8')
 
   const matterResult = matter(postContent)
-
+  const md = new Markdown()
   // 设置代码块主题
-  md.use(Shiki, {
-    highlightLines: true,
-    theme: {
-      light: 'vitesse-light',
-      dark: 'vitesse-dark'
-    }
-  })
+  md.setTheme()
+  // 设置a链接target="_bank"
+  md.setLinkOpen()
+  // render markdown to html
   const htmlContent = md.render(matterResult.content)
+
   return {
     id,
     date: format(matterResult.data.date, 'LLLL d, yyyy'),
