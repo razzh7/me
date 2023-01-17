@@ -28,7 +28,7 @@ export const getAllSortedPosts = () => {
     const timeA = new Date(a)
     const timeB = new Date(b)
 
-    return timeA.getTime() - timeB.getTime()
+    return timeB.getTime() - timeA.getTime()
   })
 }
 
