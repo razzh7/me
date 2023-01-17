@@ -29,6 +29,10 @@ a {
   text-decoration: none;
 }
 
+li {
+  list-style: none;
+}
+
 .layout[theme-mode='light'] {
   --surface1: #cccccc;
   --surface2: #f2f2f2;
@@ -39,6 +43,8 @@ a {
   --element3: #000000;
   --element4: #918f8f;
   --element5: #b3b3b3;
+  --element6: #e0e0e0;
+  --hljs0: #f3f3f3;
 }
 
 .layout[theme-mode='dark'] {
@@ -51,4 +57,6 @@ a {
   --element3: #ffffff;
   --element4: #cac6c6;
   --element5: #8e8c8c;
+  --element6: #333333;
+  --hljs0: #333333;
 }

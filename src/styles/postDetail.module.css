@@ -1,0 +1,15 @@
+.header,
+.title {
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 36px;
+  color: var(--element3);
+}
+
+.date {
+  font-size: 16px;
+  color: var(--element2);
+  opacity: 0.5;
+}

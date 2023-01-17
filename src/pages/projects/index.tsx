@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '@/styles/projects.module.css'
-import Wrapper from '@/components/Layout/Wrapper'
+import Wrapper from '@/components/Wrapper'
 import Item from '@/components/Layout/Projects/item'
 import { GiLandMine } from 'react-icons/gi'
 import { MdAdminPanelSettings, MdOutlineViewCarousel } from 'react-icons/md'

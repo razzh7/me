@@ -1,0 +1,26 @@
+.item {
+  margin-top: 8px;
+  margin-bottom: 32px;
+}
+
+.name {
+  font-size: 18px;
+  opacity: 0.7;
+  color: var(--element3);
+  transition: 0.3s;
+}
+
+.time {
+  font-size: 14px;
+  opacity: 0.5;
+  transition: 0.3s;
+  color: var(--element3);
+}
+
+.item:hover .name {
+  opacity: 1;
+}
+
+.item:hover .time {
+  opacity: 0.7;
+}
