@@ -8,13 +8,14 @@
   opacity: 0.7;
   color: var(--element3);
   transition: 0.3s;
+  margin-bottom: 5px;
 }
 
 .time {
   font-size: 14px;
   opacity: 0.5;
-  transition: 0.3s;
   color: var(--element3);
+  transition: 0.3s;
 }
 
 .item:hover .name {

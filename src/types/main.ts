@@ -3,6 +3,8 @@ export interface PostContent {
   title: string
   date: string
   htmlContent: string
+  readtime: string
+  words: string | number
 }
 
 export interface PostProps {

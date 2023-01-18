@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import { format } from 'date-fns'
 import matter from 'gray-matter'
+import estimateTime from './readtime'
 import Markdown from './markdownit'
 
 const postsDirectory = path.join(process.cwd(), 'src', 'posts')
@@ -12,10 +13,12 @@ export const getAllSortedPosts = () => {
     const id = name.replace('.md', '')
     const postBody = fs.readFileSync(path.join(postsDirectory, name))
     const matterResult = matter(postBody)
+    const { readtime } = estimateTime(matterResult.content)
 
     return {
       id,
-      date: format(matterResult.data.date, 'LLLL d, yyyy')
+      date: format(matterResult.data.date, 'LLLL d, yyyy'),
+      readtime
     }
   })
 
@@ -44,6 +47,8 @@ export const getPostContent = async (id: string) => {
   const postContent = fs.readFileSync(targetPath, 'utf8')
 
   const matterResult = matter(postContent)
+  const { readtime, words } = estimateTime(matterResult.content)
+
   const md = new Markdown()
   // 设置代码块主题
   md.setTheme()
@@ -60,6 +65,8 @@ export const getPostContent = async (id: string) => {
     id,
     date: format(matterResult.data.date, 'LLLL d, yyyy'),
     title: matterResult.data.title,
-    htmlContent
+    htmlContent,
+    readtime,
+    words
   }
 }
