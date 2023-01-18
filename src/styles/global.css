@@ -34,6 +34,10 @@ li {
   list-style: none;
 }
 
+.table-of-contents {
+  opacity: 0.5 !important;
+}
+
 .layout[theme-mode='light'] {
   --surface1: #cccccc;
   --surface2: #f2f2f2;
@@ -64,6 +68,11 @@ li {
   --element8: #aac8e4;
 }
 
+/* 
+Shiki line hightlight:
+https://github.com/antfu/markdown-it-shiki#highlight-lines 
+*/
+
 .shiki {
   /* font-family: 'mononoki', 'DM Mono', 'Input Mono', 'Fira Code', monospace; */
   font-size: 1.05em;
@@ -80,11 +89,6 @@ li {
 .shiki-dark {
   background: #0e0e0e !important;
 }
-
-/* 
-Shiki line hightlight:
-https://github.com/antfu/markdown-it-shiki#highlight-lines 
-*/
 
 .shiki .highlighted {
   background: #7f7f7f20;

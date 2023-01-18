@@ -2,6 +2,8 @@ import MarkdownIt from 'markdown-it'
 import Shiki from 'markdown-it-shiki'
 import anchor from 'markdown-it-anchor'
 import LinkAttributes from 'markdown-it-link-attributes'
+// @ts-expect-error missing types
+import TOC from 'markdown-it-table-of-contents'
 import { slugify } from './slugify'
 export default class Markdown {
   md: MarkdownIt
@@ -40,6 +42,13 @@ export default class Markdown {
         symbol: '#',
         renderAttrs: () => ({ 'aria-hidden': 'true' })
       })
+    })
+  }
+
+  setTableContent() {
+    this.md.use(TOC, {
+      includeLevel: [1, 2, 3],
+      slugify
     })
   }
 }
