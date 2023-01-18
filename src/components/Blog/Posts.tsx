@@ -4,8 +4,6 @@ import Link from 'next/link'
 import styles from '@/styles/posts.module.css'
 
 const Posts: FC<Posts> = ({ posts }) => {
-  console.log('post', posts)
-
   return (
     <ul>
       {posts.map(item => (
