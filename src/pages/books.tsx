@@ -3,10 +3,14 @@ import Books from '@/components/Books'
 import Wrapper from '@/components/Wrapper'
 import styles from '@/styles/books.module.css'
 import Divider from '@/components/Divider'
+import Head from 'next/head'
 
 export default function books() {
   return (
     <Wrapper>
+      <Head>
+        <title>书单</title>
+      </Head>
       <p className={styles.title}>正在阅读</p>
       <Books
         books={[
