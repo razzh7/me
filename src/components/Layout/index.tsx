@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import Navbar from './Navbar/Navbar'
 import Plum from './Plum/Plum'
 import Footer from './Footer'
@@ -18,6 +19,9 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <div className="layout" theme-mode={theme}>
+      <Head>
+        <link rel="shortcut icon" href="/favicon.svg" />
+      </Head>
       <Navbar theme={theme} setTheme={setTheme} />
       <Plum />
       {children}
