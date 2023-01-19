@@ -1,5 +1,7 @@
 import Navbar from './Navbar/Navbar'
 import Plum from './Plum/Plum'
+import Footer from './Footer'
+import Wrapper from '../Wrapper'
 import { FC, PropsWithChildren, useState, useEffect } from 'react'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
@@ -19,6 +21,9 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
       <Navbar theme={theme} setTheme={setTheme} />
       <Plum />
       {children}
+      <Wrapper>
+        <Footer />
+      </Wrapper>
     </div>
   )
 }

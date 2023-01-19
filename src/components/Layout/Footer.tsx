@@ -1,0 +1,15 @@
+import textStyle from '@/styles/home.module.css'
+import styles from '@/styles/footer.module.css'
+
+const Footer = () => {
+  return (
+    <div className={styles.footer}>
+      <p>Copyright © 2023-xiaohao</p>
+      <a className={textStyle.textLink} href="https://beian.miit.gov.cn/">
+        浙ICP备17035458号-1
+      </a>
+    </div>
+  )
+}
+
+export default Footer
