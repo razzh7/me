@@ -14,7 +14,7 @@ const Home = () => {
         <article className={styles.content}>
           <div>
             Hi, I&apos;m razzh, "ra" is the abbreviation of my hometown: Ruian Wenzhou, China.
-            <p>"zzh" is the Chinese abbreviation of my name. My colleagues all call me Xiǎohaó.</p>
+            <p>"zzh" is the Chinese abbreviation of my name. My friends all call me Xiǎohaó.</p>
             <Divider />
             <div style={{ margin: `${20}px ${0}` }}>
               The current focus is on the <span className={styles.stress}>front-end</span>, use{' '}
