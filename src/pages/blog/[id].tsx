@@ -5,12 +5,16 @@ import Wrapper from '@/components/Wrapper'
 import styles from '@/styles/postDetail.module.css'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import Head from 'next/head'
 
 const Post = ({ content }: PostProps) => {
   const { date, title, htmlContent, readtime, words } = content
 
   return (
     <Wrapper>
+      <Head>
+        <title>{title} by XiaoHao</title>
+      </Head>
       <div className={styles.header}>
         <p className={styles.title}>{title}</p>
         <p className={styles.date}>
