@@ -3,6 +3,8 @@ import { PostItem } from '@/types/main'
 import { PostProps } from '@/types/main'
 import Wrapper from '@/components/Wrapper'
 import styles from '@/styles/postDetail.module.css'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 
 const Post = ({ content }: PostProps) => {
   const { date, title, htmlContent, readtime, words } = content
@@ -17,7 +19,7 @@ const Post = ({ content }: PostProps) => {
         <p className={styles.date}>{words}</p>
       </div>
       <article className="prose">
-        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        <ReactMarkdown children={htmlContent} rehypePlugins={[rehypeRaw]} />
       </article>
     </Wrapper>
   )
