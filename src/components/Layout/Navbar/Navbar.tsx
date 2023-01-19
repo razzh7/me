@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { BsGithub } from 'react-icons/bs'
 import { FaRegLightbulb } from 'react-icons/fa'
 import { MdOutlineArticle } from 'react-icons/md'
+import { AiOutlineBook } from 'react-icons/ai'
 import { FC } from 'react'
 
 interface ThemeMode {
@@ -29,10 +30,13 @@ const Navbar: FC<ThemeMode> = ({ theme, setTheme }) => {
         <Link href="/projects">
           <span className={styles.pc}>Projects</span>
         </Link>
-        <a href="https://github.com/rzhAvenir" className={clsx(styles.pc ,styles.icon)}>
+        <Link href="/books">
+          <span className={styles.pc}>Books</span>
+        </Link>
+        <a href="https://github.com/rzhAvenir" className={clsx(styles.pc, styles.icon)}>
           <BsGithub size={20} />
         </a>
-        <ThemeButton className={clsx(styles.pc ,styles.icon)} theme={theme} setTheme={setTheme} />
+        <ThemeButton className={clsx(styles.pc, styles.icon)} theme={theme} setTheme={setTheme} />
 
         {/*Mobile*/}
         <Link href="/blog" className={clsx(styles.mobile, styles.icon)}>
@@ -41,10 +45,17 @@ const Navbar: FC<ThemeMode> = ({ theme, setTheme }) => {
         <Link href="/projects" className={clsx(styles.mobile, styles.icon)}>
           <FaRegLightbulb size={20} />
         </Link>
+        <Link href="/books" className={clsx(styles.mobile, styles.icon)}>
+          <AiOutlineBook size={20} />
+        </Link>
         <a href="https://github.com/rzhAvenir" className={clsx(styles.mobile, styles.icon)}>
           <BsGithub size={20} />
         </a>
-        <ThemeButton className={clsx(styles.mobile, styles.icon)} theme={theme} setTheme={setTheme} />
+        <ThemeButton
+          className={clsx(styles.mobile, styles.icon)}
+          theme={theme}
+          setTheme={setTheme}
+        />
       </nav>
     </header>
   )

@@ -1,0 +1,8 @@
+.divider {
+  margin: 48px 0 16px;
+  border-top: 1px solid rgba(84, 84, 84, 0.48);
+  padding-top: 24px;
+  letter-spacing: -0.02em;
+  line-height: 32px;
+  font-size: 24px;
+}
