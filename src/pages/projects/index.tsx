@@ -13,7 +13,7 @@ const projects = () => {
   return (
     <Wrapper>
       <Head>
-        <title>My Projects</title>
+        <title>项目</title>
       </Head>
       <p className={styles.name}>Projects</p>
       <div className={styles.list}>
