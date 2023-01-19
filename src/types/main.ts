@@ -22,3 +22,14 @@ export interface PostItem {
 export interface Posts {
   posts: PostContent[]
 }
+
+export interface Books {
+  books: BooksItem[]
+}
+
+export interface BooksItem {
+  title: string
+  spine: string
+  tag: string
+  cover: string
+}

@@ -1,7 +1,8 @@
 import { FC } from 'react'
 import styles from '@/styles/books.module.css'
+import { Books } from '@/types/main'
 
-const Books: FC<any> = ({ books }) => {
+const Books: FC<Books> = ({ books }) => {
   return (
     <div>
       {books.map((book: any) => (
