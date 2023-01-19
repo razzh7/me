@@ -1,9 +1,9 @@
 ---
-title: Vuex 的挂载过程
-date: 2022-10-17
+title: Vuex挂载过程
+date: 2022-09-17
 ---
 
-
+[[toc]]
 
 基于 [Vuex3.x](https://github.com/vuejs/vuex/tree/3.x) 版本
 
@@ -193,5 +193,3 @@ this.$store.commit('type', playload)
 ## 总结 {#summary}
 
 之前在 Vue-cli 初始化的项目中总是看到在 new Vue 中传入 store，对这个做法其实一直不是很理解，为什么要这么做，现在明白了是为了将 Store 实例挂载到 options 上再经过 vuexInit 的初始化就能够让用户在全局调用 Store 实例。
-
-<TheEnd />

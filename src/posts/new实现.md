@@ -1,0 +1,24 @@
+---
+title: new实现
+date: 2022-09-20
+---
+
+- 创建一个全新对象
+- 新对象的 `__proto__` 会被挂上构造函数的 `prototype`
+- 使用 `call` 来执行 `new` 之后的构造函数，将其指向新创建的对象上
+- 返回函数执行结果或返回创建的对象
+
+```js
+function create(fn) {
+  var obj = {}
+  obj.__proto__ = fn.prototype
+  var args = [...arguments].slice(1)
+  const result = fn.call(obj, ...args)
+
+  return typeof result === 'object' && result !== null ? result : obj
+}
+```
+
+## this 指向 {#this}
+
+关于 `new` 时候的 `this` 指向，可以参考这篇 [this 指向总结](https://rzhavenir.github.io/front/js/this.html#new-bind)。

@@ -1,9 +1,9 @@
 ---
-title: Vue.set
-date: 2022-09-17
+title: Vue.set实现
+date: 2022-02-17
 ---
 
-
+[[toc]]
 
 由于 JavaScript 的限制，Vue 不能检测数组和对象的变化。尽管如此还是有一些办法来回避这些限制并保证它们的响应性，那就是 `Vue.set`。  
 
@@ -178,4 +178,3 @@ function set(target, key, val) {
 
 - 对于数组，通过使用 `splice` 方法触发视图更新
 - 通过对象，通过检测目标对象是否存在 `key` 、 是否是响应式数据和调用 `ob.dep.notify` 来触发视图更新  
-  <TheEnd />

@@ -1,9 +1,9 @@
 ---
-title: watch 实现原理
-date: 2022-10-08
+title: Vue watch实现原理
+date: 2022-10-03
 ---
 
-
+[[toc]]
 
 本文基于 [Vue 2.16.14](https://github.com/vuejs/vue) 版本  
 

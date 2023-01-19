@@ -1,9 +1,9 @@
 ---
-title: Vue3 提升
-date: 2022-10-02
+title: Vue3提升
+date: 2022-10-25
 ---
 
-
+[[toc]]
 
 `Vue3` 的提升相较于 `Vue2` 主要体现在4个方面：
 - 源码优化
@@ -54,4 +54,3 @@ date: 2022-10-02
 3. 更好的类型支持，在调用函数时，所有的类型就被推导出来了，不像 `OptionsAPI` 所有东西都使用 `this`。  
 
 4. `Compostion API` 对 `tree-shaking` 更友好，代码也更容易压缩。  
-<TheEnd />
