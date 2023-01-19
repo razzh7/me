@@ -42,11 +42,11 @@ const Home = () => {
           <div>
             <p>
               Find me on{' '}
-              <a className={styles.textLink} href="https://github.com/rzhAvenir" target="_blank">
+              <a className={styles.textLink} href="https://github.com/rzhAvenir" target="_blank" rel="noreferrer">
                 Github
               </a>
               ,{' '}
-              <a className={styles.textLink} href="https://twitter.com/razzhAvenir" target="_blank">
+              <a className={styles.textLink} href="https://twitter.com/razzhAvenir" target="_blank" rel="noreferrer">
                 Twitter
               </a>
               .
