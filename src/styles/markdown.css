@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Fira Code';
-  src: url(../fonts/firacode/FiraCode-Regular.ttf) format('truetype');
+  src: url(/fonts/firacode/FiraCode-Regular.ttf) format('truetype');
 }
 .prose pre:not(.shiki) {
   padding: 0;
