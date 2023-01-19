@@ -46,7 +46,7 @@ const Home = () => {
                 Github
               </a>
               ,{' '}
-              <a className={styles.textLink} href="https://twitter.com/home" target="_blank">
+              <a className={styles.textLink} href="https://twitter.com/razzhAvenir" target="_blank">
                 Twitter
               </a>
               .
