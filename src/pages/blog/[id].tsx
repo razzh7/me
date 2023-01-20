@@ -14,7 +14,7 @@ const Post = ({ content }: PostProps) => {
   return (
     <Wrapper>
       <Head>
-        <title>{title} by XiaoHao</title>
+        <title>{title}</title>
       </Head>
       <div className={styles.header}>
         <p className={styles.title}>{title}</p>
