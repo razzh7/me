@@ -1,0 +1,45 @@
+name: Deploy
+
+on:
+  push:
+    branches: 
+     - master
+  pull_request:
+    branches: 
+    - master
+
+jobs:
+  build:
+    # 运行在 ubuntu 上
+    runs-on: ubuntu-latest
+
+    # 任务流步骤
+    steps:
+    - name: 拉取代码
+      uses: actions/checkout@v3
+    
+    - name: 安装Pnpm
+      uses: pnpm/action-setup@v2
+    
+    - name: 安装NodeJS
+      uses: actions/setup-node@v3
+      with: 
+        node-version: 16.x
+        
+    - name: 安装依赖
+      run: pnpm install
+
+    - name: 打包
+      run: pnpm build
+      
+    - name: 部署博客
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        password: ${{ secrets.REMOTE_PASS }}
+        port: 22
+        # 本地打包后的目录
+        source: 'out/'
+        # 服务器存放dist的目录
+        target: ${{ secrets.REMOTE_TARGET }}
