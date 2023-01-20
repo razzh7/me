@@ -129,7 +129,7 @@ Vue.options = {
 beforeCreate 钩子会在此处执行。为什么会选择在 beforeCreate 执行？主要的原因还是在于 beforeCreate 的时候 Vue 的 options 的选项都还没被初始化，若在其他的 hook 中安装 vuex，那么可能会导致需要用到 vuex 中的 state 的数据的时候但 vuex 并没有安装的情况出现，所以这样做避免了出现数据错误的情况。  
 
 vuexInit 的执行，首先就是将 this.$options 赋值给了 options,这里其实有个问题，这个 `this` 是谁？我们知道 js 的 this 指向是通过运行时的环境决定的，所以我们需要知道  vuexInit **在哪里被执行**，通过前面的分析应该是在 beforeCreate hook 执行的时候，来到代码中：
-::: details 点击展开 code
+
 ```js
 function callHook(vm: Component, hook: string) {
   pushTarget();
@@ -166,7 +166,7 @@ function invokeWithErrorHandling (
   return res
 }
 ```
-:::
+
 代码块中高亮的那一行执行了 `invokeWithErrorHandling` 方法，我们可以在这个方法中看到 `handler` 就是我们的 `vuexInit` 方法，可以看到的是它们在被调用的时候用 `apply/call` 方法将 `vm` 实例传入，所以这个时候 `vuexInit` 方法中的 this 指向的是 `Vue` 的实例对象。回到 vuexinit 方法中：
 
 ```js

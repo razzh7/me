@@ -6,15 +6,13 @@ date: 2022-10-18
 [[toc]]
 
 `koa` 最大的特点就是独特的中间件流程控制,也就是大名鼎鼎的“洋葱模型”。没图说个???
-<div my-5>
-<img src="/img/onion.png" width = "478" height = "435" alt="图片名称" rd="5%"/>
-</div>
+![img](/img/onion.png)
 
 可以看到，一个箭头分两段贯穿洋葱模型，第一段一层层深入到洋葱的前半段的底部，也成为“葱心”，然后第二段从葱心一层层又“穿”出。  
 
 好像这样讲也是挺难理解的喔，下面直接上 [koa-compose 源码](https://github.com/koajs/compose/blob/master/index.js) ，来分析一下好像很难的“洋葱模型”。
 ## 解析洋葱模型源码
-::: details 点我展开完整代码
+
 ```js
 function compose (middleware) {
   if (!Array.isArray(middleware)) throw new TypeError('Middleware stack must be an array!')
@@ -47,7 +45,7 @@ function compose (middleware) {
   }
 }
 ```
-:::
+
 就是这个 `compose` 函数了！除去前面的抛错代码，看似复杂的逻辑竟然就10多行代码！下面我们直接关注**核心逻辑**  
 ```js {22,23}
 function compose (middleware) {

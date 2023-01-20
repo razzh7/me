@@ -72,15 +72,14 @@ switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体�
 其中的[ARIA](https://www.w3.org/TR/wai-aria-1.1/#introduction)是可以让我们更好的跟机器交互，而[tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex)也是为了这个目标而写的，当我们按下键盘上的 tab 键时，就可以选中我们的 input 标签，从而使用键盘的 space 和 enter 去操作我们的 `switch` 按钮,所以 input 的标签最后的事件 `@keydown.enter` 的作用就在此。  
 
 相关规范 switch 的 ARIA 设计规范可以看[这里](https://www.w3.org/WAI/ARIA/apg/patterns/switch/)。
-::: tip
+
 `ARIA` 全称 Accessible Rich Internet Applications，是能过让残障人士更加便利的访问 Web 内容和使用 Web 应用的一套机制。也就是说在标签上写上以`aria`为前缀的属性。
-:::
+
 还有没带 aria 前缀的属性 [role](https://www.w3.org/TR/wai-aria-1.1/#usage_intro)，也是为了优化网页交互的效果。  
 这边有一个设计的小细节,如下图：
 
-<div align=center>
-<img src="/switch-focus.png" width = "200" height = "200" alt="图片名称" style="border-radius: 10%; margin-bottom:20px;"/>
-</div>
+![img](/img/switch-focus.png)
+
 在按下 tab 键的时候，可以发现 switch 的边框变亮了，源码中使用了伪类选择器中的 focus-visible 来实现：
 
 ```scss

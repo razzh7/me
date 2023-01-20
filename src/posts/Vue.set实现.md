@@ -71,8 +71,6 @@ var vm = new Vue({
 
 ## set 源码 {#source}
 
-::: details 点击展开 Code
-
 ```js
 function set(target, key, val) {
   if (process.env.NODE_ENV !== 'production' && (isUndef(target) || isPrimitive(target))) {
@@ -106,7 +104,6 @@ function set(target, key, val) {
 }
 ```
 
-:::
 我们可以看到，除去开发环境下的报错提示也就 10 多行代码...，下面我们来关注核心逻辑
 
 ## 数组处理
