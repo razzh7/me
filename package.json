@@ -2,11 +2,13 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@7.17.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prod": "next export"
   },
   "dependencies": {
     "@next/font": "13.1.1",
