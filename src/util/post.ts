@@ -17,6 +17,7 @@ export const getAllSortedPosts = () => {
 
     return {
       id,
+      title: matterResult.data.title,
       date: format(matterResult.data.date, 'LLLL d, yyyy'),
       readtime
     }

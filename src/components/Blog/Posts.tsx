@@ -9,7 +9,7 @@ const Posts: FC<Posts> = ({ posts }) => {
       {posts.map(item => (
         <li className={styles.item} key={item.id}>
           <Link href={`/blog/${item.id}`}>
-            <div className={styles.name}>{item.id}</div>
+            <div className={styles.name}>{item.title}</div>
             <div className={styles.time}>
               {item.date} · {item.readtime}
             </div>
