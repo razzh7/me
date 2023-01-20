@@ -14,7 +14,7 @@ date: 2022-03-12
 - 为什么文档说 v-model 的绑定值必须等于 `active-value` 和 `inactive-value`?
 - 为什么需要 `active-value` 和 `inactive-value`?直接使用 `v-model` 绑定一个值切换不行吗？
 
-## 源码整体架构 
+## 源码整体架构
 
 先看构图部分：
 
@@ -69,16 +69,13 @@ switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体�
 - `aria-disabled`
 - `tabindex`
 
-其中的[ARIA](https://www.w3.org/TR/wai-aria-1.1/#introduction)是可以让我们更好的跟机器交互，而[tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex)也是为了这个目标而写的，当我们按下键盘上的 tab 键时，就可以选中我们的 input 标签，从而使用键盘的 space 和 enter 去操作我们的 `switch` 按钮,所以 input 的标签最后的事件 `@keydown.enter` 的作用就在此。  
+其中的[ARIA](https://www.w3.org/TR/wai-aria-1.1/#introduction)是可以让我们更好的跟机器交互，而[tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex)也是为了这个目标而写的，当我们按下键盘上的 tab 键时，就可以选中我们的 input 标签，从而使用键盘的 space 和 enter 去操作我们的 `switch` 按钮,所以 input 的标签最后的事件 `@keydown.enter` 的作用就在此。
 
 相关规范 switch 的 ARIA 设计规范可以看[这里](https://www.w3.org/WAI/ARIA/apg/patterns/switch/)。
 
 `ARIA` 全称 Accessible Rich Internet Applications，是能过让残障人士更加便利的访问 Web 内容和使用 Web 应用的一套机制。也就是说在标签上写上以`aria`为前缀的属性。
 
-还有没带 aria 前缀的属性 [role](https://www.w3.org/TR/wai-aria-1.1/#usage_intro)，也是为了优化网页交互的效果。  
-这边有一个设计的小细节,如下图：
-
-![img](/img/switch-focus.png)
+还有没带 aria 前缀的属性 [role](https://www.w3.org/TR/wai-aria-1.1/#usage_intro)，也是为了优化网页交互的效果。
 
 在按下 tab 键的时候，可以发现 switch 的边框变亮了，源码中使用了伪类选择器中的 focus-visible 来实现：
 
@@ -197,15 +194,13 @@ watch(
     isControlled.value = false
   }
 )
-const actualValue = computed(() =>
-  isControlled.value ? props.modelValue : props.value
-)
+const actualValue = computed(() => (isControlled.value ? props.modelValue : props.value))
 const checked = computed(() => actualValue.value === props.activeValue)
 ```
 
-首先是使用 ref 定义了 `isControlled` 属性，可以看到，它里面并没有直接使用 modelValue 的值，而是进行了一个判断，是因为 modelValue 的类型值有`Boolean, String, Number`这三种，这一操作让 isControlled 的结果是布尔类型的值，有利于后续的判断。  
+首先是使用 ref 定义了 `isControlled` 属性，可以看到，它里面并没有直接使用 modelValue 的值，而是进行了一个判断，是因为 modelValue 的类型值有`Boolean, String, Number`这三种，这一操作让 isControlled 的结果是布尔类型的值，有利于后续的判断。
 
-后面使用了 watch 函数和 actualValue 计算属性，这都是为了区分用户是使用 `modelValue` 还是 `value` 属性向 switch 传的值。  
+后面使用了 watch 函数和 actualValue 计算属性，这都是为了区分用户是使用 `modelValue` 还是 `value` 属性向 switch 传的值。
 
 但对于 value 属性，将在 2.3.0 版本被弃用，从[官网](https://element-plus.org/zh-CN/component/switch.html#%E5%B1%9E%E6%80%A7)也可以看到现在只使用`modelValue`来绑定切换的值，所以个人认为最后一句在放弃 value 属性的情况下也可以直接使用 modelValue 和 activeValue 进行**全等**判断得出 checked 的值。
 
@@ -213,7 +208,7 @@ const checked = computed(() => actualValue.value === props.activeValue)
 const checked = computed(() => modelValue.value === props.activeValue)
 ```
 
-注意是全等判断！所以官方文档里也强调了 `activeValue` 和 `inactiveValue` 的类型必须相同！但为什么类型要一定要严格相同呢？  
+注意是全等判断！所以官方文档里也强调了 `activeValue` 和 `inactiveValue` 的类型必须相同！但为什么类型要一定要严格相同呢？
 
 实际上是有它的用途存在的，因为考虑到 switch 切换绑定值 modelValue 类型灵活性，它提供了三种类型的[格式](https://github.com/element-plus/element-plus/blob/dev/packages/components/switch/src/switch.ts#L21),那么用户在实际场景下也不会乖乖的只传 Boolean 类型的值，若用户传递的是 Number 类型的 modelValue 值，如：2，而上面两个属性默认值是 Boolean 值，那么它们就永远不可能全等！所以 checked 永远是 false！按钮的状态将永远处于 off 状态。
 
@@ -231,7 +226,7 @@ const switchValue = () => {
 }
 ```
 
-当用户点击时会触发 `switchValue` 方法，总得来看 switchValue 方法处理了 `switchDisabled` 属性，`beforeChange` 钩子进行处理，如果用户没有传递这个钩子，则会执行 `handleChange` 方法。  
+当用户点击时会触发 `switchValue` 方法，总得来看 switchValue 方法处理了 `switchDisabled` 属性，`beforeChange` 钩子进行处理，如果用户没有传递这个钩子，则会执行 `handleChange` 方法。
 
 先看 handleChange 方法：
 
@@ -248,13 +243,13 @@ const handleChange = () => {
 }
 ```
 
-定义了 val 值，从[官网](https://element-plus.org/zh-CN/component/switch.html#%E5%B1%9E%E6%80%A7)可以看到，绑定值 `modelValue` 等于  `inactiveValue` 和 `activeValue` 中的其中之一，在 checked 被选中的时候，这里却选择了 `inactiveValue` ，而不是 `activeValue` ，当初我看到的时候比较困惑。为什么要这样写呢？看个小例子：
+定义了 val 值，从[官网](https://element-plus.org/zh-CN/component/switch.html#%E5%B1%9E%E6%80%A7)可以看到，绑定值 `modelValue` 等于 `inactiveValue` 和 `activeValue` 中的其中之一，在 checked 被选中的时候，这里却选择了 `inactiveValue` ，而不是 `activeValue` ，当初我看到的时候比较困惑。为什么要这样写呢？看个小例子：
 
 ```vue
 <script setup>
 import { ref } from 'vue'
 const data = ref(true)
-const test = (val) => {
+const test = val => {
   data.value = val
 }
 </script>
@@ -297,9 +292,9 @@ if (isPromise(shouldChange)) {
 }
 ```
 
-官网介绍，beforeChange 是 switch 状态改变前的钩子，返回 `false` 或者返回 `Promise` 且被 `reject` 则停止切换。若传递了 beforeChange 钩子函数，它将会被先执行，代码第八行用来校验用户传递的函数的返回值是否是 Promise 或是 Boolean 类型。  
+官网介绍，beforeChange 是 switch 状态改变前的钩子，返回 `false` 或者返回 `Promise` 且被 `reject` 则停止切换。若传递了 beforeChange 钩子函数，它将会被先执行，代码第八行用来校验用户传递的函数的返回值是否是 Promise 或是 Boolean 类型。
 
-第二句高亮代码是对 Promise 的返回值进行处理，等到 beforeChange 钩子执行完毕后再执行 handleChange 切换按钮的逻辑，其方法里面还有 change 事件可以抛出执行，所以 beforeChange 可以说是一个 change 事件的**前置钩子**。  
+第二句高亮代码是对 Promise 的返回值进行处理，等到 beforeChange 钩子执行完毕后再执行 handleChange 切换按钮的逻辑，其方法里面还有 change 事件可以抛出执行，所以 beforeChange 可以说是一个 change 事件的**前置钩子**。
 
 其后的 else if 语句块执行说明用户回调函数返回的是 Boolean 类型的值，就简单执行了一下 hanldeChange 也就达到 beforChange 的前置钩子的目的了。
 
