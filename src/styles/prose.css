@@ -195,6 +195,9 @@
   font-size: 0.875em;
   line-height: 1.7142857;
 }
+.prose th {
+  color: var(--fg-deep);
+}
 .prose thead {
   color: #111827;
   font-weight: 600;
