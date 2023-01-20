@@ -7,7 +7,7 @@ date: 2022-09-17
 
 基于 [Vuex3.x](https://github.com/vuejs/vuex/tree/3.x) 版本
 
-## 思考 {#think}
+## 思考
 
 Vuex 是如何引入 Vue 项目的？  
 
@@ -34,7 +34,7 @@ Vuex 是如何引入 Vue 项目的？
 
   可以看到步骤二使用了 Vue 的 [Vue.use](https://v2.cn.vuejs.org/v2/api/#Vue-use) API，将 Vuex 安装，这个 API 在很多地方都能用到，比如 `ElementUI`、`AntDesign`这些 UI 库也都使用了它进行安装，在使用它的时候，我觉得 Vue.use 即神奇但又让人难以理解，接下来配合 Vuex 的挂载过程去看看它到底做了什么事。
 
-## 解析 Vuex 的挂载过程 {#analysis-vuex}
+## 解析 Vuex 的挂载过程
 
 ```js{10,16}
 function initUse(Vue: GlobalAPI) {
@@ -190,6 +190,6 @@ this.$store.commit('type', playload)
 1. 如果当前是根组件，就把传入的 Store 实例挂在根节点 vm 上  
 2. 如果当前组件是子组件，就从 options 中的 parent 找到 Store 实例挂载子组件的 vm 上，这里注意是**引用赋值**，因此每个子组件都可以访问构造 `VueComponent` 实例上的 `$store`
 
-## 总结 {#summary}
+## 总结
 
 之前在 Vue-cli 初始化的项目中总是看到在 new Vue 中传入 store，对这个做法其实一直不是很理解，为什么要这么做，现在明白了是为了将 Store 实例挂载到 options 上再经过 vuexInit 的初始化就能够让用户在全局调用 Store 实例。

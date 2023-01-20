@@ -9,7 +9,7 @@ date: 2022-10-04
 
 计算属性的特点是基于**它们的响应式依赖进行缓存的**，只有在响应式依赖发生改变时，才能重新会重新求值，这就意味着，当计算属性中的响应式依赖未发生改变时，计算属性会立即返回之前计算的结果。
 
-## 核心源码分析 {#source}
+## 核心源码分析
 当组件初始化的时候，如果组件中有 `computed` 属性，那么则会 [initComputed](https://github.com/vuejs/vue/blob/v2.6.14/src/core/instance/state.js#L170-L211): 
 ```js {20,21,22,23,24,25}
 const computedWatcherOptions = { lazy: true }
@@ -240,10 +240,10 @@ class Dep {
 ```
 当响应式数据更新时，会循环渲染 `watcher` 的 `subs`，而这时我们的计算 `watcher` 已经在里面了，所以也会跟着关联的响应式数据更新而更新。这样 `Vue` 就实现了对计算属性的响应式监测。
 
-## 最小化实现 {#demo}
+## 最小化实现
 可以在这里的 [demo](https://github.com/rzhAvenir/vue-learn/tree/dev/11.%E5%93%8D%E5%BA%94%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B9%8Bcomputed) 看到 `computed` 最小化实现
 
-## 参考 {#refer}
+## 参考
 [computed-属性的响应式](https://vue.windliang.wang/posts/Vue2%E5%89%A5%E4%B8%9D%E6%8A%BD%E8%8C%A7-%E5%93%8D%E5%BA%94%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B9%8Bcomputed.html#computed-%E5%B1%9E%E6%80%A7%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F)
 
 

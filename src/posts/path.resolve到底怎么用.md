@@ -19,7 +19,7 @@ p4: dir + /foo/bar
 
 `p1` 和 `p2` 以及 `p3` 和 `p4` 的第二个参数就差了一个点（dot），但输出结果就完全不同，还有 `p3` ! 我在第一个参数填了 `__dirname`，为啥不输出  **dir + /foo/bar** ，而 `p4` 就能输出刚才谈到的结果呢？？
 
-## 解析path.resolve {#resolve}
+## 解析path.resolve
 我在 [Node.js](https://nodejs.org/api/path.html#pathdirnamepath) 官网中找到 `path.resolve` 的定义:
 > The path.resolve() method resolves a sequence of paths or path segments into an absolute path.
 

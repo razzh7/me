@@ -6,7 +6,7 @@ date: 2022-06-23
 [[toc]]
 
 之前公司有微信小程序和 H5 双端编译的需求，所以自己用 Taro3 + Vue3 + Ts 搭了一个项目：[仓库地址](https://github.com/rzhAvenir/taro-vue3-template)
-## 一、搭建项目架构 {#project}
+## 一、搭建项目架构
 
 ### 初始化项目
 
@@ -45,7 +45,7 @@ pnpm dev weapp
 
 ![img](/img/webpack-analyzer.png)
 
-## 二、设置代码规范的 Eslint Prettier {#code-quality}
+## 二、设置代码规范的 Eslint Prettier
 
 - 代码规范 ESlint
 - 代码格式化 Prettier
@@ -61,7 +61,7 @@ pnpm add @vue/eslint-config-prettier @vue/eslint-config-typescript eslint-plugin
 目录下新增 `.eslintrc.js` 和 `.prettierrc` 文件，具体配置可以按自己的喜好来。   
 如果 VSCode 中已经存在插件 prettier，请关闭。两者在保存的时候，VSCode 中的 prettier 插件的优先级大于项目中的 prettier。
 
-## 三、Git 提交规范 {#commit-rules}
+## 三、Git 提交规范
 
 - Git 钩子控制 [husky](https://typicode.github.io/husky/#/)
 - Git 暂存区 lint 检查 [lint-staged](https://github.com/okonet/lint-staged)
@@ -158,7 +158,7 @@ npm run release -- --release-as xxx (you want version)
 - git push
 - git push --tag 将生成的 `tag` 上传至远程仓库
 
-## 四、安装 unocss {#unocss}
+## 四、安装 unocss
 
 ```js
 pnpm add unocss @unocss/webpack -D

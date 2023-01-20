@@ -7,7 +7,7 @@ date: 2022-07-10
 
 `this` 指向在[《你不知道的 JavaScript》](https://book.douban.com/subject/26351021/)上卷中花了很大篇幅去介绍，可见它对开发者的重要性，本文就根据《你不知道的 JavaScript》来做 `this` 指向总结。
 
-## this 指向的特性 {#character}
+## this 指向的特性
 `this` 指向的位置与**函数执行时的上下文**相关，来看具体例子。
 ## 默认绑定
 ```js
@@ -22,7 +22,7 @@ foo() // 2
 在非严格模式下，函数在**单独调用时**，`this` 指向 `window` 全局对象。  
 严格模式下，`this` 将指向 `undefined`。
 
-## 隐式绑定 {#stealth}
+## 隐式绑定
 ```js
 function foo() {
   console.log(this.a)
@@ -38,7 +38,7 @@ obj.foo() // 2
 
 在 `foo` 函数被调用时，它前面加上了对 `obj` 的引用，当函数引用上下文对象时，隐式绑定规则会把函数调用中的 `this` 绑定到这个上下文对象。因为调用的 `foo()` 时 `this` 被绑定到 `obj`，因此 `this.a` 和 `obj.a` 是一样的。
 
-## 对象嵌套 {#nested}
+## 对象嵌套
 ```js
 function foo() {
   console.log(this.a)
@@ -58,7 +58,7 @@ obj1.obj2.foo() // 42
 ```
 对象属性引用链中只有上一层或者说是最后一层在函数调用位置中起作用。
 
-## 隐式丢失 {#loss}
+## 隐式丢失
 ```js
 function foo() {
   console.log(this.a)
@@ -96,7 +96,7 @@ doFoo(obj.foo) // "oops, global"
 ```
 在执行 `doFoo` 函数时传入 `obj.foo`，在 `doFoo` 函数在预编译阶段实际上会执行 `fn = obj.foo` 这样的操作，所以参数传递其实就是一种**隐式赋值**，所以结果就是在单独执行 `foo（）` 函数，应用默认指向，所以 `this` 指向全局 `window` 全局对象。
 
-## 显式绑定 {#obvious-bind}
+## 显式绑定
 1. 硬绑定  
 
 可以通过 `call`、`apply`、`bind` 等函数改变 `this` 指向。  
@@ -118,7 +118,7 @@ arr.forEach(foo, obj)
 ```
 一些原生方法中，可以通过传入参数的方式改变 `this` 指向，如果不传，默认指向的是 `window` 全局对象。
 
-## new 绑定 {#new-bind}
+## new 绑定
 ```js
 function foo(a) {
   this.a = a
@@ -133,7 +133,7 @@ console.log(bar.a) // 2
 - 使用 `call` 来执行 `new` 之后的构造函数，将其指向新创建的对象上
 - 返回函数执行结果或返回创建的对象
 
-## this 指向优先级 {#priority}
+## this 指向优先级
 显式绑定 > 隐式绑定
 ```js
 function foo() {
@@ -201,7 +201,7 @@ console.log(obj1.a) // 2
 console.log(baz.a) // 3
 ```
 在最后一行可以看到，硬绑定的 `this` 指向被改变了 `new` 绑定改变了。所以 `new` 绑定的 `this` 指向是大于硬性绑定的 `this` 指向的。  
-## 被忽略的 this {#ignore-this}
+## 被忽略的 this
 如果把 `null` 或 `undefined` 作为 `this` 的绑定对象传入 `call`、`apply` 或者 `bind`，这些值在调用时会被忽略，实际应用的是**默认绑定**规则：  
 ```js
 function foo() {
@@ -228,7 +228,7 @@ var bar = foo.bind(null, 2)
 bar(3) // a:2, b:3
 ```
 
-## 间接引用 {#indirect}
+## 间接引用
 ```js
 function foo() {
   console.log(this.a)
@@ -242,7 +242,7 @@ o.foo() // 3
 ```
 赋值表达式 `p.foo = o.foo` 的返回值是目标函数的引用，因此调用位置是 `foo()` 而不是 `p.foo()` 或者 `o.foo()`。也就是我们之前说的**隐式丢失**，它会应用**默认绑定**（在严格模式下 `this` 指向会被绑定到全局对象。
 
-## 箭头函数 this 指向 {#arrow-function}
+## 箭头函数 this 指向
 箭头函数的 `this` 指向是根据外层（函数或者全局）作用域来决定 `this`。来看一个普通函数的例子：
 ```js
 var name = 'window'; // 其实是window.name = 'window'
@@ -284,7 +284,7 @@ A.sayHello();// 还是以为输出A ? 错啦，其实输出的是 window
 ```
 箭头函数的 `this` 指向由**函数所在的作用域**来决定。这里的箭头函数，也就是 `sayHello`，所在的作用域其实是最外层的 `JS` 环境，因为没有其他函数包裹；然后最外层的 `JS` 环境指向的对象是 `winodw` 对象，所以这里的 `this` 指向的是 `window` 对象。
 
-## 总结 {#summary}
+## 总结
 如果要判断一个运行中函数的 `this` 绑定，就需要找到这个函数的直接调用位置。找到之后就可以顺序应用下面这四条规则来判断 `this` 的绑定对象。
 1. 由 `new` 调用？`this` 绑定到新创建的对象  
 2. 由 `call` 或者 `apply` (或者 `bind`)调用？`this` 绑定到指定对象  

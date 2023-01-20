@@ -9,7 +9,7 @@ date: 2022-10-03
 
 `watch Options` 用来监听一个响应式数据的变化，并触发回调函数，适合异步任务和开销较大的操作。
 
-## 核心源码分析 {#source}
+## 核心源码分析
 在 [initState](https://github.com/vuejs/vue/blob/v2.6.14/src/core/instance/state.js#L60-L62) 中执行了 [initWatch](https://github.com/vuejs/vue/blob/v2.6.14/src/core/instance/state.js#L293-L304) 方法
 ```js
 function initWatch (vm: Component, watch: Object) {
@@ -142,7 +142,7 @@ run () {
 
 之后会进行 `if` 判断: `value !== this.value`，其中 `this.value` 保存的是视图更新前的值，所以我们需要比较更新前后的 `value` 是否发生变化，由于我们是 **user watcher**，所以会走第一个分支，调用 [invokeWithErrorHandling](https://github.com/vuejs/vue/blob/v2.6.14/src/core/util/error.js#L36-L56) 方法，在这个方法中就会执行 `cb` 回调函数，执行我们定义函数的一些逻辑。
 
-## immediate 选项 {#immediate}
+## immediate 选项
 开启 `immediate` 时，`watch` 会在初始化的时候立即执行回调函数，在 [$watch](https://github.com/vuejs/vue/blob/v2.6.14/src/core/instance/state.js#L348-L370) 中有这样一段代码：
 ```js
 Vue.prototype.$watch = function(
@@ -162,7 +162,7 @@ Vue.prototype.$watch = function(
 ```
 如果 `immediate` 存在，会立即执行这个回调。这里面的 `pushTarget` 和 `popTarget` 方法是为了让我们在执行回调的时候能够**收集响应式数据的依赖**。
 
-## deep 选项 {#deep}
+## deep 选项
 `watch` 选项在 [new Watcher](https://github.com/vuejs/vue/blob/v2.6.14/src/core/instance/state.js#L359) 的时候，会执行 `parsePath` 方法，用它来收集依赖，但它并不能深度收集对象中的**引用类型**的依赖，所以我们需要对 watch 监听的属性进行**深度递归遍历**。  
 
 我们只需要在收集 `Watcher` 的过程中，深度遍历一遍当前对象，触发所有属性的 `get` ，然后每一个属性就会收集到当前 `Watcher` ，这样改变对象内部的值的时候，就会触发该 `Watcher` ，从而执行回调函数。  
@@ -260,14 +260,12 @@ class Watcher {
 ```
 在执行完 `traverse` 方法后，收集了 `watch` 目标数据的所有依赖，在下一次数据变更时，回调也会跟着触发。
 
-## 最小化实现 {#demo}
+## 最小化实现
 可以在这里的 [demo](https://github.com/rzhAvenir/vue-learn/tree/master/10.%E5%93%8D%E5%BA%94%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B9%8Bimmediate%E5%92%8Cdeep) 看到 `watch` 最小化实现
 
-## 参考 {#refer}
+## 参考
 [Vue.js 技术揭秘 计算属性 vs 侦听属性](https://ustbhuangyi.github.io/vue-analysis/v2/reactive/computed-watcher.html#watcher-options)  
 [Vue2 剥丝抽茧-响应式系统之 watch](https://vue.windliang.wang/posts/Vue2%E5%89%A5%E4%B8%9D%E6%8A%BD%E8%8C%A7-%E5%93%8D%E5%BA%94%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B9%8Bwatch.html#%E5%9C%BA%E6%99%AF)  
 [Vue2 剥丝抽茧-响应式系统之 watch2](https://vue.windliang.wang/posts/Vue2%E5%89%A5%E4%B8%9D%E6%8A%BD%E8%8C%A7-%E5%93%8D%E5%BA%94%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B9%8Bwatch2.html#%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF-2)
-
-<TheEnd />
 
 

@@ -20,7 +20,7 @@ console.log(obj instanceof mine) // true
 
 可以看到上述结果返回了 `true` 证实了这个猜想，接下来就依据它来实现一下 `instanceof` 。
 
-## 实现 {#realize}
+## 实现
 
 思路：  
 1、获取检测对象的原型链  

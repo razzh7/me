@@ -6,7 +6,7 @@ date: 2022-09-27
 [[toc]]
 
 本文以 [Vue 2.16.4](https://github.com/vuejs/vue/tree/v2.6.14) 版本简述在数据更新时，`Vue` 响应式系统内部做了哪些事才让视图得以更新，您可以看着我的步骤顺一下源码，本文在末尾有响应式流程图。
-## 从一个例子开始 {#exmple}
+## 从一个例子开始
 ```js
   new Vue({
     el: "#app",
@@ -46,7 +46,7 @@ let updateComponent = () => {
 
 之后就会执行 [vm._update](https://github.com/vuejs/vue/blob/v2.6.14/src/core/instance/lifecycle.js#L59-L88) 方法，最终经过 [patch](https://github.com/vuejs/vue/blob/612fb89547/src/core/vdom/patch.js#L700) 方法，给 DOM 打上 "补丁"，修改页面上的数据。  
 
-## 总结 {#summary}
+## 总结
 ![img](/img/vuereactive.jpg)
 
 

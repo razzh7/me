@@ -9,7 +9,7 @@ date: 2022-02-17
 
 实际上 Vue 也可以使用 `Object.defineProperty` 来做到对数组的监听，但是出于[性能考虑](https://github.com/vuejs/vue/issues/8562) ，Vue 没有选择这个做法。
 
-## 实际应用 {#application}
+## 实际应用
 
 ```javascript
 var vm = new Vue({
@@ -109,7 +109,7 @@ function set(target, key, val) {
 :::
 我们可以看到，除去开发环境下的报错提示也就 10 多行代码...，下面我们来关注核心逻辑
 
-## 数组处理 {#array}
+## 数组处理
 
 ```js
 function set(target, key, val) {
@@ -142,7 +142,7 @@ console.log(arr2) // [1, 2, 3, empty x 2, 666]
 
 在 `Vue` 的响应式系统中，已经对 `Array.prototype` 进行了一层**代理**操作，之后执行 `splice` 时，会触发 `dep.notify` 方法去通知视图更新。
 
-## 对象处理 {#object}
+## 对象处理
 
 ```js {6}
 function set(target, key, val) {
