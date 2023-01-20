@@ -24,7 +24,7 @@ jobs:
       - name: 安装NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 14
 
       - name: 安装依赖
         run: pnpm install
@@ -40,6 +40,6 @@ jobs:
           password: ${{ secrets.REMOTE_PASS }}
           port: 22
           # 本地打包后的目录
-          source: 'out/'
+          source: './out/'
           # 服务器存放dist的目录
           target: ${{ secrets.REMOTE_TARGET }}
