@@ -5,9 +5,10 @@
   "packageManager": "pnpm@7.17.1",
   "scripts": {
     "dev": "next dev",
-    "build": "next build & next export",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next export"
   },
   "dependencies": {
     "@next/font": "13.1.1",
