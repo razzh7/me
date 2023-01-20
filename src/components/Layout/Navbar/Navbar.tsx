@@ -48,7 +48,12 @@ const Navbar: FC<ThemeMode> = ({ theme, setTheme }) => {
         <Link href="/books" className={clsx(styles.mobile, styles.icon)}>
           <AiOutlineBook size={20} />
         </Link>
-        <a href="https://github.com/rzhAvenir" className={clsx(styles.mobile, styles.icon)}>
+        <a
+          href="https://github.com/rzhAvenir"
+          className={clsx(styles.mobile, styles.icon)}
+          target="_blank"
+          rel="noreferrer"
+        >
           <BsGithub size={20} />
         </a>
         <ThemeButton
