@@ -21,7 +21,7 @@ jobs:
       - name: 安装NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
       - run: npm install -g pnpm
       - run: pnpm install
       - run: pnpm build
