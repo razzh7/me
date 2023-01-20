@@ -6,6 +6,7 @@ import styles from '@/styles/postDetail.module.css'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import Head from 'next/head'
+import Back from '@/components/Back'
 
 const Post = ({ content }: PostProps) => {
   const { date, title, htmlContent, readtime, words } = content
@@ -25,6 +26,7 @@ const Post = ({ content }: PostProps) => {
       <article className="prose">
         <ReactMarkdown children={htmlContent} rehypePlugins={[rehypeRaw]} />
       </article>
+      <Back />
     </Wrapper>
   )
 }
