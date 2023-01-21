@@ -8,7 +8,9 @@ import { slugify } from './slugify'
 export default class Markdown {
   md: MarkdownIt
   constructor() {
-    this.md = new MarkdownIt()
+    this.md = new MarkdownIt({
+      html: true
+    })
   }
 
   render(content: string) {
