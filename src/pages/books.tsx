@@ -63,7 +63,7 @@ export default function books() {
               title: 'Vue.js 设计与实现',
               spine: '#52B47E',
               tag: 'Vue',
-              cover: 'https://tva1.sinaimg.cn/large/e6c9d24egy1h298znqo73j207i09iq35.jpg'
+              cover: '/books/vue3.jpg'
             }
           ]}
         ></Books>
