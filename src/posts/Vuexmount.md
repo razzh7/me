@@ -37,7 +37,7 @@ Vuex 是如何引入 Vue 项目的？
 
 ## 解析 Vuex 的挂载过程
 
-```js{10,16}
+```js {10,16}
 function initUse(Vue: GlobalAPI) {
   Vue.use = function (plugin: Function | Object) {
     // 插件缓存，若这个插件已被安装，那么直接返回Vue实例对象
@@ -71,7 +71,7 @@ function initUse(Vue: GlobalAPI) {
 
 来到 Vue 的 install 方法:
 
-```js{13}
+```js {13}
 let Vue
 function install (_Vue) {
   if (Vue && _Vue === Vue) {

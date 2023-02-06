@@ -111,7 +111,7 @@ switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体�
 
 这里是 switch 切换动作的动画标签，相关类名：`el-switch__core`。
 
-```scss{14}
+```scss {14}
 .el-switch {
   display: inline-flex;
   align-items: center;
@@ -263,7 +263,7 @@ const test = val => {
 
 ## beforeChange 钩子函数
 
-```js{8,15,25}
+```js {8,15,25}
 const { beforeChange } = props
 const shouldChange = beforeChange()
 
