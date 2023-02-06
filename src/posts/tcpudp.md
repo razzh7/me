@@ -1,6 +1,7 @@
 ---
-title: TCP和UDP的区别
+title: TCP 和 UDP 的区别
 date: 2022-10-09
+tech: net
 ---
 
 [[toc]]

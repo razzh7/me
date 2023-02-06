@@ -1,6 +1,7 @@
 ---
-title: 从零搭建Taro多端编译环境
+title: 从零搭建 Taro 多端编译环境
 date: 2022-06-23
+tech: work
 ---
 
 [[toc]]

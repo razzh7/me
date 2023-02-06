@@ -1,6 +1,7 @@
 ---
-title: new实现
+title: new 实现
 date: 2022-09-20
+tech: JS
 ---
 
 - 创建一个全新对象

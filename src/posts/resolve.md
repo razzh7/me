@@ -1,6 +1,7 @@
 ---
-title: path.resolve到底怎么用？
+title: path.resolve 到底怎么用？
 date: 2022-07-07
+tech: node
 ---
 
 之前在项目中常用到 `path.resolve` 这个方法，知道它是处理路径的方法，但总是被它的输出整不会了[尬笑！]，来看看这几个例子！  

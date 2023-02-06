@@ -1,6 +1,7 @@
 ---
-title: this指向总结
+title: this 指向总结
 date: 2022-07-10
+tech: JS
 ---
 
 [[toc]]

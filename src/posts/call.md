@@ -1,6 +1,7 @@
 ---
-title: call实现
+title: call 实现
 date: 2022-08-19
+tech: JS
 ---
 
 实现思路：将想要改变的 `this` 指向的函数放入指向的对象（`context`）中

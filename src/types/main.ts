@@ -5,6 +5,8 @@ export interface PostContent {
   htmlContent: string
   readtime: string
   words: string | number
+  tech: string
+  length?: number
 }
 
 export interface PostProps {
@@ -21,6 +23,7 @@ export interface PostItem {
 
 export interface Posts {
   posts: PostContent[]
+  onChange: Function
 }
 
 export interface Books {

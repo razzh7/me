@@ -1,6 +1,7 @@
 ---
-title: var、let、const的区别
+title: var、let、const 区别
 date: 2022-08-15
+tech: JS
 ---
 
 [[toc]]

@@ -1,6 +1,7 @@
 ---
-title: Vue watch实现原理
+title: Vue watch 实现原理
 date: 2022-10-03
+tech: Vue
 ---
 
 [[toc]]

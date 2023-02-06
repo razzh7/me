@@ -1,6 +1,7 @@
 ---
-title: computed实现原理
+title: computed 实现原理
 date: 2022-10-04
+tech: Vue
 ---
 
 [[toc]]

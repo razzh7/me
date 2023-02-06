@@ -1,6 +1,7 @@
 ---
-title: JS模块化
+title: JS 模块化
 date: 2022-08-07
+tech: JS
 ---
 
 [[toc]]

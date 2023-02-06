@@ -1,6 +1,7 @@
 ---
-title: Vuex挂载过程
+title: Vuex 挂载过程
 date: 2022-09-17
+tech: Vue
 ---
 
 [[toc]]

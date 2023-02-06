@@ -1,6 +1,7 @@
 ---
-title: Javascript继承总结
+title: Javascript 继承总结
 date: 2022-09-13
+tech: JS
 ---
 
 [[toc]]

@@ -18,7 +18,8 @@ html {
 }
 
 html.dark {
-  --bg: #050505;
+  /* --deepbg: #050505; */
+  --bg: #101010;
 }
 
 p {
@@ -28,6 +29,10 @@ p {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+ul {
+  padding: 0;
 }
 
 li {

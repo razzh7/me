@@ -1,3 +1,27 @@
+.article {
+  max-width: 600px;
+  margin: auto;
+}
+
+.tech {
+  margin-right: 10px;
+  font-size: 30px;
+  color: var(--element2);
+  cursor: pointer;
+}
+
+.tech:hover {
+  color: var(--element3);
+}
+
+.selected {
+  color: var(--element3);
+}
+
+.list {
+  margin-top: 50px;
+}
+
 .item {
   margin-top: 8px;
   margin-bottom: 32px;
@@ -24,4 +48,10 @@
 
 .item:hover .time {
   opacity: 0.7;
+}
+
+@media screen and (max-width: 600px) {
+  .tech {
+    font-size: 20px;
+  }
 }

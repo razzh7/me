@@ -1,6 +1,7 @@
 ---
-title: instanceof实现
+title: instanceof 实现
 date: 2022-08-18
+tech: JS
 ---
 
 
