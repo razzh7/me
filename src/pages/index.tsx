@@ -14,7 +14,7 @@ const Home = () => {
         <article className={styles.content}>
           <div>
             Hi, I&apos;m razzh, "ra" is the abbreviation of my hometown: Ruian Wenzhou, China.
-            <p>"zzh" is the Chinese abbreviation of my name. My friends all call me Xiǎohaó.</p>
+            <p>"zzh" is the Chinese abbreviation of my name. My friends all call me Xiǎoháo.</p>
             <Divider />
             <div style={{ margin: `${20}px ${0}` }}>
               The current focus is on the <span className={styles.stress}>front-end</span>, use{' '}
@@ -42,11 +42,21 @@ const Home = () => {
           <div>
             <p>
               Find me on{' '}
-              <a className={styles.textLink} href="https://github.com/rzhAvenir" target="_blank" rel="noreferrer">
+              <a
+                className={styles.textLink}
+                href="https://github.com/rzhAvenir"
+                target="_blank"
+                rel="noreferrer"
+              >
                 Github
               </a>
               ,{' '}
-              <a className={styles.textLink} href="https://twitter.com/razzhAvenir" target="_blank" rel="noreferrer">
+              <a
+                className={styles.textLink}
+                href="https://twitter.com/razzhAvenir"
+                target="_blank"
+                rel="noreferrer"
+              >
                 Twitter
               </a>
               .
