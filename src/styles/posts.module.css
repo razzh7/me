@@ -3,6 +3,14 @@
   margin: auto;
 }
 
+.date {
+  margin-bottom: 10px;
+  padding-left: 24px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--element5);
+}
+
 .tech {
   margin-right: 10px;
   font-size: 30px;
@@ -19,16 +27,10 @@
 }
 
 .list {
-  margin-top: 50px;
   border-left-style: solid;
   border-left-width: 4px;
-  /* padding-left: 1.5rem; */
   border-color: rgba(125, 125, 125, 0.4);
 }
-
-/* .link {
-  width: 200px;
-} */
 
 .item {
   padding: 10px 0 10px 1.5rem;

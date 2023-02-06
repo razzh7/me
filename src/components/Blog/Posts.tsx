@@ -6,6 +6,7 @@ import styles from '@/styles/posts.module.css'
 
 let newTech: PostContent[] = []
 const Posts: FC<Posts> = ({ posts, onChange }) => {
+  // 过滤文章
   const handleTech = (name: string, idx: number) => {
     // 选中高亮
     tech.forEach((item, itemIdx) =>
@@ -35,6 +36,14 @@ const Posts: FC<Posts> = ({ posts, onChange }) => {
     onChange(renderTarget)
   }
 
+  const getNowYear = (date: string) => {
+    return new Date(date).getFullYear()
+  }
+
+  const isSameYear = (a: string, b: string) => {
+    return a && b && getNowYear(a) === getNowYear(b)
+  }
+
   return (
     <article>
       <div className={styles.article}>
@@ -50,15 +59,23 @@ const Posts: FC<Posts> = ({ posts, onChange }) => {
           ))}
         </div>
         <ul className={styles.list}>
-          {posts.map(item => (
-            <li className={styles.item} key={item.id}>
-              <Link className={styles.link} href={`/blog/${item.id}`}>
-                <div className={styles.name}>{item.title}</div>
-                <div className={styles.time}>
-                  {item.date} · {item.readtime}
-                </div>
-              </Link>
-            </li>
+          {posts.map((item, idx) => (
+            <div key={item.id}>
+              {!isSameYear(item.date, posts[idx - 1]?.date) ? (
+                <p className={styles.date}>{getNowYear(item.date)}</p>
+              ) : (
+                ''
+              )}
+
+              <li className={styles.item}>
+                <Link className={styles.link} href={`/blog/${item.id}`}>
+                  <div className={styles.name}>{item.title}</div>
+                  <div className={styles.time}>
+                    {item.date} · {item.readtime}
+                  </div>
+                </Link>
+              </li>
+            </div>
           ))}
         </ul>
       </div>
