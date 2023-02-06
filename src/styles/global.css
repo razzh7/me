@@ -13,13 +13,13 @@ body {
 }
 
 html {
-  background-color: var(--deepbg);
+  background-color: var(--bg);
   transition: 0.3s;
 }
 
 html.dark {
-  --deepbg: #050505;
-  /* --bg: #101010; */
+  /* --deepbg: #050505; */
+  --bg: #121212;
 }
 
 p {

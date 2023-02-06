@@ -1,19 +1,52 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Posts, PostContent } from '@/types/main'
 import { tech } from './tech'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import styles from '@/styles/posts.module.css'
 
-let newTech: PostContent[] = []
+let deepPosts: PostContent[] = []
+let isLink = false
 const Posts: FC<Posts> = ({ posts, onChange }) => {
-  // 过滤文章
+  const router = useRouter()
+  useEffect(() => {
+    const handleRouteChange = () => {
+      isLink = true
+    }
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+    }
+  }, [])
+
+  if (isLink) {
+    isLink = false
+    tech.forEach((item, idx) => {
+      if (idx === 0) {
+        item.selected = true
+      } else {
+        item.selected = false
+      }
+    })
+  }
+
   const handleTech = (name: string, idx: number) => {
     // 选中高亮
+    setHeighlight(idx)
+    // 过滤文章
+    filterArticle(name)
+  }
+
+  const setHeighlight = (idx: number) => {
     tech.forEach((item, itemIdx) =>
       itemIdx === idx ? (item.selected = true) : (item.selected = false)
     )
-    if (newTech.length === 0) {
-      newTech = Array.prototype.slice.call(posts).map(item => {
+  }
+
+  const filterArticle = (name: string) => {
+    if (deepPosts.length === 0) {
+      deepPosts = Array.prototype.slice.call(posts).map(item => {
         return {
           ...item,
           tech: item.tech.toLowerCase()
@@ -22,12 +55,12 @@ const Posts: FC<Posts> = ({ posts, onChange }) => {
     }
 
     if (name === 'All') {
-      onChange(newTech)
+      onChange(deepPosts)
       return
     }
 
     const targetName = name.toLowerCase()
-    const renderTarget = newTech.filter(item => {
+    const renderTarget = deepPosts.filter(item => {
       if (item.tech === targetName) {
         return item
       }
