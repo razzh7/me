@@ -20,11 +20,18 @@
 
 .list {
   margin-top: 50px;
+  border-left-style: solid;
+  border-left-width: 4px;
+  /* padding-left: 1.5rem; */
+  border-color: rgba(125, 125, 125, 0.4);
 }
 
+/* .link {
+  width: 200px;
+} */
+
 .item {
-  margin-top: 8px;
-  margin-bottom: 32px;
+  padding: 10px 0 10px 1.5rem;
 }
 
 .name {
@@ -42,6 +49,12 @@
   transition: 0.3s;
 }
 
+.item:hover {
+  border: 0px solid transparent;
+  border-radius: 5px;
+  background-color: rgba(156, 163, 175, 0.1);
+}
+
 .item:hover .name {
   opacity: 1;
 }
@@ -51,6 +64,10 @@
 }
 
 @media screen and (max-width: 600px) {
+  .list {
+    border-left-style: none;
+  }
+
   .tech {
     font-size: 20px;
   }

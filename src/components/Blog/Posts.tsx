@@ -52,7 +52,7 @@ const Posts: FC<Posts> = ({ posts, onChange }) => {
         <ul className={styles.list}>
           {posts.map(item => (
             <li className={styles.item} key={item.id}>
-              <Link href={`/blog/${item.id}`}>
+              <Link className={styles.link} href={`/blog/${item.id}`}>
                 <div className={styles.name}>{item.title}</div>
                 <div className={styles.time}>
                   {item.date} · {item.readtime}
