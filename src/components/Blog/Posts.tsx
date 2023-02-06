@@ -22,13 +22,7 @@ const Posts: FC<Posts> = ({ posts, onChange }) => {
 
   if (isLink) {
     isLink = false
-    tech.forEach((item, idx) => {
-      if (idx === 0) {
-        item.selected = true
-      } else {
-        item.selected = false
-      }
-    })
+    tech.forEach((item, idx) => (idx === 0 ? (item.selected = true) : (item.selected = false)))
   }
 
   const handleTech = (name: string, idx: number) => {
@@ -60,11 +54,7 @@ const Posts: FC<Posts> = ({ posts, onChange }) => {
     }
 
     const targetName = name.toLowerCase()
-    const renderTarget = deepPosts.filter(item => {
-      if (item.tech === targetName) {
-        return item
-      }
-    })
+    const renderTarget = deepPosts.filter(item => item.tech === targetName)
 
     onChange(renderTarget)
   }
