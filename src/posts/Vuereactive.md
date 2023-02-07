@@ -6,13 +6,17 @@ tech: Vue
 
 [[toc]]
 
-本文以 [Vue 2.16.4](https://github.com/vuejs/vue/tree/v2.6.14) 版本简述在数据更新时，`Vue` 响应式系统内部做了哪些事才让视图得以更新，您可以看着我的步骤顺一下源码，本文在末尾有响应式流程图。
+## 前言
+这个系列是用来记录笔者观看 `Vue` 源码的一些理解，可能理解会有些偏差，但过一段时间再看 `Vue` 源码，可能又会有新的理解，所以会不断勘误。
+
+本文以 [Vue 2.16.4](https://github.com/vuejs/vue/tree/v2.6.14) 版本简述在数据更新时，`Vue` 响应式系统内部做了哪些事才让视图得以更新。
 ## 从一个例子开始
 ```js
   new Vue({
     el: "#app",
     template: `
       <div>
+        <span>{{ name }}</span>
         <button @click="name = '李四'">
           点击更新视图
         </button>
@@ -26,7 +30,7 @@ tech: Vue
   })
 ```
 
-当我们点击按钮时，视图会发生更新，会触发 [set](https://github.com/vuejs/vue/blob/v2.6.14/src/core/observer/index.js#L173-L192) 函数，最终调用其 `dep.notify` 方法， `notify` 方法中会对 `subs` 依赖数组进行 [update](https://github.com/vuejs/vue/blob/612fb89547711cacb030a3893a0065b785802860/src/core/observer/watcher.js#L165-L174) 操作，我们知道 `Vue` 的渲染机制是组件为单位，基于 JavaScript 的**事件循环机制**异步渲染的，所以在数据变化后，我们不能立刻更新视图，而是将它保存在一个队列 `queue` 中，我们执行 [queueWatcher](https://github.com/vuejs/vue/blob/612fb89547711cacb030a3893a0065b785802860/src/core/observer/watcher.js#L172) 方法，将**渲染 watcher** 放入队列中。  
+当我们点击按钮时，视图会发生更新，会触发 [set](https://github.com/vuejs/vue/blob/v2.6.14/src/core/observer/index.js#L173-L192) 函数，收集依赖放入一个叫 `subs` 数组，最终调用 `dep.notify` 方法， `notify` 方法中会对 `subs` 依赖数组进行 [update](https://github.com/vuejs/vue/blob/612fb89547711cacb030a3893a0065b785802860/src/core/observer/watcher.js#L165-L174) 操作，我们知道 `Vue` 的渲染机制是组件为单位，基于 JavaScript 的**事件循环机制**异步渲染的，所以在数据变化后，我们不能立刻更新视图，而是将它保存在一个队列 `queue` 中，我们执行 [queueWatcher](https://github.com/vuejs/vue/blob/612fb89547711cacb030a3893a0065b785802860/src/core/observer/watcher.js#L172) 方法，将**渲染 watcher** 放入队列中。  
 
 之后会执行 [nextTick](https://github.com/vuejs/vue/blob/612fb89547/src/core/util/next-tick.js#L87-L110) 方法将 `flushSchedulerQueue` 方法（最终执行队列的函数）作为参数传入，并放入一个 `callback` 数组中，在 `nextTick` 方法中比较关键的方法就是 `timerFunc` 方法了，在[这里](https://github.com/vuejs/vue/blob/v2.6.14/src/core/util/next-tick.js#L42-L85)，它会对根据环境判断来降级选取适合的**宏/微任务**来对视图进行异步更新的操作，降级策略如下：  
 > Promise > MutationObserver > setImmediate > setTimeout  
@@ -48,7 +52,7 @@ let updateComponent = () => {
 之后就会执行 [vm._update](https://github.com/vuejs/vue/blob/v2.6.14/src/core/instance/lifecycle.js#L59-L88) 方法，最终经过 [patch](https://github.com/vuejs/vue/blob/612fb89547/src/core/vdom/patch.js#L700) 方法，给 DOM 打上 "补丁"，修改页面上的数据。  
 
 ## 总结
-![img](/img/vuereactive.jpg)
+![img](/img/vue2-reactive.png)
 
 
 笔者在看完源码后画了这张流程图，希望对你理解 Vue 响应式流程会一定帮助。
