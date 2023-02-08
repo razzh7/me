@@ -170,9 +170,9 @@ Vue.prototype.$watch = function(
 
 遍历对象的话，首先就需要一个 `traverse` 函数。
 ```js
-import { isObject } from "./util";
+import { isObject } from "./util"
 
-const seenObjects = new Set();
+const seenObjects = new Set()
 
 /**
  * Recursively traverse an object to evoke all converted
@@ -180,32 +180,32 @@ const seenObjects = new Set();
  * is collected as a "deep" dependency.
  */
 export function traverse(val) {
-    _traverse(val, seenObjects);
-    seenObjects.clear();
+    _traverse(val, seenObjects)
+    seenObjects.clear()
 }
 
 function _traverse(val, seen) {
-    let i, keys;
-    const isA = Array.isArray(val);
+    let i, keys
+    const isA = Array.isArray(val)
     if ((!isA && !isObject(val)) || Object.isFrozen(val)) {
-        return;
+        return
     }
     if (val.__ob__) {
-        const depId = val.__ob__.dep.id;
+        const depId = val.__ob__.dep.id
         if (seen.has(depId)) {
-            return;
+            return
         }
-        seen.add(depId);
+        seen.add(depId)
     }
     // 判断是数组还是对象
     if (isA) {
-        i = val.length;
-        while (i--) _traverse(val[i], seen);
+        i = val.length
+        while (i--) _traverse(val[i], seen)
     } else {
-        keys = Object.keys(val);
-        i = keys.length;
+        keys = Object.keys(val)
+        i = keys.length
        // 遍历对象的每一个 key
-        while (i--) _traverse(val[keys[i]], seen);
+        while (i--) _traverse(val[keys[i]], seen)
     }
 }
 ```
