@@ -35,7 +35,7 @@ const Home = () => {
           </div>
           <Divider />
           <div>
-            Outside of programming, I enjoy guiter and piano music in{' '}
+            Outside of programming, I enjoy guiter solo and piano music in{' '}
             <span className={styles.stress}>Bilibili</span>, But I don't play them myself.
           </div>
           <Divider />
