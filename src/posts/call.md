@@ -43,12 +43,18 @@ console.log(bar) // {a: 2}
 
 ```js
 Function.prototype.myCall = function (context) {
-  const args = [...arguments].slice(1) // 获取函数形参
-  const fn = Symbol() // 防止context上存在同名的fn属性，执行完后会将其删除，污染对象变量
-  context = context || window // 获取指向的对象
-  context[fn] = this // 将想要改变的 this 指向的函数放入指向的对象中
-  const res = context[fn](...args) // 执行函数，此时 this 指向 context 对象
-  delete context[fn] // 删除对象中的函数
+  // 获取函数形参
+  const args = [...arguments].slice(1)
+  // 防止context上存在同名的fn属性，执行完后会将其删除，污染对象变量
+  const fn = Symbol()
+  // 获取指向的对象
+  context = context || window
+  // 将想要改变的 this 指向的函数放入指向的对象中
+  context[fn] = this
+  // 执行函数，此时 this 指向 context 对象
+  const res = context[fn](...args)
+  // 删除对象中的函数
+  delete context[fn]
 
   return res
 }
