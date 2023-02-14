@@ -80,28 +80,7 @@ if (true) {
 
 ## 3. 变量提升
 
-`var` 声明的变量存在变量提升，`let`、`const` 不存在变量提升
-使用 `var` 声明变量
-
-```js
-console.log(a) // undefined
-var a = 10
-```
-
-由于 `var` 存在变量提升的特性，这段代码会在 JS 引擎预编译的时候变成这样：
-
-```js
-var a
-console.log(a)
-a = 10
-```
-
-使用 `let` 的变量或 `const` 声明的常量
-
-```js
-console.log(a)
-let a = 10 || const a = 10
-// 报错：Uncaught ReferenceError: Cannot access 'a' before initialization
+`var` 声明的变量存在变量提升， 关于 `let` 变量提升文章在[这里](https://kanmalu.com/blog/hoist/)
 ```
 
 ## 4. 重复声明
