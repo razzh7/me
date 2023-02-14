@@ -81,7 +81,7 @@ const Posts: FC<Posts> = ({ posts, onChange }) => {
             </a>
           ))}
         </div>
-        <ul className={styles.list}>
+        <ul>
           {posts.map((item, idx) => (
             <div key={item.id}>
               {!isSameYear(item.date, posts[idx - 1]?.date) ? (
@@ -91,7 +91,7 @@ const Posts: FC<Posts> = ({ posts, onChange }) => {
               )}
 
               <li className={styles.item}>
-                <Link className={styles.link} href={`/blog/${item.id}`}>
+                <Link href={`/blog/${item.id}`}>
                   <div className={styles.name}>{item.title}</div>
                   <div className={styles.time}>
                     {item.date} · {item.readtime}

@@ -26,14 +26,11 @@
   color: var(--element3);
 }
 
-.list {
+.item {
+  padding: 10px 0 10px 1.5rem;
   border-left-style: solid;
   border-left-width: 4px;
   border-color: rgba(125, 125, 125, 0.4);
-}
-
-.item {
-  padding: 10px 0 10px 1.5rem;
 }
 
 .name {
@@ -66,7 +63,7 @@
 }
 
 @media screen and (max-width: 600px) {
-  .list {
+  .item {
     border-left-style: none;
   }
 
