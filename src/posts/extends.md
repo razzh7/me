@@ -17,6 +17,7 @@ function SuperType() {
   this.superOwner = 'razzh'
   this.brand = ['Ford', 'Cadillac']
 }
+
 SuperType.prototype.getSuperValue = function () {
   return this.superOwner
 }
@@ -24,6 +25,7 @@ SuperType.prototype.getSuperValue = function () {
 function SubType() {
   this.subOwner = 'ff'
 }
+
 SubType.prototype.subProperty = '我是子属性'
 SubType.prototype = new SuperType()
 
@@ -68,19 +70,19 @@ function SubType() {
 
 SubType.prototype.subProperty = '我是子属性'
 
-var instance1 = new SubType('razzh',  ['Ford', 'Cadillac'])
-var instance2 = new SubType('razzh',  ['Ford', 'Cadillac'])
+var instance1 = new SubType('razzh', ['Ford', 'Cadillac'])
+var instance2 = new SubType('razzh', ['Ford', 'Cadillac'])
 instance1.brand.push('Benz')
-// console.log(instance.getSuperValue()) // throw error
+// console.log(instance1.getSuperValue()) // throw error
 console.log(instance1.subProperty) // 我是子属性
 console.log(instance1.brand) // ['Ford', 'Cadillac', 'Benz']
 console.log(instance2.brand) // ['Ford', 'Cadillac']
 ```
 
-借用构造函数的原理是利用 [使用 call 方法调用父构造函数](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call#%E7%A4%BA%E4%BE%8B)。可以看到这时操作 `instance1` 后，打印 `instance2` 的值不会存在引用相互影响的情况，但是**不能继承**父构造函数的原型方法。
+借用构造函数的原理是利用 [使用 call或 apply 方法调用父构造函数](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call#%E7%A4%BA%E4%BE%8B)，将父构造函数的 `this` 指向 `SubType` 构造函数实例。可以看到这时操作 `instance1` 后，打印 `instance2` 的值不会存在引用相互影响的情况，但是**不能继承**父构造函数的原型方法。
 
 - 优点：实现属性的继承
-- 缺点：不能继承父类的方法
+- 缺点：不能继承父类原型上的方法
 
 ## 3、组合继承
 
@@ -106,7 +108,7 @@ SubType.prototype.constructor = SubType // 修正constructor指向
 var instance1 = new SubType()
 var instance2 = new SubType()
 instance1.brand.push('Benz')
-// console.log(instance.oldProperty) // error
+// console.log(instance1.oldProperty) // throw error
 console.log(instance1.getSuperValue()) // razzh
 console.log(instance1.skill) // ['Ford', 'Cadillac', 'Benz']
 console.log(instance2.skill) // ['Ford', 'Cadillac']
@@ -115,11 +117,13 @@ console.log(instance2.skill) // ['Ford', 'Cadillac']
 从打印结果来看，`组合继承` 在 `借用继承` 的基础上又将父级构造函数的原型赋值给子类的构造函数，是其子拥有父级完整的属性，各个实例操作并不影响。
 
 - 优点：可以实现属性、以及方法的继承
-- 缺点：调用了 2 次父类的构造函数，一次是 `SuperType.call()`，还有一次是 `new SuperType()`
+- 缺点：
+  1. 调用了 2 次父类的构造函数，一次是 `SuperType.call()`，还有一次是在 `new SuperType()`
+  2. 子类构造函数的原型被父类构造函数的原型覆盖
 
 ## 4、寄生组合式继承
 
-寄生组合式继承**避免了组合继承中调用两次父类构造函数**，是引用类型最理想的继承范式。
+寄生组合式继承**避免了组合继承中调用两次父类构造函数**。
 
 ```javascript
 
@@ -143,16 +147,17 @@ SubType.prototype = Object.create(SuperType.prototype, {
   }
 })
 
-var t = new SubType('razzh', ['Ford', 'Cadillac'])
-console.log(t.superOwner) // razzh
-console.log(t.getBrand()) // ['Ford', 'Cadillac']
+var instance = new SubType('razzh', ['Ford', 'Cadillac'])
+console.log(instance.superOwner) // razzh
+console.log(instance.getBrand()) // ['Ford', 'Cadillac']
 ```
 
 - 优点：这种方式的高效率体现在它只调用了一次 `SuperType` 构造函数，并且因此避免了 `SubType.prototype` 上面创建不必要、多余的属性。
+- 缺点：跟组合继承一样，子类的构造函数上的原型被父类构造函数的原型覆盖
 
-## 5、Class 继承
+## 5、ES6 继承
 
-ES6 中 `class` 的出现，让我们能够轻松完成 ES5 中复杂的继承模式:
+ES6 中 `extends` 的出现，让我们能够轻松完成 ES5 中复杂的继承模式:
 
 ```javascript
 class SuperType {
@@ -170,8 +175,9 @@ class SubType extends SuperType {
     this.subProperty = 'ff'
   }
 }
-var t = new SubType('razzh')
-console.log(t.getValue()) // razzh
+
+var instance = new SubType('razzh')
+console.log(instance.getValue()) // razzh
 ```
 
-其采用了 `extends` 和 `super` 关键字, `extends` 可以指定类继承的函数，用于调整原型，`super` 等同于寄生组合式继承的父类执行 call 方法。
+其采用了 `extends` 和 `super` 关键字，`extends` 可以指定类继承的函数，用于调整原型，`super` 等同于寄生组合式继承的父类执行 `call` 方法。
