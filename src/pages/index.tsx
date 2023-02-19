@@ -8,6 +8,8 @@ const Home = () => {
     <Wrapper>
       <Head>
         <title>XiaoHao</title>
+        <meta name="keywords" content="blog, razzh, xiaohao" />
+        <meta name="description" content="This site is a personal blog" />
       </Head>
       <div className={styles.container}>
         <p className={styles.name}>Razzh</p>
