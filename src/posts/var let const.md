@@ -81,7 +81,6 @@ if (true) {
 ## 3. 变量提升
 
 `var` 声明的变量存在变量提升， 关于 `let` 变量提升文章在[这里](https://kanmalu.com/blog/hoist/)
-```
 
 ## 4. 重复声明
 
@@ -95,7 +94,8 @@ console.log(a) // 20
 
 ```js
 var a = 10
-let a = 20 || const a = 20
+let a = 20
+// const a = 20
 console.log(a)
 // 报错：Uncaught SyntaxError: Identifier 'a' has already been declared
 ```
