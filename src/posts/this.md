@@ -95,7 +95,7 @@ var obj = {
 var a = "oops, global"
 doFoo(obj.foo) // "oops, global"
 ```
-在执行 `doFoo` 函数时传入 `obj.foo`，在 `doFoo` 函数在预编译阶段实际上会执行 `fn = obj.foo` 这样的操作，所以参数传递其实就是一种**隐式赋值**，所以结果就是在单独执行 `foo（）` 函数，应用默认指向，所以 `this` 指向全局 `window` 全局对象。
+在执行 `doFoo` 函数时传入 `obj.foo`，在 `doFoo` 函数在预编译阶段实际上会执行 `fn = obj.foo` 这样的操作，所以参数传递其实就是一种**隐式赋值**，所以结果就是在单独执行 `foo()` 函数，应用默认指向，所以 `this` 指向全局 `window` 全局对象。
 
 ## 显式绑定
 1. 硬绑定  
