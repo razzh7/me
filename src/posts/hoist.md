@@ -4,6 +4,8 @@ date: 2023-02-14
 tech: JS
 ---
 
+[[toc]]
+
 ## 前言
 看到掘金上看到一些文章讨论 `let`，所以打算深入研究一下。
 
@@ -53,10 +55,17 @@ GO {
 }
 ```
 
-到这里，`let` 声明的变量 `a` 实际上已经被**提升**了全局的 `GO` 中，只不过**未初始化**，所以在后续执行 console.log 的时候会抛出 `Cannot access 'a' before initialization` 这个错误。
+到这里，`let` 声明的变量 `a` 实际上已经被**提升**到了全局的 `GO` 中，只不过**未初始化**，所以在后续执行 console.log 的时候会抛出 `Cannot access 'a' before initialization` 这个错误。
 
 > [ECMA262](https://262.ecma-international.org/13.0/#sec-the-environment-record-type-hierarchy) 9.1章提到：If the binding exists but is uninitialized a ReferenceError is thrown, regardless of the value of S.
 
 意译成中文：如果绑定应该没有完成**初始化**的值会抛出 ReferenceError 错误。
 
-所以从严格意义上来讲，`let` 在它初始化(initialization)前的部分，是确实提升了。
+所以从严格意义上来讲，`let` 在它初始化(initialization)前的部分，是确实提升了。在代码执行前，`GO` 会提前收集所有声明的绑定。
+
+我们通过对比 `let` 和 `var` 两个关键字，发送他们在变量提升的时候表现并不一致，由于历史的原因，在 JS 之前的版本使用 `var` 声明的变量，并使用 `undefined` 来表示变量的初始化，在声明 `a` 之前访问变量 `a`，结果是 `undefined` 并不会出现报错的行为，这很容易让人困惑，所以在 `ES2015` 中的 `let/const` 就是为了解决这个问题的，它的设计是在初始化的时候并不会声明为 `undefined`，所以当我们直接访问变量 `a` 时，就会抛出错误。
+
+在 `ES2015` 中变量初始化之前不能访问变量，是在传递一种弱化变量提升概念的意图，变量提升是之前版本对于 `undefined` 的理解带来的历史遗留问题。本质的核心是我们应该理解在执行上下文的创建阶段，环境记录对象会提前收集所有的声明绑定。而在代码执行阶段才会针对每个变量绑定进行赋值操作。
+
+## 参考
+最后引用了[波神](https://www.jianshu.com/u/10ae59f49b13)的[小册](https://xiaozhuanlan.com/advance/1986425307)，第 3.4 章：执行期上下文
