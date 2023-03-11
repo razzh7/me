@@ -246,7 +246,7 @@ o.foo() // 3
 ## 箭头函数 this 指向
 箭头函数的 `this` 指向是根据外层（函数或者全局）作用域来决定 `this`。来看一个普通函数的例子：
 ```js
-var name = 'window'; // 其实是window.name = 'window'
+var name = 'window' // 其实是window.name = 'window'
 
 var A = {
    name: 'A',
@@ -272,7 +272,7 @@ A.sayHello.call() // window
 
 同样的例子，我们来看看箭头函数的 `this` 指向：
 ```js
-var name = 'window'; 
+var name = 'window'
 
 var A = {
    name: 'A',
@@ -281,9 +281,27 @@ var A = {
    }
 }
 
-A.sayHello();// 还是以为输出A ? 错啦，其实输出的是 window
+A.sayHello() // 还是以为输出A? 错啦，其实输出的是window!
 ```
 箭头函数的 `this` 指向由**函数所在的作用域**来决定。这里的箭头函数，也就是 `sayHello`，所在的作用域其实是最外层的 `JS` 环境，因为没有其他函数包裹；然后最外层的 `JS` 环境指向的对象是 `winodw` 对象，所以这里的 `this` 指向的是 `window` 对象。
+
+另外箭头函数的 `this` 指向不会被 `call`、`apply`、`bind` 改变：
+```js
+var name = 'window'
+
+var A = {
+   name: 'A',
+   sayHello: () => {
+      console.log(this.name)
+   }
+}
+
+var B = {
+  name: 'B'
+}
+
+A.sayHello.call(B) // window
+```
 
 ## 总结
 如果要判断一个运行中函数的 `this` 绑定，就需要找到这个函数的直接调用位置。找到之后就可以顺序应用下面这四条规则来判断 `this` 的绑定对象。
