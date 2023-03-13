@@ -7,20 +7,25 @@ tech: JS
 [[toc]]
 
 介绍：  
-当今主流的模块化方案主要有四种：
-
+当今主流的模块化方案主要有五种：
+- IIFE
 - AMD
 - CMD
 - CommonJS
 - ESModule
+- UMD
+
+`IIFE` 是一个自执行函数，在 `JavaScript` 早期因为没有模块化的语法，我们常常用自执行函数来模拟模块，IIFE 自带作用域
 
 `AMD/RequireJS` 规范能使浏览器异步加载模块，原则是**依赖前置**
 
 `CMD/SeaJS` 规范和 AMD 规范类似，都用于浏览器环境的模块化加载，原则是**就近依赖**
 
-`CommonJS` 规范主要用于**服务端编程**，由于它的同步加载机制导致的代码阻塞，并不适合浏览器环境，因此就有了 `AMD` 和 `CMD` 解决方案。
+`CommonJS` 规范主要用于**服务端编程**，由于它的同步加载机制导致的代码阻塞，并不适合浏览器环境，因此就有了 `AMD` 和 `CMD` 解决方案
 
 `ESModule` 是 **ES6 提供的**的模块化标准，关键字有 `import` 、`export` 、`exprot default` 、`as`、`from`
+
+`UMD` 全称 `Universal Module Definition`，是一个兼容了 `AMD`、`CMD`、`CommonJS`、`ESModule` 写法的通用模块
 
 ## 模块化的优点
 
@@ -29,6 +34,49 @@ tech: JS
 - 避免命名冲突（全局变量污染）
 - 可异步加载模块，避免发送多个请求
 - 依赖明确，不需要关注依赖引入的顺序问题
+
+## IIFE
+```js
+// 自执行函数模拟模块化
+
+// Person 模块
+(() => {
+  // 实例个数，模块内部变量，外部无法直接访问，
+  let number = 0
+  function Person(name, age) {
+    number ++
+    this.name = name
+    this.age = age
+  }
+
+  Person.prototype.getName = function() {
+    return this.name
+  }
+
+  Person.getInstanceNumber = function() {
+    return number
+  }
+
+  // 对外抛出接口
+  window.Person = Person
+})();
+
+
+// main 模块
+(() => {
+  // 通过 window 引入模块
+  const Person = window.Person
+
+  const p1 = new Person('Tom', 20)
+  const p2 = new Person('Jake', 20)
+  const p3 = new Person('Alex', 20)
+
+  p1.getName()
+
+  console.log('实例化个数', Person.getInstanceNumber())
+})()
+
+```
 
 ## AMD
 
@@ -136,6 +184,46 @@ myMath.div(2, 3)
 myMath.mult(2, 3)
 ```
 
+## UMD
+UMD 是一个兼容写法，一个开源模块可能会提供给 CommonJS 标准的项目中实现，也可能提供给 AMD 标准的项目使用, UMD 应运而生。
+```js
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) { // AMD
+    define(['person'], factory)
+  } else if (typeof define === 'function' && define.cmd) { // CMD
+    define(function(require, exports, module) {
+      module.exports = factory()
+    })
+  } else if (typeof exports === 'object') { // CommonJS
+    module.exports = factory()
+  } else { // global
+    root.person = factory()
+  }
+})(this, function() {
+  let number = 0
+  function Person(name, age) {
+    number++
+    this.name = name
+    this.age = age
+  }
+
+  // 对外暴露接口
+  Person.prototype.getName = function () {
+    return this.name
+  }
+
+  function getInstanceNumber () {
+    return number
+  }
+
+  return {
+    Person,
+    getInstanceNumber
+  }
+})
+```
+很多开源模块都会采用这种兼容性的写法。
+
 ## CommonJS 和 ESModule 区别
 
 |          | CommonJS 模块                                                | ESModule                                             |
@@ -147,6 +235,7 @@ myMath.mult(2, 3)
 | 加载原理 | 一个模块就是一个脚本，`require` 命令第一次加载该脚本，就会执行整个脚本，然后在内存生成一个对象<br>以后需要用到这个模块的时候，就会到 `exports` 属性上面取值。也就是说，**不会再次执行该模块，而是到 缓存 之中取值，只会在第一次加载时运行一次** |
 
 ## 参考文章
-[segmentfault - 前端模块化](https://segmentfault.com/a/1190000017466120)  
+[Segmentfault - 前端模块化](https://segmentfault.com/a/1190000017466120)  
 [blog - 前端模块化](https://codingwithalice.github.io/2020/03/17/%E9%9D%A2%E8%AF%95-AMD%E5%92%8CCMD%E5%8C%BA%E5%88%AB/)  
-[掘金 - 前端模块化](https://juejin.cn/post/6844903469933920263)
+[掘金 - 前端模块化](https://juejin.cn/post/6844903469933920263)  
+[JavaScript 核心进阶 - 第六章模块化6.8](https://xiaozhuanlan.com/advance/1249708536)
