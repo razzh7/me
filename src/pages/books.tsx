@@ -16,37 +16,17 @@ export default function books() {
         <Books
           books={[
             {
-              title: '你不知道的JavaScript（上）',
-              spine: '#F7DF4B',
-              tag: 'JS',
-              cover: '/img/js1.jpg'
-            }
-          ]}
-        ></Books>
-        <Books
-          books={[
-            {
-              title: '深入浅出NodeJS',
-              spine: '#FFFFFF',
-              tag: 'node',
-              cover: '/books/node.jpeg'
-            }
-          ]}
-        ></Books>
-      </div>
-      <Divider />
-      <p className={styles.title}>前端</p>
-      <div className={styles.bookshelf}>
-        <Books
-          books={[
-            {
               title: 'JavaScript高级程序设计',
               spine: '#9C1A31',
               tag: 'JS',
               cover: '/books/javascript.jpeg'
             }
           ]}
-        ></Books>
+        />
+      </div>
+      <Divider />
+      <p className={styles.title}>前端</p>
+      <div className={styles.bookshelf}>
         <Books
           books={[
             {
@@ -56,7 +36,7 @@ export default function books() {
               cover: '/books/vue2.jpeg'
             }
           ]}
-        ></Books>
+        />
         <Books
           books={[
             {
@@ -66,7 +46,7 @@ export default function books() {
               cover: '/books/vue3.jpg'
             }
           ]}
-        ></Books>
+        />
         <Books
           books={[
             {
@@ -76,7 +56,7 @@ export default function books() {
               cover: '/books/jsDesign.jpeg'
             }
           ]}
-        ></Books>
+        />
         <Books
           books={[
             {
@@ -86,7 +66,17 @@ export default function books() {
               cover: '/books/js2.jpg'
             }
           ]}
-        ></Books>
+        />
+        <Books
+          books={[
+            {
+              title: '你不知道的JavaScript（上）',
+              spine: '#F7DF4B',
+              tag: 'JS',
+              cover: '/books/js1.jpeg'
+            }
+          ]}
+        />
         <Books
           books={[
             {
@@ -96,7 +86,7 @@ export default function books() {
               cover: '/books/es6.jpeg'
             }
           ]}
-        ></Books>
+        />
         <Books
           books={[
             {
@@ -106,7 +96,7 @@ export default function books() {
               cover: '/books/web.jpeg'
             }
           ]}
-        ></Books>
+        />
         <Books
           books={[
             {
@@ -116,7 +106,7 @@ export default function books() {
               cover: '/books/react.jpeg'
             }
           ]}
-        ></Books>
+        />
         <Books
           books={[
             {
@@ -126,7 +116,7 @@ export default function books() {
               cover: '/books/webkit.jpeg'
             }
           ]}
-        ></Books>
+        />
         <Books
           books={[
             {
@@ -136,7 +126,7 @@ export default function books() {
               cover: '/books/webbuilder.jpeg'
             }
           ]}
-        ></Books>
+        />
         <Books
           books={[
             {
@@ -146,7 +136,27 @@ export default function books() {
               cover: '/books/cssauth.jpeg'
             }
           ]}
-        ></Books>
+        />
+        <Books
+          books={[
+            {
+              title: '深入浅出NodeJS',
+              spine: '#FFFFFF',
+              tag: 'node',
+              cover: '/books/node.jpeg'
+            }
+          ]}
+        />
+        <Books
+          books={[
+            {
+              title: '图解HTTP',
+              spine: '#FFFFFF',
+              tag: 'HTTP',
+              cover: '/books/img-http.jpeg'
+            }
+          ]}
+        />
       </div>
       <Divider />
       <p className={styles.title}>其他</p>
@@ -160,7 +170,7 @@ export default function books() {
               cover: '/books/time.jpeg'
             }
           ]}
-        ></Books>
+        />
         <Books
           books={[
             {
@@ -170,7 +180,17 @@ export default function books() {
               cover: '/books/stopwar.jpeg'
             }
           ]}
-        ></Books>
+        />
+        <Books
+          books={[
+            {
+              title: '百年孤独',
+              spine: '#543530',
+              tag: '',
+              cover: '/books/gd.jpeg'
+            }
+          ]}
+        />
       </div>
     </Wrapper>
   )
