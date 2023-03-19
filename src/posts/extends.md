@@ -101,6 +101,7 @@ function SuperType() {
   this.superOwner = 'razzh'
   this.brand = ['Ford', 'Cadillac']
 }
+
 SuperType.prototype.getSuperValue = function () {
   return this.superOwner
 }
@@ -109,6 +110,7 @@ function SubType() {
   SuperType.call(this)
   this.subOwner = 'ff'
 }
+
 SubType.prototype.subProperty = '我是子属性'
 SubType.prototype = new SuperType()
 SubType.prototype.constructor = SubType // 修正constructor指向
@@ -176,6 +178,7 @@ class SuperType {
     return this.superProperty
   }
 }
+
 class SubType extends SuperType {
   constructor(name) {
     super(name)
@@ -188,7 +191,43 @@ var instance = new SubType('razzh')
 console.log(instance.getValue())
 ```
 
-其采用了 `extends` 和 `super` 关键字，`extends` 可以指定类继承的函数，用于调整原型，`super` 等同于寄生组合式继承的父类执行 `call` 方法。
+其采用了「extends」关键字，`extends` 可以指定类继承的父类，当子类使用 `extends` 继承父类，在子类如果需要写 `constructor` 函数，那么在函数中的顶部必须调用「super」关键字。
+
+「super」方法的作用：
+1. 改变this指向，将父类的this指向子类 
+2. 可向父类传递参数
+3. 访问父类原型上与子类**同名**的方法
+
+前两条的实现原理实际上就是在子类中调用父类执行 `call/apply` 方法。
+第三条来看下例:
+```js
+class Parent {
+  render() {
+    console.log('父类的render函数')
+  }
+}
+
+class Children extends Parent {
+  constructor() {
+    super()
+  }
+
+  init() {
+    // 调用子类方法
+    this.render()
+    // 调用父类同名方法
+    super.render()
+  }
+
+  render() {
+    console.log('子类的render函数')
+  }
+}
+
+new Children().init()
+// 子类的render函数
+// 父类的render函数
+```
 
 ### Bebel 转译后的 class
 在我们项目中的 `class` 类在打包的时候通常会被 `Bebel` 转译成 `ES5` 的代码:
