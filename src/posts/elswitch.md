@@ -70,11 +70,11 @@ switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体�
 - `aria-disabled`
 - `tabindex`
 
-其中的[ARIA](https://www.w3.org/TR/wai-aria-1.1/#introduction)是可以让我们更好的跟机器交互，而[tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex)也是为了这个目标而写的，当我们按下键盘上的 tab 键时，就可以选中我们的 input 标签，从而使用键盘的 space 和 enter 去操作我们的 `switch` 按钮,所以 input 的标签最后的事件 `@keydown.enter` 的作用就在此。
+其中的 [ARIA](https://www.w3.org/TR/wai-aria-1.1/#introduction) 是可以让我们更好的跟机器交互，而 [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) 也是为了这个目标而写的，当我们按下键盘上的 tab 键时，就可以选中我们的 input 标签，从而使用键盘的 space 和 enter 去操作我们的 `switch` 按钮,所以 input 的标签最后的事件 `@keydown.enter` 的作用就在此。
 
 相关规范 switch 的 ARIA 设计规范可以看[这里](https://www.w3.org/WAI/ARIA/apg/patterns/switch/)。
 
-`ARIA` 全称 Accessible Rich Internet Applications，是能过让残障人士更加便利的访问 Web 内容和使用 Web 应用的一套机制。也就是说在标签上写上以`aria`为前缀的属性。
+`ARIA` 全称 Accessible Rich Internet Applications，是能过让残障人士更加便利的访问 Web 内容和使用 Web 应用的一套机制。也就是说在标签上写上以 `aria` 为前缀的属性。
 
 还有没带 aria 前缀的属性 [role](https://www.w3.org/TR/wai-aria-1.1/#usage_intro)，也是为了优化网页交互的效果。
 
@@ -96,7 +96,7 @@ switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体�
 }
 ```
 
-其中两个知识点 css 选择器`~`和伪类选择器 `focus-visible`。
+其中两个知识点 css 选择器 `~` 和伪类选择器 `focus-visible`。
 
 - ～: `p` ~ `ul` 表示每一个 ul 标签前面都有 p 标签的 ul 标签
 - focus-visible: 表示 tab 选中时的伪类选择器，和 `focus` 很像，它俩的区别在于用户使用键盘事件的时候，`focus` 选择器中的样式并不能生效，它只作用于鼠标事件，而 `focus-visible` 是对于鼠标和键盘事件都是起作用的，[对比详情](https://css-tricks.com/almanac/selectors/f/focus-visible/)。
@@ -231,7 +231,7 @@ const switchValue = () => {
 
 先看 handleChange 方法：
 
-```js{2}
+```js {2}
 const handleChange = () => {
   const val = checked.value ? props.inactiveValue : props.activeValue
   emit(UPDATE_MODEL_EVENT, val) // 帮助父组件更新modelValue的值
