@@ -7,9 +7,17 @@ const Home = () => {
   return (
     <Wrapper>
       <Head>
-        <title>XiaoHao</title>
-        <meta name="keywords" content="blog, razzh, xiaohao" />
-        <meta name="description" content="This site is a personal blog" />
+        <title>Xiaohao's Blog</title>
+        <meta name="author" content="Xiaohao Razzh" />
+        <meta
+          name="keywords"
+          content="blog, razzh,razzh blog,xiaohao,xiaohao's blog,Xiaohao's Blog,小豪的博客"
+        />
+        <meta name="description" content="xiaohao personal blog" />
+        <meta property="og:title" content="Xiaohao's Blog" />
+        <meta property="og:description" content="Xiaohao's Front Blog" />
+        <meta property="og:url" content="https://kanmalu.com/" />
+        <link rel="canonical" href="https://kanmalu.com/" />
       </Head>
       <div className={styles.container}>
         <p className={styles.name}>Razzh</p>
