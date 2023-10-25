@@ -144,10 +144,11 @@
   margin-top: 0.8571429em;
 }
 .prose code {
+  border: 1px solid var(--element12);
   border-radius: 4px;
-  padding: 3px 6px;
-  color: var(--element8);
-  background-color: var(--element7);
+  padding: 1px;
+  color: var(--element10);
+  background-color: var(--element11);
   font-family: 'Fira Code', monospace;
   font-weight: 500;
   font-size: 0.875em;

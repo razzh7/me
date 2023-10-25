@@ -57,6 +57,9 @@ li {
   --element7: #f1f1f1;
   --element8: #476582;
   --element9: #374151;
+  --element10: #171717;
+  --element11: #f7f7f7;
+  --element12: #ededed;
 }
 
 .layout[theme-mode='dark'] {
@@ -73,6 +76,9 @@ li {
   --element7: #3a3a3a;
   --element8: #aac8e4;
   --element9: #e5e7eb;
+  --element10: #ededed;
+  --element11: #2a2828;
+  --element12: #3e3c3c;
 }
 
 /* 
