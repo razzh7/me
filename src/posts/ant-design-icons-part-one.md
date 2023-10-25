@@ -1,0 +1,489 @@
+---
+
+title: Ant-Design-Icons 的生成之旅(上)
+
+date: 2023-10-25
+
+tech: JS
+
+---
+
+[[toc]]
+
+## 背景
+
+​	最近一直在捣鼓组件库的事情，首先要解决的难题是 `Icons` 的问题，因为组件库中每个组件基本都用得到 Icon 组件，于是找到了 [Ant-Design-Icons](https://github.com/ant-design/ant-design-icons)，来学习一下大佬们是如何实现将“SVG to icon”的。
+
+## 探索
+
+​	现在的 `Ant-Design-Icons` 是一个 Lerna + TS 管理的多包仓库，里面集成了各个框架的 Icons 组件包，我们今天的主角 icons-svg，是专门用来解析 SVG 图标文件，并将其抽象为 AST 抽象节点树，就像这样：
+```ts
+// This icon file is generated automatically.
+
+import { IconDefinition } from '../types';
+
+const AppstoreTwoTone: IconDefinition = {
+  "icon": function render(primaryColor, secondaryColor) { 
+    return {
+      "tag":"svg",
+      "attrs": {
+        "viewBox":"64 64 896 896",
+        "focusable":"false"
+      },
+      "children": [
+        {
+          "tag":"path",
+          "attrs": {
+            "d":"...",
+            "fill":primaryColor
+          }
+        },
+        {
+          "tag":"path",
+          "attrs": {
+            "d":"...",
+            "fill":secondaryColor
+          }
+        }
+      ]
+    }; 
+  },
+  "name":"appstore",
+  "theme":"twotone"
+};
+
+export default AppstoreTwoTone;
+```
+
+  它将 SVG 解析成了一个抽象节点 `AST` ，这样我们就可以通过安装这个包来导入这个文件，生成对应的`ReactElement`或`VNode`，这样一个内置 Icon 组件就完成了。
+
+​  打开 package.json，直奔 script 字段，我们可以看到两行命令，是跟生成上述的 AST 文件相关的。
+
+```json
+"scripts": {
+   "g": "npm run generate",
+   "generate": "cross-env NODE_ENV=production gulp --require ts-node/register/transpile-only",
+}
+```
+
+  可以看到提到了 gulp 命令，它是执行目录下的 [gulpfile.ts](https://github.com/ant-design/ant-design-icons/blob/master/packages/icons-svg/gulpfile.ts) 文件的命令，所以生成文件的入口就在这个文件中，我只截取了一部分代码
+
+```ts
+export const generateIcons = ({
+  from,
+  toDir,
+  svgoConfig,
+  theme,
+  extraNodeTransformFactories,
+  stringify,
+  template,
+  mapToInterpolate,
+  filename
+}: GenerateIconsOptions) =>
+  function GenerateIcons() {
+    return src(from)
+      .pipe(svgo(svgoConfig))
+      .pipe(
+        svg2Definition({
+          theme,
+          extraNodeTransformFactories,
+          stringify
+        })
+      )
+      .pipe(useTemplate({ template, mapToInterpolate }))
+      .pipe(
+        rename((file) => {
+          if (file.basename) {
+            file.basename = filename({ name: file.basename });
+            file.extname = '.ts';
+          }
+        })
+      )
+      .pipe(dest(toDir));
+  };
+```
+
+  这个函数主要是通过 gulp 将一系列的任务组装在一起，首先它使用 `SVGO` 这个库来优化一下 SVG 图标的体积，svgo 可以将不需要的SVG属性给剔除，将 SVG 文件进行瘦身操作。
+
+​  下一步就是将 SVG 转换成抽象节点树的过程了，也是生成 Icons 的核心方法，它在 `plugins/svg2Definition/index.ts` 文件中被导出：
+
+```ts
+import { createTrasformStream } from '../creator';
+import { ThemeType, AbstractNode } from '../../templates/types';
+import {
+  pipe,
+  clone,
+  map,
+  filter,
+  where,
+  equals,
+  gt as greaterThan,
+  both,
+  unless,
+  length,
+  dissoc as deleteProp,
+  reduce,
+  path as get,
+  __,
+  applyTo,
+  defaultTo,
+  objOf,
+  assoc
+} from 'ramda';
+import parseXML, { Element } from '@rgrove/parse-xml';
+// SVG => IconDefinition
+export const svg2Definition = ({
+  theme,
+  extraNodeTransformFactories,
+  stringify
+}: SVG2DefinitionOptions) =>
+  createTrasformStream((SVGString, { stem: name }) =>
+    applyTo(SVGString)(
+      pipe(
+        // 0. The SVG string is like that:
+        // <svg viewBox="0 0 1024 1024"><path d="..."/></svg>
+
+        parseXML,
+
+        // 1. The parsed XML root node is with the JSON shape:
+        // {
+        //   "type": "document",
+        //   "children": [
+        //     {
+        //       "type": "element",
+        //       "name": "svg",
+        //       "attributes": { "viewBox": "0 0 1024 1024" },
+        //       "children": [
+        //         {
+        //           "type": "element",
+        //           "name": "path",
+        //           "attributes": {
+        //             "d": "..."
+        //           },
+        //           "children": []
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // }
+
+        pipe(
+          // @todo: "defaultTo" is not the best way to deal with the type Maybe<Element>
+          get<Element>(['children', 0]),
+          defaultTo(({} as any) as Element)
+        ),
+
+        // 2. The element node is with the JSON shape:
+        // {
+        //   "type": "element",
+        //   "name": "svg",
+        //   "attributes": { "viewBox": "0 0 1024 1024" },
+        //   "children": [
+        //     {
+        //       "type": "element",
+        //       "name": "path",
+        //       "attributes": {
+        //         "d": "..."
+        //       },
+        //       "children": []
+        //     }
+        //   ]
+        // }
+
+        element2AbstractNode({
+          name,
+          theme,
+          extraNodeTransformFactories
+        }),
+
+        // 3. The abstract node is with the JSON shape:
+        // {
+        //   "tag": "svg",
+        //   "attrs": { "viewBox": "0 0 1024 1024", "focusable": "false" },
+        //   "children": [
+        //     {
+        //       "tag": "path",
+        //       "attrs": {
+        //         "d": "..."
+        //       }
+        //     }
+        //   ]
+        // }
+
+        pipe(objOf('icon'), assoc('name', name), assoc('theme', theme)),
+        defaultTo(JSON.stringify)(stringify)
+      )
+    )
+  );
+```
+
+​  作者使用了 `ramda`，有名的函数式编程的库，对于习惯了写命令式编程的我，看到这样的函数式范式编写的代码，当时的想法是为什么不使用命令式的编程呢？感觉那样好调试也更直观一些，其实有点望而却步的感觉😵‍💫
+
+  既然看到这里了，还是要继续看下去吧？仔细一下这个方法作者贴心的添加了代码的注释，给阅读代码的人展示了 SVG 是如何被转换成 AST 的过程。
+
+​  首先执行了 `createTrasformStream` 方法，将我们要执行的函数传入，`createTrasformStream` 本身是为了满足 gulp 的 `pipe` 管道方法的入参而封装的一个方法，其内部使用了 `through2` 包装了一个转换流(Transform)。
+
+​  之后使用 applyTo 方法将 SVGString 绑定，可以让 pipe 中的方法会被自动传入 SVGString 参数，而 pipe 中组装的方法的执行结果会传递给下一个函数的形参中，正如作者注释中写到的从0 -> 1的过程，使用 `parseXML` 库将 SVGString 抽象成一个 Node 节点树：
+
+```ts
+  {
+    "type": "document",
+    "children": [
+      {
+        "type": "element",
+        "name": "svg",
+        "attributes": { "viewBox": "0 0 1024 1024" },
+        "children": [
+          {
+            "type": "element",
+            "name": "path",
+            "attributes": {
+              "d": "..."
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+```
+​  但这不是我们想要的结果，所以作者使用了 ramda 中的 `get` 方法拿到 `children` 数组中的第一个元素，并使用`defaultTo` 方法来限制一下如果 `children` 是一个空数组的时候，那么就将它的第一个元素设置成一个对象，来规避报错。
+
+​  接下来的 `element2AbstractNode` 方法，也是在这个文件中：
+
+```ts
+function element2AbstractNode({
+  name,
+  theme,
+  extraNodeTransformFactories
+}: XML2AbstractNodeOptions) {
+  return ({ name: tag, attributes, children }: Element): AbstractNode =>
+  {
+    return applyTo(extraNodeTransformFactories)(
+      pipe(
+        // factory -> (option) => (asn) => asn
+        map((factory: TransformFactory) => factory({ name, theme })),
+        // [(asn) => {}, (asn) => {}]
+        reduce(
+          (transformedNode, extraTransformFn) =>
+            extraTransformFn(transformedNode),
+          applyTo({
+            tag,
+            attrs: clone(attributes),
+            children: applyTo(children as Element[])(
+              pipe(
+                filter<Element, 'array'>(where({ type: equals('element') })),
+                map(
+                  element2AbstractNode({
+                    name,
+                    theme,
+                    extraNodeTransformFactories
+                  })
+                )
+              )
+            )
+          })(
+            unless<AbstractNode, AbstractNode>(
+              where({
+                children: both(Array.isArray, pipe(length, greaterThan(__, 0)))
+              }),
+              deleteProp('children')
+            )
+          )
+        )
+      )
+    );
+  }
+}
+```
+
+  这个函数是一个闭包函数，返回一个箭头函数，而箭头函数引用着闭包函数的变量们 `name`, `theme`, `extraNodeTransformFactories`
+
+  箭头函数中解构了 parseXML 生成的 AST 树，实际上，箭头函数中的形参就是上述注释第2步的结构，读到这里，我已经感受到闭包和函数式编程的魅力所在了🤩。
+
+  整个生成 AST 的过程就像流水线一样被组装起来，写法比起命令式的编程优雅了许多，而且感觉很顺手。
+
+  回归到代码中，首先使用了 applyTo 对 extraNodeTransformFactories 参数进行绑定，那么这个参数是什么东东？这个参数是在我们的入口文件 gulpfile.ts 中执行 `generateIcons` 方法传入的，文章的开头有贴出：
+
+```ts
+  // 2.2 generate abstract node with the theme "filled"
+  generateIcons({
+    theme: 'filled',
+    from: ['svg/filled/*.svg'],
+    toDir: 'src/asn',
+    svgoConfig: generalConfig,
+    extraNodeTransformFactories: [
+      assignAttrsAtTag('svg', { focusable: 'false' }),
+      adjustViewBox
+    ],
+    stringify: JSON.stringify,
+    template: iconTemplate,
+    mapToInterpolate: ({ name, content }) => ({
+      identifier: getIdentifier({ name, themeSuffix: 'Filled' }),
+      content
+    }),
+    filename: ({ name }) => getIdentifier({ name, themeSuffix: 'Filled' })
+  })
+```
+
+  作者在入口文件使用 generateIcons 方法生成了三个主题的 Icons AST 文件，这里只贴出了一部分，有兴趣的朋友可以去源码里面翻一翻。
+
+  我们在上面可以看到 `extraNodeTransformFactories` 数组，里面执行了`assignAttrsAtTag`，它在 `plugins/svg2Definition/tranforms/creator.ts` 中：
+
+```ts
+export function assignAttrsAtTag(
+  tag: string,
+  extraPropsOrFn:
+    | Dictionary
+    | ((
+        options: TransformOptions & { previousAttrs: Dictionary }
+      ) => Dictionary)
+): TransformFactory {
+  return (options) => (asn) => {
+    return when<AbstractNode, AbstractNode>(
+      where({
+        tag: equals(tag)
+      }),
+      evolve({
+        attrs: pipe<Dictionary, Dictionary, Dictionary>(
+          clone,
+          mergeLeft(
+            typeof extraPropsOrFn === 'function'
+              ? extraPropsOrFn(
+                  mergeRight(options, { previousAttrs: asn.attrs })
+                )
+              : extraPropsOrFn
+          )
+        )
+      })
+    )(asn)
+  };
+}
+```
+
+  这个函数也是返回一个箭头函数，主要的作用是对 SVGAST 中的 attrs 对象中的属性进行改动，回到 `element2AbstractNode` 方法：
+
+```ts
+function element2AbstractNode({
+  name,
+  theme,
+  extraNodeTransformFactories
+}: XML2AbstractNodeOptions) {
+  return ({ name: tag, attributes, children }: Element): AbstractNode =>
+  {
+    return applyTo(extraNodeTransformFactories)(
+      pipe(
+        // factory -> (option) => (asn) => asn
+        map((factory: TransformFactory) => factory({ name, theme })),
+        // [(asn) => {}, (asn) => {}]
+        reduce(
+          (transformedNode, extraTransformFn) =>
+            extraTransformFn(transformedNode),
+          applyTo({
+            tag,
+            attrs: clone(attributes),
+            children: applyTo(children as Element[])(
+              pipe(
+                filter<Element, 'array'>(where({ type: equals('element') })),
+                map(
+                  element2AbstractNode({
+                    name,
+                    theme,
+                    extraNodeTransformFactories
+                  })
+                )
+              )
+            )
+          })(
+            unless<AbstractNode, AbstractNode>(
+              where({
+                children: both(Array.isArray, pipe(length, greaterThan(__, 0)))
+              }),
+              deleteProp('children')
+            )
+          )
+        )
+      )
+    );
+  }
+}
+```
+
+  其中的 `map` 方法就是执行了分别 `extraNodeTransformFactories` 数组中的方法，`reduce`方法是将 applyTo 之后的值：
+
+```ts
+const SVGASt = {
+  "tag": "svg",
+  "attrs": { "viewBox": "0 0 1024 1024", "focusable": "false" },
+  "children": [
+    {
+      "tag": "path",
+      "attrs": {
+        "d": "..."
+      }
+    }
+  ]
+}
+```
+
+  传入 `extraTransformFn` 方法中执行，这样就可以对 AST 的 `attrs` 对象进行额外的修改操作，这样我们已经可以看到一个比较完整的 AST 结构了，接着下面的操作：
+
+```ts
+pipe(objOf('icon'), assoc('name', name), assoc('theme', theme)),
+defaultTo(JSON.stringify)(stringify)
+```
+
+  使用 `objof` 方法将 SVGAST 放到新对象的 icon 属性中，将新增 name、theme 属性，此时的数据结构就变成了这样：
+
+```ts
+const SVGString = {
+  icon: {
+  "tag": "svg",
+  "attrs": { "viewBox": "0 0 1024 1024", "focusable": "false" },
+  "children": [
+      {
+        "tag": "path",
+        "attrs": {
+          "d": "..."
+        }
+      }
+  	]
+	},
+  name: "...",
+  theme: '...'
+}
+```
+
+  已经跟文中贴出的数据结构已经很像了对吧？还差最后一步，对双色图标的处理，双色图标的原理对填充 `path` 元素上的 `fill` 属性的颜色，我们要做的就是在 `path` 元素的 `fill` 上添加上我们自定义的颜色，两个 `path` 对应两个颜色变量：`primaryColor` 和 `secondaryColor`。
+
+  代码中的最后一个步骤 `defaultTo(JSON.stringify)(stringify)` 就是做的这件事，在入口文件 gulpfile.ts 中对于双色图标作者会传入 `twotoneStringify` 函数，而对于单色图标则是传入 `JSON.stringify` 来将对象转为 JSON 字符串：
+
+```ts
+const SVGAST = {
+  icon: function render(primaryColor, secondaryColor) {
+    return {
+      icon: {
+  		"tag": "svg",
+  		"attrs": { "viewBox": "0 0 1024 1024", "focusable": "false" },
+  		"children": [
+      		{
+        		"tag": "path",
+        		"attrs": {
+          	"d": "..."
+        		}
+      		}
+  			]
+			},
+  		name: "...",
+  		theme: '...'
+    }
+  }
+}
+```
+
+  到此 SVG 文件的 AST 之旅也就完成了。
+
+  源码中后续还是生成 AST 的入口文件，本文篇幅也是有点长了，放在后面再写一篇文章记录一下吧😂。
+
+## 写在最后
+  之前是一直听说函数式编程这个概念的，但自己却没有实践过，这几天看了 Ant-Design-Icons 的源码后，深受感触，从刚开始的抗拒，到现在自己也在接纳、学习函数式编程，学习 Ramda，Rxjs 等库，学以致用，也会在后面的组件库编程中用上。
