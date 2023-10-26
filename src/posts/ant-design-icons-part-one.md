@@ -55,7 +55,7 @@ const AppstoreTwoTone: IconDefinition = {
 export default AppstoreTwoTone;
 ```
 
-  它将 SVG 解析成了一个抽象节点 `AST` ，这样我们就可以通过安装这个包来导入这个文件，生成对应的`ReactElement`或`VNode`，这样一个内置 Icon 组件就完成了。
+  它将 SVG 解析成了一个抽象节点 `AST` ，这样我们就可以通过安装这个包来导入这个文件，生成对应的 `ReactElement` 或 `VNode`，这样一个内置 Icon 组件就完成了。
 
 ​  打开 package.json，直奔 script 字段，我们可以看到两行命令，是跟生成上述的 AST 文件相关的。
 
@@ -105,7 +105,7 @@ export const generateIcons = ({
 
   这个函数主要是通过 gulp 将一系列的任务组装在一起，首先它使用 `SVGO` 这个库来优化一下 SVG 图标的体积，svgo 可以将不需要的SVG属性给剔除，将 SVG 文件进行瘦身操作。
 
-​  下一步就是将 SVG 转换成抽象节点树的过程了，也是生成 Icons 的核心方法，它在 `plugins/svg2Definition/index.ts` 文件中被导出：
+​  下一步就是将 SVG 转换成抽象节点树的过程了，也是生成 Icons 的核心方法，它在 plugins/svg2Definition/index.ts 文件中被导出：
 
 ```ts
 import { createTrasformStream } from '../creator';
@@ -328,7 +328,7 @@ function element2AbstractNode({
 
   作者在入口文件使用 generateIcons 方法生成了三个主题的 Icons AST 文件，这里只贴出了一部分，有兴趣的朋友可以去源码里面翻一翻。
 
-  我们在上面可以看到 `extraNodeTransformFactories` 数组，里面执行了`assignAttrsAtTag`，它在 `plugins/svg2Definition/tranforms/creator.ts` 中：
+  我们在上面可以看到 `extraNodeTransformFactories` 数组，里面执行了`assignAttrsAtTag`，它在 plugins/svg2Definition/tranforms/creator.ts 中：
 
 ```ts
 export function assignAttrsAtTag(
@@ -436,7 +436,7 @@ defaultTo(JSON.stringify)(stringify)
   使用 `objof` 方法将 SVGAST 放到新对象的 icon 属性中，将新增 name、theme 属性，此时的数据结构就变成了这样：
 
 ```ts
-const SVGString = {
+const SVGASt = {
   icon: {
   "tag": "svg",
   "attrs": { "viewBox": "0 0 1024 1024", "focusable": "false" },
