@@ -17,6 +17,7 @@ tech: JS
 ## 探索
 
 ​	`Ant-Design-Icons4.x` 是一个 Lerna + TS 管理的多包仓库，里面集成了各个框架的 Icons 组件包，我们今天的主角 icons-svg，是专门用来解析 SVG 图标文件，并将其抽象为 AST 抽象节点树，就像这样：
+
 ```ts
 // This icon file is generated automatically.
 
@@ -221,9 +222,31 @@ export const svg2Definition = ({
 
   既然看到这里了，还是要继续看下去吧？仔细一下这个方法作者贴心的添加了代码的注释，给阅读代码的人展示了 SVG 是如何被转换成 AST 的过程。
 
-​  首先执行了 `createTrasformStream` 方法，将我们要执行的函数传入，`createTrasformStream` 本身是为了满足 gulp 的 `pipe` 管道方法的入参而封装的一个方法，其内部使用了 `through2` 包装了一个转换流(Transform)。
+​  首先执行了 `createTrasformStream` 方法，将我们要执行的函数传入，`createTrasformStream` 本身是为了满足 gulp 的 `pipe` 管道方法的入参而封装的一个方法，其内部使用了闭包和 `through2` 包装了一个转换流(Transform)：
 
-​  之后使用 applyTo 方法将 SVGString 绑定，可以让 pipe 中的方法会被自动传入 SVGString 参数，而 pipe 中组装的方法的执行结果会传递给下一个函数的形参中，正如作者注释中写到的从0 -> 1的过程，使用 `parseXML` 库将 SVGString 抽象成一个 Node 节点树：
+```ts
+import through from 'through2';
+import File from 'vinyl';
+
+export const createTrasformStream = (fn: (raw: string, file: File) => string) =>
+  through.obj((file: File, encoding, done) => {
+    if (file.isBuffer()) {
+      const before = file.contents.toString(encoding);
+      try {
+        const after = fn(before, file);
+        file.contents = Buffer.from(after);
+        done(null, file);
+      } catch (err) {
+        done(err, null);
+      }
+    } else {
+      done(null, file);
+    }
+  });
+```
+  其中，`through.obj` 中的回调 `file` 参数就是经过 SVGO 优化后的 SVG 字符串，之后通过闭包拿到我们传入 createTrasformStream 的回调函数执行。  
+
+​  回到pipe中，使用 applyTo 方法将 SVGString 绑定，可以让 pipe 中的方法会被自动传入 SVGString 参数，而 pipe 中组装的方法的执行结果会传递给下一个函数的形参中，正如作者注释中写到的从0 -> 1的过程，使用 `parseXML` 库将 SVGString 抽象成一个 Node 节点树：
 
 ```ts
   {
@@ -438,17 +461,20 @@ defaultTo(JSON.stringify)(stringify)
 ```ts
 const SVGASt = {
   icon: {
-  "tag": "svg",
-  "attrs": { "viewBox": "0 0 1024 1024", "focusable": "false" },
-  "children": [
+    "tag": "svg",
+    "attrs": { 
+      "viewBox": "0 0 1024 1024", 
+      "focusable": "false" 
+    },
+    "children": [
       {
         "tag": "path",
         "attrs": {
           "d": "..."
-        }
+        }s
       }
-  	]
-	},
+    ]  
+  },
   name: "...",
   theme: '...'
 }
@@ -459,23 +485,26 @@ const SVGASt = {
   代码中的最后一个步骤 `defaultTo(JSON.stringify)(stringify)` 就是做的这件事，在入口文件 gulpfile.ts 中对于双色图标作者会传入 `twotoneStringify` 函数，而对于单色图标则是传入 `JSON.stringify` 来将对象转为 JSON 字符串：
 
 ```ts
-const SVGAST = {
-  icon: function render(primaryColor, secondaryColor) {
+{
+  "icon": function render(primaryColor, secondaryColor) {
     return {
-      icon: {
-  		"tag": "svg",
-  		"attrs": { "viewBox": "0 0 1024 1024", "focusable": "false" },
-  		"children": [
-      		{
-        		"tag": "path",
-        		"attrs": {
-          	"d": "..."
-        		}
-      		}
-  			]
-			},
-  		name: "...",
-  		theme: '...'
+      "icon": {
+        "tag": "svg",
+        "attrs": { 
+          "viewBox": "0 0 1024 1024", 
+          "focusable": "false" 
+        },
+        "children": [
+            {
+              "tag": "path",
+              "attrs": {
+              "d": "..."
+              }
+            }
+          ]
+      },
+      "name": "...",
+      "theme": '...'
     }
   }
 }
@@ -483,7 +512,7 @@ const SVGAST = {
 
   到此 SVG 文件的 AST 之旅也就完成了。
 
-  源码中后续还是生成 AST 的入口文件，本文篇幅也是有点长了，放在后面再写一篇文章记录一下吧😂。
+  源码中后续还是生成 AST 的入口文件和将 SVGAST 重新转换成 SVG 文件的过程，本文篇幅也是有点长了，放在后面再写一篇文章记录一下吧😂。
 
 ## 写在最后
   之前是一直听说函数式编程这个概念的，但自己却没有实践过，这几天看了 Ant-Design-Icons 的源码后，深受感触，从刚开始的抗拒，到现在自己也在接纳、学习函数式编程，学习 Ramda，Rxjs 等库，学以致用，也会在后面的组件库编程中用上。
