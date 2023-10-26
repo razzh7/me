@@ -16,7 +16,7 @@ tech: JS
 
 ## 探索
 
-​	现在的 `Ant-Design-Icons` 是一个 Lerna + TS 管理的多包仓库，里面集成了各个框架的 Icons 组件包，我们今天的主角 icons-svg，是专门用来解析 SVG 图标文件，并将其抽象为 AST 抽象节点树，就像这样：
+​	`Ant-Design-Icons4.x` 是一个 Lerna + TS 管理的多包仓库，里面集成了各个框架的 Icons 组件包，我们今天的主角 icons-svg，是专门用来解析 SVG 图标文件，并将其抽象为 AST 抽象节点树，就像这样：
 ```ts
 // This icon file is generated automatically.
 
