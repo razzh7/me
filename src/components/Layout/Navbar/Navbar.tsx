@@ -33,7 +33,7 @@ const Navbar: FC<ThemeMode> = ({ theme, setTheme }) => {
         <Link href="/books">
           <span className={styles.pc}>Books</span>
         </Link>
-        <a href="https://github.com/rzhAvenir" className={clsx(styles.pc, styles.icon)}>
+        <a href="https://github.com/razzh7" className={clsx(styles.pc, styles.icon)}>
           <BsGithub size={20} />
         </a>
         <ThemeButton className={clsx(styles.pc, styles.icon)} theme={theme} setTheme={setTheme} />
