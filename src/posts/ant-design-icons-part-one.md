@@ -12,7 +12,10 @@ tech: JS
 
 ## 背景
 
-​	最近一直在捣鼓组件库的事情，首先要解决的难题是 `Icons` 的问题，因为组件库中每个组件基本都用得到 Icon 组件，于是找到了 [Ant-Design-Icons](https://github.com/ant-design/ant-design-icons)，来学习一下大佬们是如何实现将“SVG to icon”的。
+​	最近一直在捣鼓组件库的事情，首先要解决的难题是 `Icons` 的问题，因为组件库中每个组件基本都用得到 Icon 组件，于是找到了 [Ant-Design-Icons](https://github.com/ant-design/ant-design-icons)，它的主要原理是将 `SVG` 文件转换成 `AST` 抽象节点，再分发给各个框架渲染。
+
+## 为什么需要 SVG to AST
+将 SVG 抽象成 AST 抽象节点主要是为了适配各个框架的需要，比如 `React` 可以使用 `createElement` 函数渲染抽象节点，`Vue` 可以使用 `h` 函数来渲染抽象节点
 
 ## 探索
 
@@ -56,7 +59,7 @@ const AppstoreTwoTone: IconDefinition = {
 export default AppstoreTwoTone;
 ```
 
-  它将 SVG 解析成了一个抽象节点 `AST` ，这样我们就可以通过安装这个包来导入这个文件，生成对应的 `ReactElement` 或 `VNode`，这样一个内置 Icon 组件就完成了。
+  它将 SVG 解析成了一个抽象节点 `AST` ，这样我们就可以通过安装这个包来导入这个文件，生成对应的 `ReactElement` 或 `VNode`，这样一个内置 Icon 组件就完成了
 
 ​  打开 package.json，直奔 script 字段，我们可以看到两行命令，是跟生成上述的 AST 文件相关的。
 
