@@ -14,9 +14,9 @@ const Footer = () => {
         </a>{' '}
         © Xiaohao
       </p>
-      <a className={textStyle.textLink} href="https://beian.miit.gov.cn/">
+      {/* <a className={textStyle.textLink} href="https://beian.miit.gov.cn/">
         浙ICP备2022036392号-1
-      </a>
+      </a> */}
     </div>
   )
 }

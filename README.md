@@ -1,1 +1,1 @@
-[My personal website](https://kanmalu.com) powered by [NextJS](https://nextjs.org/)
+[My personal website](https://razzh.vercel.app/) powered by [NextJS](https://nextjs.org/)
