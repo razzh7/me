@@ -154,10 +154,10 @@ npm run release -- --release-as xxx (you want version)
 
 - git add .
 - git commit -m "feat: xxx"
-- git tag
+- git tag <tag name> -m "<tag message>"
 - npm run release
 - git push
-- git push --tag 将生成的 `tag` 上传至远程仓库
+- git push origin tag 将生成的 `tag` 上传至远程仓库
 
 ## 四、安装 unocss
 
