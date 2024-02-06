@@ -1,12 +1,15 @@
 import Link from 'next/link'
 import ThemeButton from './ThemeButton'
-import styles from '@/styles/nav.module.css'
 import clsx from 'clsx'
 import { BsGithub } from 'react-icons/bs'
 import { FaRegLightbulb } from 'react-icons/fa'
 import { MdOutlineArticle } from 'react-icons/md'
 import { AiOutlineBook } from 'react-icons/ai'
 import { FC } from 'react'
+import styles from '@/styles/nav.module.css'
+import Image from 'next/image'
+import logoDark from '../../../../public/svg/razzh-dark.svg'
+import logoLight from '../../../../public/svg/razzh-light.svg'
 
 interface ThemeMode {
   theme: string
@@ -16,7 +19,7 @@ const Navbar: FC<ThemeMode> = ({ theme, setTheme }) => {
   return (
     <header className={styles.container}>
       <Link href="/">
-        <span className={styles.signature}>XiaoHao</span>
+        <Image src={theme === 'dark' ? logoDark : logoLight} alt='Razzh' width={100} height={28}></Image>
       </Link>
 
       <nav className={styles.nav}>
