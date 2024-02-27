@@ -1,17 +1,2 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">  <image id="image0" width="32" height="32" x="0" y="0"
-    href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAAAAABWESUoAAAAIGNIUk0AAHomAACAhAAA+gAAAIDo
-AAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAlwSFlzAAAAZAAAAGQAD5bF3QAA
-AAd0SU1FB+cBExABCcS4es4AAABGdEVYdFJhdyBwcm9maWxlIHR5cGUgYXBwMTIACmFwcDEyCiAg
-ICAgIDE1CjQ0NzU2MzZiNzkwMDAxMDAwNDAwMDAwMDNjMDAwMArMyHWbAAAAXnRFWHRSYXcgcHJv
-ZmlsZSB0eXBlIGlwdGMACmlwdGMKICAgICAgMjgKMzg0MjQ5NGQwNDA0MDAwMDAwMDAwMDBmMWMw
-MjZlMDAwMzUyNDY0NzFjMDIwMDAwMDIwMDA0MDAKYJo9ngAAAPpJREFUOMvtkTFPwlAURo999dUW
-SIw6mZA0mtgFZSCObC5Mri4u+j+cTNz9DQ664eLmxmrCxAAmCgZIkGgbKCitPAc0BqydHDnbd3Nu
-cnM/mPM/CAA0fVGgAKzjrgugm5YMAHQQmcO0ZQTDl8bDY2v/1D5JbW5n7FVzVL29DAGyNfXFR6/R
-V27x7nU8yc0sAIWB+oNBAQT0bCspfl+nnt2riyEARvrgxpvd7pzvOEvAwkRP5PZy62boba3RDhPj
-fr10XQ7gRwBkUoayuDs6Ki0rr+tHf8VpKT8/PdKm0sYKwVuc4Bi8+3GChEozqotvnoza2X1sd5pg
-TiSfDhF/SgtQfIsAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjMtMDEtMTlUMTU6MDE6MDkrMDE6MDD6
-HZWaAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIzLTAxLTE5VDE1OjAxOjA5KzAxOjAwi0AtJgAAAABJ
-RU5ErkJggg==" />
-</svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg stroke="#ffffff" fill="#ffffff" stroke-width="0" viewBox="0 0 24 24" width="128" height="128" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="M4.95 11.9q-.375.2-.763.063T3.6 11.45l-2.5-5q-.2-.375-.062-.763T1.55 5.1q.375-.2.763-.062t.587.512l2.5 5q.2.375.063.763t-.513.587m3.5 7q-.375.2-.763.063T7.1 18.45l-2-4q-.2-.375-.062-.763t.512-.587q.375-.2.763-.062t.587.512l2 4q.2.375.063.763t-.513.587m2.05-5q-.375.2-.762.063t-.588-.513l-3.5-7q-.2-.375-.062-.763T6.1 5.1q.375-.2.763-.062t.587.512l3.5 7q.2.375.063.763t-.513.587m2.15-5q-.375.2-.763.063T11.3 8.45l-.975-2q-.2-.375-.062-.762t.512-.588q.375-.2.75-.062t.575.512l1 2q.2.375.063.763t-.513.587m.6 9.975q-.375.2-.763.075t-.587-.5l-1-2q-.2-.375-.062-.763t.512-.587q.375-.2.763-.062t.587.512l1 2q.2.375.063.75t-.513.575m4.65 0q-.375.2-.763.075t-.587-.5l-3.5-7q-.2-.375-.062-.762t.512-.588q.375-.2.763-.062t.587.512l3.5 7q.2.375.063.75t-.513.575m1.55-5.975q-.375.2-.762.062t-.588-.512l-3-6q-.2-.375-.062-.763t.512-.587q.375-.2.763-.062t.587.512l3 6q.2.375.063.763t-.513.587m3 6q-.375.2-.762.063t-.588-.513l-1.5-3q-.2-.375-.062-.763t.512-.587q.375-.2.763-.062t.587.512l1.5 3q.2.375.063.763t-.513.587"></path></svg>

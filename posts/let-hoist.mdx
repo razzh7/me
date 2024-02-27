@@ -1,0 +1,66 @@
+---
+title: let 是否会“hoisting”
+date: 2023-02-14
+tech: blog
+---
+
+## 一个例子
+```js
+console.log(a) // undefined
+var a = 1
+```
+
+用 `var` 声明的变量会 `Hoisting`，也就是变量提升，那如果把 `var` 变量换成 `let` 变量，代码执行就会报错：
+
+```js
+console.log(a)
+let a = 1
+// Uncaught ReferenceError: Cannot access 'a' before initialization
+```
+在报错中提到了 `initialization`，还记得我们经常碰到的变量未定义的报错吗？ `xx is not defined`。
+
+为什么这里不会报“未定义”错误，而是说“初始化”错误？那什么是初始化？实际上 JS 是有一套**预编译的过程**，我们通过 `var` 和 `let` 在预编译中的表现说明一下为什么报错会是 `initialization` ，而不是 `not defined`。
+
+先从 `var` 的角度切入：
+
+```js
+console.log(a)
+var a = 1
+```
+
+在我们书写的代码中，JS 引擎并不是一开始就直接一行行执行代码，而是有一个预编译的环境，我们叫做 `GO` (全局上下文)，它会全局寻找 `var` 声明的变量，将它们提升到 `GO` 对象中，并给它们每一个赋值为 `undefined`，此时的 `GO`:
+
+```js
+GO {
+  a: undefined
+}
+```
+然后再执行我们的 JS 代码，`console.log(a)`，打印出 `GO` 中的 `undefined`。现在将 `var` 变量换成 `let` 变量，我们再看看：
+
+```js
+console.log(a)
+var a = 1
+```
+
+这时在 JS 预编译的过程中，也会像我们刚刚那样，它会全局寻找 `let` 声明的变量，将它们提升到 `GO` 对象中，但它并不给 `let` 对象赋值为 `undefined`，而是什么都不做：
+
+```js
+GO {
+  a: 
+}
+```
+
+到这里，`let` 声明的变量 `a` 实际上已经被**提升**到了全局的 `GO` 中，只不过**未初始化**，所以在后续执行 console.log 的时候会抛出 `Cannot access 'a' before initialization` 这个错误。
+
+> [ECMA262](https://262.ecma-international.org/13.0/#sec-the-environment-record-type-hierarchy) 9.1章提到：If the binding exists but is uninitialized a ReferenceError is thrown, regardless of the value of S.
+
+意译成中文：如果绑定应该没有完成**初始化**的值会抛出 ReferenceError 错误。
+
+所以从严格意义上来讲，`let` 在它初始化(initialization)前的部分，是确实提升了。在代码执行前，`GO` 会提前收集所有声明的绑定。
+
+我们通过对比 `let` 和 `var` 两个关键字，发送他们在变量提升的时候表现并不一致，由于历史的原因，在 JS 之前的版本使用 `var` 声明的变量，并使用 `undefined` 来表示变量的初始化，在声明 `a` 之前访问变量 `a`，结果是 `undefined` 并不会出现报错的行为，这很容易让人困惑，所以在 `ES2015` 中的 `let/const` 就是为了解决这个问题的，它的设计是在初始化的时候并不会声明为 `undefined`，所以当我们直接访问变量 `a` 时，就会抛出错误。
+
+在 `ES2015` 中变量初始化之前不能访问变量，是在传递一种弱化变量提升概念的意图，变量提升是之前版本对于 `undefined` 的理解带来的历史遗留问题。本质的核心是我们应该理解在执行上下文的创建阶段，环境记录对象会提前收集所有的声明绑定。而在代码执行阶段才会针对每个变量绑定进行赋值操作。
+
+## 参考
+最后引用了[这波能反杀](https://www.jianshu.com/u/10ae59f49b13)博主的[小册](https://xiaozhuanlan.com/advance/1986425307)，第 3.4 章：执行期上下文

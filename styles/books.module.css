@@ -1,0 +1,89 @@
+.bookshelf {
+  width: 100%;
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 50px);
+  row-gap: 20px;
+}
+
+.book {
+  height: 280px;
+  position: relative;
+  margin-left: 1px;
+  transform-style: preserve-3d;
+  transform: translateZ(0) rotateY(0);
+  transition: transform 1s;
+}
+
+.bookSide {
+  position: absolute;
+  border: 2px solid black;
+  border-radius: 3px;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  transform-origin: center left;
+}
+
+.spine {
+  position: relative;
+  width: 50px;
+  height: 280px;
+  /* Patterns from: https://projects.verou.me/css3patterns/ */
+  background-image: #ddd;
+  transform: rotateY(0deg) translateZ(0px);
+}
+
+.spineTitle {
+  margin: 2px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-size: 12px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.spineAuthor {
+  position: absolute;
+  bottom: 0px;
+  left: 20%; /* no idea why 20% centers it */
+  font-size: 12px;
+}
+
+.bookTop {
+  width: 50px;
+  height: 190px;
+  top: -2px; /* hmm, why -2 and not 0? */
+  background-image: linear-gradient(90deg, white 90%, gray 10%);
+  background-size: 5px 5px;
+  transform: rotateX(90deg) translateZ(95px) translateY(-95px);
+}
+
+.bookCover {
+  width: 190px;
+  height: 280px;
+  top: 0px;
+  background-size: contain;
+  background-repeat: round;
+  left: 50px;
+  transform: rotateY(90deg) translateZ(0);
+  transition: transform 1s;
+}
+
+.book:hover {
+  z-index: 1;
+  transform: rotateX(-25deg) rotateY(-40deg) rotateZ(-15deg) translateY(50px) translateX(-30px);
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--element3);
+}
+
+@media screen and (max-width: 600px) {
+  .title {
+    font-size: 20px;
+  }
+}

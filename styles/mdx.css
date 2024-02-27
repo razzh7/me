@@ -1,0 +1,24 @@
+.mdx {
+  margin: auto;
+  max-width: 65ch;
+}
+
+[data-rehype-pretty-code-fragment] {
+  @apply relative mt-4;
+}
+
+[data-rehype-pretty-code-fragment] code {
+  @apply px-0;
+}
+
+[data-rehype-pretty-code-fragment] .line {
+  @apply p-4 min-h-[1rem] py-0.5 w-full inline-block bg-code;
+}
+
+[data-rehype-pretty-code-fragment] .line--highlighted {
+  @apply bg-hightlight;
+}
+
+[data-rehype-pretty-code-fragment] .line-highlighted span {
+  @apply relative;
+}

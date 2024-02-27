@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
+const { withContentlayer } = require('next-contentlayer')
+
 const nextConfig = {
   reactStrictMode: true,
-  trailingSlash: true
+  trailingSlash: true,
+  swcMinify: true
 }
 
-module.exports = nextConfig
+module.exports = withContentlayer(nextConfig)

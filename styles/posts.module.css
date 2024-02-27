@@ -1,0 +1,17 @@
+.posts {
+  @apply text-9xl;
+  @apply font-bold;
+  /* font-family: PingFang SC; */
+  color: transparent;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: rgb(170 170 170 / 1);
+  opacity: .1;
+}
+
+.posts-link .posts-link:first-child:hover {
+  @apply text-secondary;
+}
+
+.posts-link .posts-link:nth-child(2):hover {
+  @apply text-hover;
+}
