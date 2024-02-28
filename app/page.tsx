@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Footer from '@/components/layout/footer'
 
 const Divider = () => <div className="w-[100px] h-[1px] mx-auto my-6 bg-muted"></div>
 
@@ -60,6 +61,7 @@ const Home = () => (
         </p>
       </div>
     </article>
+    <Footer />
   </div>
 )
 
