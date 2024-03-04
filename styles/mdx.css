@@ -13,6 +13,7 @@
 
 [data-rehype-pretty-code-fragment] .line {
   @apply p-4 min-h-[1rem] py-0.5 w-full inline-block bg-code;
+  border: none;
 }
 
 [data-rehype-pretty-code-fragment] .line--highlighted {
