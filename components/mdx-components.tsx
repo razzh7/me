@@ -111,7 +111,7 @@ const components = {
   li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <li className={cn('mt-2', className)} {...props} />
   ),
-  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement> & { 'data-language'?: string }) => !props['data-language'] ? (
     <code
       className={cn(
         'relative rounded bg-round px-[0.3rem] py-[0.2rem] font-mono text-sm text-block',
@@ -119,6 +119,8 @@ const components = {
       )}
       {...props}
     />
+  ) : (
+    <code {...props}></code>
   ),
   blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote className={cn('my-5 p-2 text-muted border-l-[0.25em] border-muted')} {...props} />
