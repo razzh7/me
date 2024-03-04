@@ -4,7 +4,7 @@ import Footer from '@/components/layout/footer'
 const Divider = () => <div className="w-[100px] h-[1px] mx-auto my-6 bg-muted"></div>
 
 const Home = () => (
-  <div className="container px-5 py-10">
+  <div className="container px-5 py-10 bg-background">
     <p className="font-[800] text-4xl text-secondary mb-7">Razzh</p>
     <article className="text-base font-[500] leading-8 text-primary">
       <div>
