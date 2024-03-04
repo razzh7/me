@@ -39,9 +39,6 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
 
   html {
     @apply bg-background text-accent transition-all duration-300;

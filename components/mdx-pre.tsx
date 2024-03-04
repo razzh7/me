@@ -27,7 +27,7 @@ function MdxPre({ __rawString__, ...props }: MdxPreProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <pre className={cn('mb-4 mt-7 max-h-[650px] overflow-x-auto rounded-lg border py-4 bg-code')} {...props} />
+      <pre className={cn('mb-4 mt-7 max-h-[650px] overflow-x-auto rounded-lg border border-muted2 py-4 bg-code')} {...props} />
       { !isHovered ? (<div className={cn("absolute right-4 top-4 text-muted")}>{lang}</div>) : null }
       { isHovered ? (<CopyButton value={__rawString__ as string} className={cn("absolute right-3 top-4 transition-all duration-300")} />) : null }
     </div>
