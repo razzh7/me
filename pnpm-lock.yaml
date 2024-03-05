@@ -9,8 +9,8 @@ dependencies:
     specifier: ^1.0.5
     version: 1.0.5(@types/react-dom@18.0.10)(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
   '@twist-space/react-icons':
-    specifier: ^0.2.11
-    version: 0.2.11
+    specifier: ^0.2.15
+    version: 0.2.15
   '@types/node':
     specifier: 18.11.18
     version: 18.11.18
@@ -1441,8 +1441,8 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /@twist-space/react-icons@0.2.11:
-    resolution: {integrity: sha512-ZnE6yIhHVLzW9AL6llC1OVMjNC7/GgQ0RA0vTcg3grVZ6PzLaO4tKM/n1ToSQDMq2QBnnU867q7jxhi1zZQ8vw==, tarball: https://registry.npmmirror.com/@twist-space/react-icons/-/react-icons-0.2.11.tgz}
+  /@twist-space/react-icons@0.2.15:
+    resolution: {integrity: sha512-zljWFu4A2VcDbhzbgLHU44MZWBgT+EsiNb/SZtBoLIjqi1/m4k0SWDDcrpi+bej+Rl93l3vAPE5casPksf6IBQ==, tarball: https://registry.npmmirror.com/@twist-space/react-icons/-/react-icons-0.2.15.tgz}
     dev: false
 
   /@types/acorn@4.0.6:
