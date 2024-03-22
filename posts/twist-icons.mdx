@@ -4,7 +4,7 @@ date: 2024-03-14
 tech: blog
 ---
 
-今天来介绍一下我自己写的小家伙 [Twist-Icons](https://github.com/twist-space/twist-icons)，它是一个 ` SVG` 图标库，可以在 `React`、`Vue3`、`Vue2` 中使用，[文档](https://twist-icons-docs.vercel.app/)中看到。
+今天来介绍一下我自己写的小家伙 [Twist-Icons](https://github.com/twist-space/twist-icons)，它是一个 `SVG` 图标库，可以在 `React`、`Vue3`、`Vue2` 中使用。具体使用方法可以在[文档](https://twist-icons-docs.vercel.app/)中看到，这篇文章主要是介绍一下这个项目的由来和一些创作过程。
 
 <ImagePreview src='/img/twist-icons.png' />
 
@@ -24,8 +24,9 @@ tech: blog
 
 一波三折，为什么这么说呢？首先图标库首先得有图标才能开发对吧，其次我开始并不知道一个图标库该怎么开发，我花了一些时间看了 `Ant-Design` 和 `Arco-Design` Icons 代码，写了两篇文章 [Ant-Design-Icons 的生成之旅(上)](https://razzh.vercel.app/posts/ant-design-icons-part-one/)和 [Ant-Design-Icons 的生成之旅(下)](https://razzh.vercel.app/posts/ant-design-icons-part-two/)，分析了 `Antd Icons` 的生成流程，里面的用函数式的方法处理 `SVG` 数据的过程让我大开眼界，我当时也想着跟着它的处理过程模仿着做一个图标库来，但是当时我又纠结于没有SVG图标为我所用（因为我不想抄得跟Antd Icons一模一样哈哈哈哈哈）。
 
-后来我想着多看看几家的图标库的处理过程，将它们的亮点整合一下，于是我找到了 `naive-ui` 作者开发的 [xicons](https://github.com/07akioni/xicons)，当时看到它文档的时候我就觉得 `amazing`，xicons 是集成了多个流行的图标库，我很好奇它是怎么做到的，就 `clone` 下它的代码看了一下，它使用的是 [@iconify/json](https://www.npmjs.com/package/@iconify/json) 这个库，它收集了很多开源图标库的图标，将这些图标经过处理后存入 `JSON` 文件中，之后我就拿着 `@iconify/json` 做了 **0.1.x** 的 Twist-icons，并在 `npm` 上发布 Twist-icons，跟 xicons 一样，支持 React、Vue3/Vue2，也支持修改图标的大小、颜色等选项，也可以像 Antd icons 那样支持 `spin`、`rotate` 这样的样式效果，同时提供了`IconProvider`。做到这样很好了对吧？
+后来我想着多看看几家的图标库的处理过程，将它们的亮点整合一下，我找到了 `naive-ui` 作者开发的 [xicons](https://github.com/07akioni/xicons)，当时看到它文档的时候我就觉得 `amazing`，xicons 是集成了多个流行的图标库，我很好奇它是怎么做到的，就 `clone` 下它的代码看了一下。  
 
+它使用的是 [@iconify/json](https://www.npmjs.com/package/@iconify/json) 这个库，它收集了很多开源图标库的图标，将这些图标经过处理后存入 `JSON` 文件中，之后我就拿着 `@iconify/json` 做了 **0.1.x** 的 Twist-icons，并在 `npm` 上发布 Twist-icons，跟 xicons 一样，支持 React、Vue3/Vue2，也支持修改图标的大小、颜色等选项，也可以像 Antd icons 那样支持 `spin`、`rotate` 这样的样式效果，同时提供了`IconProvider`。做到这样很好了对吧？
 但是我很快发现，如果我喜欢的图标在多个不同的包下面，那么我就得将这些包全都安装在我的项目中，我觉得有些麻烦，但是**0.1.x**的打包逻辑就是将不同的图标库打包成一个 npm 包。
 
 经过几天的思考，我想起之前我写博客的时候用到的 `react-icons`，它支持将多个包的图标放在一个库下，通过指定包的路径将其导入就像这样：
@@ -34,11 +35,13 @@ tech: blog
 import { IconName } from "react-icons/ai"
 ```
 
-所以我决定将打包流程改成这样的形式，于是就有了这次[重构](https://github.com/twist-space/twist-icons/commit/2286957c37bdc273cb0401a1f20dafbbf4d59a21)的提交，也就是Twist-icons **0.2.x**版本，它可以像上述的导入方式一样导入图标，方便了很多，
+所以我决定将打包流程改成这样的形式，于是就有了这次[重构](https://github.com/twist-space/twist-icons/commit/2286957c37bdc273cb0401a1f20dafbbf4d59a21)的提交，也就是 Twist-icons **0.2.x**版本，它可以像上述的导入方式一样导入图标，方便了很多，后续只需要在 `@iconify` 中挑选自己喜欢的图标库，然后加入到 `config` 中，其余的操作交给打包脚本一起打包发布就好了～
 
-后续只需要在 `@iconify/json` 中挑选自己喜欢的图标库，然后加入到 `config` 中，其余的操作交给打包脚本一起打包发布就好了～
+### 测试环境
 
-### Vue自动导入插件
+在开发 Twist 的时候，我觉得完整的项目少不了**单元测试**，所以我写了各个版本的 `Twist-icons` 加上单元测试和搭建本地测试环境 + [stackblitz](https://stackblitz.com/) 在线 `demo`，虽然有些费时，但方便了自测的同时也方便开发者调试。
+
+### Vue 自动导入插件
 
 现在很多新出的Vue组件库都支持组件的自动导入，我也想着给 `Twist-icons` 做一个插件出来，让开发者在使用的时候不需要导入，而是直接在文档中复制后就能在代码中使用了。
 
@@ -46,7 +49,7 @@ import { IconName } from "react-icons/ai"
 
 ## 文档
 
-第一版文档的开发刚开始是使用 `arco-design` 组件库来搭建的，后面在开发 Twist-icons 0.2.x 的时候，我接触到了 `icones` ，它也是使用 `@iconify/json` 为基础来开发的，并且展示了 @iconify/json 下所有的图标库。之后我还接触到了`shadcn/ui`，这个 `ui` 库让我眼前一亮，现在的文档就是基于 `icones` + `shadcn/ui` 的风格去写的，这是它的样子：
+第一版文档的开发刚开始是使用 `arco-design` 组件库来搭建的，后面在开发 Twist-icons 0.2.x 的时候，我接触到了 `icones` ，它也是使用 `@iconify/json` 为基础来开发的，并且展示了 `@iconify` 下所有的图标库。之后我还接触到了`shadcn/ui`，这个 `ui` 库让我眼前一亮，现在的文档就是基于 `icones` + `shadcn/ui` 的风格去写的，这是它的样子：
 
 <ImagePreview src='/img/twist-icons-detail.png' />
 
