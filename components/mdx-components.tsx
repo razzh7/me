@@ -9,7 +9,7 @@ const components = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
-        'font-heading mt-2 scroll-m-20 text-4xl font-bold',
+        'group font-heading scroll-m-20 text-4xl font-bold',
         className
       )}
       {...props}
@@ -18,7 +18,7 @@ const components = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        'text-secondary font-heading mt-8 scroll-m-20 pb-2 text-2xl font-semibold tracking-tight first:mt-0',
+        'group text-secondary font-heading scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0',
         className
       )}
       {...props}
@@ -27,7 +27,7 @@ const components = {
   h3: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
       className={cn(
-        'font-heading mt-8 scroll-m-20 text-xl font-semibold tracking-tight',
+        'group font-heading scroll-m-20 text-xl font-semibold tracking-tight',
         className
       )}
       {...props}
@@ -36,7 +36,7 @@ const components = {
   h4: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h4
       className={cn(
-        'font-heading mt-8 scroll-m-20 text-lg font-semibold tracking-tight',
+        'group font-heading scroll-m-20 text-lg font-semibold tracking-tight',
         className
       )}
       {...props}
@@ -45,7 +45,7 @@ const components = {
   h5: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h5
       className={cn(
-        'mt-8 scroll-m-20 text-lg font-semibold tracking-tight',
+        'group scroll-m-20 text-lg font-semibold tracking-tight',
         className
       )}
       {...props}
@@ -54,22 +54,34 @@ const components = {
   h6: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h6
       className={cn(
-        'mt-8 scroll-m-20 text-base font-semibold tracking-tight',
+        'group scroll-m-20 text-base font-semibold tracking-tight',
         className
       )}
       {...props}
     />
   ),
-  a: ({ className, ...props }: React.HTMLAttributes<HTMLAnchorElement>) => (
-    <a
-      target='_blank'
-      className={cn('font-medium text-hover border-b border-solid border-link hover:border-primary transition-all duration-300', className)}
-      {...props}
-    />
-  ),
+  a: ({ className, ...props }: React.LinkHTMLAttributes<HTMLAnchorElement>) => {
+    if ('aria-label' in props) {
+      return (
+        <a
+          className={cn('float-left mr-[0.4em] ml-[-1em] opacity-0 group-hover:opacity-100 text-link font-[0.85em] transition-all duration-300', className)}
+          href={props.href}
+        >
+          #
+        </a>
+      )
+    }
+    return (
+      <a
+        target='_blank'
+        className={cn('font-medium text-hover border-b border-solid border-link hover:border-primary transition-all duration-300', className)}
+        {...props}
+      />
+    )
+  },
   p: ({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
     <p
-      className={cn('leading-7 [&:not(:first-child)]:mt-2', className)}
+      className={cn('leading-7 my-[1.25em]', className)}
       {...props}
     />
   ),

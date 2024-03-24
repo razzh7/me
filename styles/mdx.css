@@ -1,6 +1,21 @@
 .mdx {
   margin: auto;
   max-width: 65ch;
+  font-size: 1em;
+}
+
+.mdx h1 + *,
+.mdx h2 + *,
+.mdx h3 + *,
+.mdx h4 + *,
+.mdx h5 + *,
+.mdx h6 + * {
+  margin-top: 0;
+}
+
+.mdx h1, h2, h3, h4, h5, h6 {
+  margin-top: 2rem;
+  margin-bottom: .8em;
 }
 
 [data-rehype-pretty-code-fragment] {
