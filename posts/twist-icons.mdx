@@ -26,14 +26,22 @@ tech: blog
 
 后来我想着多看看几家的图标库的处理过程，将它们的亮点整合一下，我找到了 `naive-ui` 作者开发的 [xicons](https://github.com/07akioni/xicons)，当时看到它文档的时候我就觉得 `amazing`，xicons 是集成了多个流行的图标库，我很好奇它是怎么做到的，就 `clone` 下它的代码看了一下。  
 
-它使用的是 [@iconify/json](https://www.npmjs.com/package/@iconify/json) 这个库，它收集了很多开源图标库的图标，将这些图标经过处理后存入 `JSON` 文件中，之后我就拿着 `@iconify/json` 做了 **0.1.x** 的 Twist-icons，并在 `npm` 上发布 Twist-icons，跟 xicons 一样，支持 React、Vue3/Vue2，也支持修改图标的大小、颜色等选项，也可以像 Antd icons 那样支持 `spin`、`rotate` 这样的样式效果，同时提供了`IconProvider`。做到这样很好了对吧？
-但是我很快发现，如果我喜欢的图标在多个不同的包下面，那么我就得将这些包全都安装在我的项目中，我觉得有些麻烦，但是**0.1.x**的打包逻辑就是将不同的图标库打包成一个 npm 包。
+它使用的是 [@iconify/json](https://www.npmjs.com/package/@iconify/json) 这个库，它收集了很多开源图标库的图标，将这些图标经过处理后存入 `JSON` 文件中，之后我就拿着 `@iconify/json` 做了 **0.1.x** 的 Twist-icons，并在 `npm` 上发布 Twist-icons，跟 xicons 一样，支持 React、Vue3/Vue2，也支持修改图标的大小、颜色等选项，也可以像 Antd icons 那样支持 `spin`、`rotate` 这样的样式效果，同时提供了 `IconProvider`。做到这样很好了对吧？  
 
-经过几天的思考，我想起之前我写博客的时候用到的 `react-icons`，它支持将多个包的图标放在一个库下，通过指定包的路径将其导入就像这样：
+但是我很快发现，如果我喜欢的图标在多个不同的包下面，那么我就得将这些包**全都安装**在我的项目中，因为 **0.1.x** 的打包逻辑是将多个图标库拆分成多个 `npm` 包，它的导入方式是这样的：
+
+```js
+import { AntdIcons } from "@twist-icons-vue3/antd"
+import { TdesignIcons } from "@twist-icons-vue3/tdesign"
+```
+
+经过几天的思考，我想起之前我写博客的时候用到的 `react-icons`，它支持将多个包的图标打包到 `npm` 包中，通过指定包的路径将其导入就像这样：
 
 ```js
 import { IconName } from "react-icons/ai"
 ```
+
+这样的打包方式让开发者不需要在项目中安装多个 `npm` 包，只需要安装一个包就可以使用全部图标了。  
 
 所以我决定将打包流程改成这样的形式，于是就有了这次[重构](https://github.com/twist-space/twist-icons/commit/2286957c37bdc273cb0401a1f20dafbbf4d59a21)的提交，也就是 Twist-icons **0.2.x**版本，它可以像上述的导入方式一样导入图标，方便了很多，后续只需要在 `@iconify` 中挑选自己喜欢的图标库，然后加入到 `config` 中，其余的操作交给打包脚本一起打包发布就好了～  
 
