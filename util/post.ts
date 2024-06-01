@@ -7,6 +7,7 @@ export interface PostsProps extends Post {
   year: string
   mouthDay: string
   readtime: string
+  updatedTime: string
   words: string
 }
 
@@ -19,12 +20,14 @@ export const getAllSortedPosts = () => {
         const { readtime, words } = readTime(post?.body?.code)
         const mouthDay = dayjs(post.date).format('MMM D')
         const year = dayjs(post.date).format('YYYY')
+        const updatedTime = post.updatedTime? dayjs(post.updatedTime).format('YYYY MMM D') : ''
 
         return {
           ...post,
           id: post?._raw?.flattenedPath,
           year,
           mouthDay,
+          updatedTime,
           readtime,
           words
         }

@@ -25,6 +25,10 @@ export const Post = defineDocumentType(() => ({
       type: 'string',
       required: true
     },
+    updatedTime: {
+      type: 'string',
+      required: false
+    },
     toc: {
       type: 'boolean',
       default: true,

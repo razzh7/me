@@ -35,7 +35,8 @@ export default async function PostPage({ params }: PostPageProps) {
       <div className="max-w-prose m-auto">
         <p className="text-4xl font-[800] text-secondary">{post.title}</p>
         <p className="mt-4 text-muted">
-          {posts.mouthDay}, {posts.year} · {posts.readtime}
+          {posts.mouthDay} · {posts.readtime}
+          {posts.updatedTime ? ` · updated on ${posts.updatedTime}` : ''}
         </p>
       </div>
       <article className="py-6 lg:py-8">
