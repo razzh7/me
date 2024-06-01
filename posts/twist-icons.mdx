@@ -53,12 +53,56 @@ import { IconName } from "react-icons/ai"
 
 现在很多新出的Vue组件库都支持组件的自动导入，我也想着给 `Twist-icons` 做一个插件出来，让开发者在使用的时候不需要导入，而是直接在文档中复制后就能在代码中使用了。
 
-这个插件的实现原理是基于 [unplugin-vue-components](https://www.npmjs.com/package/unplugin-vue-components)来实现的，它需要我们给它提供 `Resolver`，但我并不知道这个 `Resolver` 需要开发者提供什么，我花了一些时间调试了它的源码，写出了 [twist-icons-plugins](https://www.npmjs.com/package/@twist-space/twist-icons-plugins)。
+这个插件的实现原理是基于 [unplugin-vue-components](https://www.npmjs.com/package/unplugin-vue-components) 来实现的，它需要我们给它提供 `Resolver`，但我刚开始并不知道这个 `Resolver` 需要开发者提供什么，跌跌撞撞看了一下它的源码这一部分的实现，折腾出了 [twist-icons-plugins](https://www.npmjs.com/package/@twist-space/twist-icons-plugins)。
 
 ## 文档
 
-第一版文档的开发刚开始是使用 `arco-design` 组件库来搭建的，后面在开发 Twist-icons 0.2.x 的时候，我接触到了 `icones` ，它也是使用 `@iconify/json` 为基础来开发的，并且展示了 `@iconify` 下所有的图标库。之后我还接触到了`shadcn/ui`，这个 `ui` 库让我眼前一亮，现在的文档就是基于 `icones` + `shadcn/ui` 的风格去写的，这是它的样子：
+第一版文档的开发刚开始是使用 `arco-design` 组件库来搭建的，后面在开发 Twist-icons 0.2.x 的时候，我接触到了 `icones` ，它也是使用 `@iconify/json` 为基础来开发的，并且展示了 `@iconify` 下所有的图标库。之后我还接触到了 `shadcn/ui`，这个 `ui` 库让我眼前一亮，现在的文档就是基于 `icones` + `shadcn/ui` 的风格去写的，这是它的样子：
 
 <ImagePreview src='/img/twist-icons-detail.png' />
 
 做到这里，我目前是对这个项目比较满意了，我终于也拥有了自己的图标库。
+
+## 更新
+6.1：在 `v0.3.0-aplha.2` 版本中，我再一次重构了打包脚本，将原有的 `tsc` 编译 `React` 代码的方式改成使用 `Bable` 编译，`tsc` 只负责**类型文件**的生成。  
+为什么这样做呢？因为我最近在写 `twist-scripts` 打包脚本的时候发现，使用 `Rollup` 打包带有 `twist-icons` 的项目，编译输出格式为 `UMD` 的时候，`Rollup` 会抛出一些警告：
+
+<ImagePreview src='/img/twist-icons-build-warning.png' />
+
+意思是说 `IconBase` 组件打包似乎有些问题，我看了一下编译后的 `IconBase` 代码：
+
+<ImagePreview src='/img/icon-base.png' />
+
+可以看到文件顶部的 `rest` 辅助变量使用了 `this` 关键字，但是在 `es modules` 中的顶部 `this` 始终是 `undefined`，所以 `Rollup` 抛出了[警告](https://rollupjs.org/troubleshooting/#error-this-is-undefined)，并将 `this` 替换成了 `undefined`。  
+
+后面经过一番折腾，我确定这是 `tsc` 编译的行为。所以我打算换成 `Babel` 编译来解决这个问题，Babel编译的结果：
+
+<ImagePreview src='/img/babel-icon-base.png' />
+
+`Babel` 的编译行为是将兼容的辅助函数放在顶部，但并没有在顶部使用 `this`，这也就解决了 `Rollup` 的警告问题。  
+
+同时在这次重构中我也发现了之前的打包脚本的很多问题，比如没有正确处理错误、打包后的目录结构存在一些问题，这次重构也解决了这些问题。
+
+``` js
+├── @twist-space/react-icons
+  ├── lib
+  │   ├── esm
+  │   │   ├── index.js
+  │   │   ├── index.d.ts
+  │   └── cjs
+  │       ├── index.js
+  │       ├── index.d.ts
+  ├── package.json
+```
+这次重构之后，我修改了 `lib` 文件夹的生成结构：
+  
+``` js
+├── @twist-space/react-icons
+  ├── lib
+  │     ├── index.js
+  │     ├── index.m.js
+  │     ├── index.d.ts
+  │     ├── package.json
+```
+
+重构之前的 `lib` 目录结构其实存在着耦合的情况，它们使用的类型文件其实是一样的，所以现在我将 `esm` 和 `cjs` 目录铺平，可以减少耦合和一些打包体积。
