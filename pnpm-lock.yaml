@@ -12,8 +12,8 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5(@types/react-dom@18.0.10)(@types/react@18.0.26)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@twist-space/react-icons':
-        specifier: 0.3.0-alpha.2
-        version: 0.3.0-alpha.2
+        specifier: ^0.3.0
+        version: 0.3.0
       '@types/node':
         specifier: 18.11.18
         version: 18.11.18
@@ -819,8 +819,8 @@ packages:
   '@swc/helpers@0.5.2':
     resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==, tarball: https://registry.npmmirror.com/@swc/helpers/-/helpers-0.5.2.tgz}
 
-  '@twist-space/react-icons@0.3.0-alpha.2':
-    resolution: {integrity: sha512-jtYvez7WXlIrBjz4AVP3RLXRX7O1GaaywltwVfIkcTKUz4C48Q6lRzgoI1yg0vAEAdNspUfD4cT+vlwgqE6gkw==}
+  '@twist-space/react-icons@0.3.0':
+    resolution: {integrity: sha512-CLQiL2DUnfKodxpymYKIV+JTCn9sxvNlGiAdrLs1uvd9gNNjlwLAOw1G4yNaWK3+5gJsd77T0+rvmr1UPCZQ8w==}
 
   '@types/acorn@4.0.6':
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==, tarball: https://registry.npmmirror.com/@types/acorn/-/acorn-4.0.6.tgz}
@@ -4430,7 +4430,7 @@ snapshots:
     dependencies:
       tslib: 2.4.1
 
-  '@twist-space/react-icons@0.3.0-alpha.2': {}
+  '@twist-space/react-icons@0.3.0': {}
 
   '@types/acorn@4.0.6':
     dependencies:
