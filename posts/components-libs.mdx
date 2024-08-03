@@ -1,0 +1,167 @@
+---
+title: 组件库构建流程分析（上）
+date: 2024-08-03
+tech: blog
+---
+
+## 开头
+
+不知道各位是不是跟我有一样感受，在看组件库的代码的时候，还没有看逻辑代码，已经被他们的目录结构困惑住了，通常组件的目录长这样：
+
+
+```js
+├── __test__
+├── demo
+└── style
+├── index.tsx （组件代码）
+├── README.en-US.md
+├── README.zh-CN.md
+```
+
+举个例子，我们平时写 `React` 代码的时候，通常会在文件顶部引入我们的外部文件，但是观察组件库的代码你会发现，文件顶部除了引入一堆逻辑代码外，你看不到一丝样式文件的影子，但是呢样式文件还是写在组件的同级目录下的，那样式文件到底是怎么被引用的呢？还有各位是不是也好奇组件库都支持样式的按需加载，这是又是怎么做到的？
+
+想到这我就已经无心看组件的代码逻辑了，整个人已经被困惑包围，看着组件库那长长的目录结构和一堆不认识的配置文件，那种复杂纠结的心情容易让人产生畏难情绪从而放弃看源码的想法。
+
+所以这篇文章主要分享一些看组件库的技巧，以及了解组件库的基本运行架构。有了充足的知识储备去再去看一些组件库的代码就没这么难啦。
+
+## package.json 篇章
+
+我们看组件库源码的时候，clone 下来的第一件事可能是看 `package.json` 文件了 ，因为我们肯定会想着怎么把它跑起来，而 `package.json` 中包含了重要信息
+
+所以我们要对 `package.json` 中的比较重要字段有一个明确的认识：
+
+- main: 库的入口文件，一般是 `CommonJS` 格式的访问入口
+- module: `ESModule` 格式的访问入口
+- typings: `TS` 类型文件的访问入口
+- unpkg: `unpkg` 网站访问 `UMD` 格式的路径 
+
+上述都是针对组件库**打包**后的字段，现代 Web 项目我们使用组件一般采用 `ESModule` 语法导入：
+
+```tsx
+import { Button } from 'ui';
+```
+
+实际上访问 `ui`，我们的系统会根据使用的语法类型，这里使用的是 `ESModule` 方式的导入，所以会去使用 `module` 字段去查找 `Button` 组件。导出的入口文件一般都长这样：
+
+```tsx
+export * from './Button';
+// 或者
+export { default as Button } from './Button';
+```
+
+通过 `module` 字段的关联，`Button` 组件得以被导入到我们的项目中，所以一个组件库打包后的 `package.json` 中 「main」 和 「module」 字段是**必要**的，`typings` 是根据组件库的项目是否采用了 `typescript` 的类型方案，`unpkg` 字段取决于组件库是否打包了 `UMD` 类型的文件，一般的组件库都会提供这种通用格式以便让开发者能够在本地引用unpkg的CDN或者是在一些在线编辑环境的网站上编辑调试组件。
+
+还有一些我们在组件库中常常看见的字段：
+
+- scripts: 脚本命令的字典集，后面会细说
+
+- packageManager: 指定包管理器及其版本
+
+- peerDependencies： 明确安装此包的项目需要的依赖和依赖的版本
+
+- bin: 这个通常在 `monorepo` 组件库中有自己的 `CLI` 项目，见的比较多，一般是用于指定可执行文件的路径，在通过命令行执行的时候，会去执行这个路径下的文件
+
+- version: 版本，一般通过脚本来控制
+
+- private: 是否私有化包，如果设置成 `true` ，说明这个包是私有的，在 `publish` 的时候不会发布在 `npm` 上 
+
+- sideEffect: 用于明确文件副作用(有依赖关联)，以确保它们在进行模块优化和 tree-shaking 时不会被错误地移除
+
+- files: 字符串数组类型的格式，用于指定 `npm` 在发包时需要上传哪些文件
+
+- keywords: 提升在  [npm](https://www.npmjs.com/) 上的搜索权重，填写必要的关键字能让你的包能被更多搜索这个关键词的人看到。
+
+- engines: 指定 `node` 环境
+
+- license: 开源协议
+
+还有有一些字段可以在 [package.json](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#description) 的文档中查到，这里只针对组件库开发的重要字段做了详细介绍。
+
+## 如何正确安装依赖
+
+很多开发者在 clone 拉下一个项目之前都是兴致高昂，但在跑项目的时候发现碰到了各种报错，跑不起来，这时候看源码的热情就被浇灭了一半。
+
+首先是安装依赖，我们要确定组件库的包管理器。当前主流的组件库都会大概率会 `pnpm`、`yarn` 这两种包管理器，可以观察项目根目录是否有对应的 `lock` 文件，如果没有你可以再去 `package.json` 中查看是否 `packageManager` 字段？是否有删除 `lock` 的命令？这样来确定使用哪个包管理器去安装。
+
+拿两个大家都知道的库举例：
+
+像 `antd` 的目录下就没有 `lock` 文件，我在它的 `package.json` 中找到了对应的命令：
+
+```json
+ "clean:lockfiles": "rimraf package-lock.json yarn.lock",
+```
+
+这说明我们可以使用 `npm` 或者 `yarn` 来安包。
+
+[element-plus](https://github.com/element-plus/element-plus) 的根目录下存在 `pnpm-lock.yaml` 和 `pnpm-workspace` 明显是一个 `pnpm` 管理的库，再观察它的 `package.json` 文件，它还细心的标明了包管理器的版本：
+
+```json
+"packageManager": "pnpm@8.14.1"
+```
+
+确定了包管理器，先别急着安装。因为一般组件库的依赖众多，它们对 `Node` 的版本会有要求 ，我们可以再去看看 `package.json` 中是否有 `engines` 字段，它会在里面确定这个项目需要什么 `Node` 环境才能 `run` 起来，一般现在我会使用 `Node18`，个别项目的依赖可能会要求你升级到 `Node20` 。
+
+好了，开始装包，开启你的魔法，一顿操作下来又报错了，提示由于你糟糕的 `Network` 太慢没有装上依赖。我不是使用了魔法吗？为什么按不上？原因很简单，你的安包没有走 `Proxy`。
+
+检查你的包管理器的 `config` 中 `https-proxy` 和 `proxy` 是否设置了正确的端口。
+
+## 如何把项目跑起来
+
+通常安完包后，你就会去看 `package.json` 中的 `scripts` 字段。ok，看着满屏的 scripts，你可能感觉好复杂，事实上组件库的构建确实是比较复杂，一个完整的组件库包含了构建、测试、版本控制、文档自动生成。但是首次看一个组件库，我们的目标就是把它跑起来。
+
+有些组件库会有类似"boot"/"init"，通常的作用是初始化项目，比如 `monorepo` 组件库的 `icons` 组件可能和组件库本身的组件是**分开发包**的，组件库依赖，所以需要先打包一下图标组件，比如 [arco-design]([arco-design/package.json at main · arco-design/arco-design · GitHub](https://github.com/arco-design/arco-design/blob/main/package.json#L11)) 就是这样做的：
+
+package.json
+
+```json
+"init": ".\\scripts\\init.sh"
+```
+
+init.sh
+
+```shell
+cd site
+yarn
+
+cd ..
+yarn
+yarn icon
+yarn build
+```
+
+再执行 `start` 脚本，项目就能如愿跑起来了
+
+```json
+"start": "concurrently npm:dev npm:dev:site",
+"dev": "arco-scripts dev:component ",
+"dev:site": "arco-scripts dev:site --port 9000"
+```
+
+
+
+`concurrently` 是一个工具，能够并行执行 `dev` 和 `dev:site` 命令，提升脚本的构建速度。有朋友发现了，运行脚本是 `arco-scripts` ，这是什么东西？
+
+是不是有像 `Vue-CLI` 的 `vue-cli-service dev` 命令？这实际上是一类东西，运行 `arco-scripts` 实际上是在运行 `node_modules` 下的 `.bin` 文件下的 `arco-scripts`。
+
+这种 `CLI` 构建 的在组件库中也是比较常见的作法，`antd` 也同样使用了自家的构建工具 `antd-tools` 来构建组件库：
+
+```json
+"compile": "npm run clean && antd-tools run compile"
+```
+
+这类工具都是把构建封装到了 `CLI` 中，我自己也封装了一个脚本，[twist-scripts]([Downloads](https://www.npmjs.com/package/twist-scripts))，也借鉴了它们的写法，到时候可以写篇文章分享一下，核心的思想都是差不多的。
+
+
+
+再者像 `element-plus` 更加直接，有些脚本已经自动通过安装时的 `husky` 钩子调用：
+
+package.json
+
+```json
+ "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C internal/metadata dev\""，
+ "dev": "pnpm -C play dev"
+```
+
+我们只需要执行 `dev` 命令就可以看到调试环境啦。
+
+欧克，篇幅有点多了，我会在下篇介绍组件库是如何完成组件的打包。
