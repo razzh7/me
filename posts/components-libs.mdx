@@ -2,9 +2,10 @@
 title: 组件库构建流程分析（上）
 date: 2024-08-03
 tech: blog
+updatedTime: 2024-08-05
 ---
 
-## 开头
+## 场景
 
 不知道各位是不是跟我有一样感受，在看组件库的代码的时候，还没有看逻辑代码，已经被他们的目录结构困惑住了，通常组件的目录长这样：
 
@@ -18,11 +19,11 @@ tech: blog
 ├── README.zh-CN.md
 ```
 
-举个例子，我们平时写 `React` 代码的时候，通常会在文件顶部引入我们的外部文件，但是观察组件库的代码你会发现，文件顶部除了引入一堆逻辑代码外，你看不到一丝样式文件的影子，但是呢样式文件还是写在组件的同级目录下的，那样式文件到底是怎么被引用的呢？还有各位是不是也好奇组件库都支持样式的按需加载，这是又是怎么做到的？
+举个例子，我们平时写 `React` 代码的时候，通常会在文件顶部引入我们的外部文件，但是观察组件库的代码你会发现，文件顶部除了引入一堆逻辑代码外，你看不到一丝「样式文件」的影子，但是呢样式文件还是写在组件的同级目录下的，那样式文件到底是怎么被引用的呢？还有各位是不是也好奇组件库都支持样式的按需加载，这是又是怎么做到的？
 
 想到这我就已经无心看组件的代码逻辑了，整个人已经被困惑包围，看着组件库那长长的目录结构和一堆不认识的配置文件，那种复杂纠结的心情容易让人产生畏难情绪从而放弃看源码的想法。
 
-所以这篇文章主要分享一些看组件库的技巧，以及了解组件库的基本运行架构。有了充足的知识储备去再去看一些组件库的代码就没这么难啦。
+既然决定要学习组件库的源码，它的构建流程也一定要做到了解吧？所以这篇文章主要分享一些看组件库源码前必备的前置概念。有了充足的知识储备去再去看一些组件库的代码就没这么难啦。
 
 ## package.json 篇章
 
@@ -33,7 +34,7 @@ tech: blog
 - main: 库的入口文件，一般是 `CommonJS` 格式的访问入口
 - module: `ESModule` 格式的访问入口
 - typings: `TS` 类型文件的访问入口
-- unpkg: `unpkg` 网站访问 `UMD` 格式的路径 
+- unpkg: 非 `package.json` 官方字段，在组件库发包后可在 `unpkg` 网站访问 `UMD` 格式的路径，通常 `UMD` 格式的文件我们约定存放在 `dist` 目录下 
 
 上述都是针对组件库**打包**后的字段，现代 Web 项目我们使用组件一般采用 `ESModule` 语法导入：
 
@@ -49,7 +50,10 @@ export * from './Button';
 export { default as Button } from './Button';
 ```
 
-通过 `module` 字段的关联，`Button` 组件得以被导入到我们的项目中，所以一个组件库打包后的 `package.json` 中 「main」 和 「module」 字段是**必要**的，`typings` 是根据组件库的项目是否采用了 `typescript` 的类型方案，`unpkg` 字段取决于组件库是否打包了 `UMD` 类型的文件，一般的组件库都会提供这种通用格式以便让开发者能够在本地引用unpkg的CDN或者是在一些在线编辑环境的网站上编辑调试组件。
+通过 `module` 字段的关联，`Button` 组件得以被导入到我们的项目中。  
+
+所以一个组件库打包后的 `package.json` 中 「main」 和 「module」 字段是**必要**的，`typings` 是根据项目采用的语言类型来确定是否添加这个字段，
+`unpkg` 字段是否使用取决于组件库是否打包了 `UMD` 类型的文件，一般的组件库都会提供这种通用格式以便让开发者能够在本地引用unpkg的CDN或者是在一些在线编辑环境的网站上编辑调试组件。
 
 还有一些我们在组件库中常常看见的字段：
 
@@ -59,7 +63,7 @@ export { default as Button } from './Button';
 
 - peerDependencies： 明确安装此包的项目需要的依赖和依赖的版本
 
-- bin: 这个通常在 `monorepo` 组件库中有自己的 `CLI` 项目，见的比较多，一般是用于指定可执行文件的路径，在通过命令行执行的时候，会去执行这个路径下的文件
+- bin: 用于指定可执行文件的路径，在通过命令行执行的时候，会去执行这个路径下的文件，一般在构建脚本中会用到
 
 - version: 版本，一般通过脚本来控制
 
@@ -103,13 +107,13 @@ export { default as Button } from './Button';
 
 好了，开始装包，开启你的魔法，一顿操作下来又报错了，提示由于你糟糕的 `Network` 太慢没有装上依赖。我不是使用了魔法吗？为什么按不上？原因很简单，你的安包没有走 `Proxy`。
 
-检查你的包管理器的 `config` 中 `https-proxy` 和 `proxy` 是否设置了正确的端口。
+检查你的包管理器的 `config` 中 `https-proxy` 和 `proxy` 是否设置了正确的代理端口，具体操作可以看一下这篇[文章](https://blog.zuiyu1818.cn/posts/node_package)，另外有些库可能会自己在 `.npmrc` 中指定安装的源。
 
 ## 如何把项目跑起来
 
-通常安完包后，你就会去看 `package.json` 中的 `scripts` 字段。ok，看着满屏的 scripts，你可能感觉好复杂，事实上组件库的构建确实是比较复杂，一个完整的组件库包含了构建、测试、版本控制、文档自动生成。但是首次看一个组件库，我们的目标就是把它跑起来。
+通常安完包后，我们就会想着如何启动它的「调试站点」，组件库的「scripts」中基本都有对应的命令：`start`、`dev` 类似的命令，有些组件库的调试站点就是它本身的文档，我们可以找到类似 `docs`、`site` 命令。
 
-有些组件库会有类似"boot"/"init"，通常的作用是初始化项目，比如 `monorepo` 组件库的 `icons` 组件可能和组件库本身的组件是**分开发包**的，组件库依赖，所以需要先打包一下图标组件，比如 [arco-design]([arco-design/package.json at main · arco-design/arco-design · GitHub](https://github.com/arco-design/arco-design/blob/main/package.json#L11)) 就是这样做的：
+有些组件库在启动调试站点之前我们可能需要运行一些它的初始化操作脚本，有类似 `init`、`boot` 命令，通常的作用是初始化项目，比如 [arco-design](https://github.com/arco-design/arco-design/blob/main/package.json#L11) 就是这样做的：
 
 package.json
 
@@ -129,7 +133,14 @@ yarn icon
 yarn build
 ```
 
-再执行 `start` 脚本，项目就能如愿跑起来了
+`init.sh` 脚本的作用就是在本地打包组件库的 `Icons`，为什么这么做？
+因为这意味着组件的代码引用 `Icon` 组件是通过相对路径引入的:
+
+```tsx
+import IconLoading from '../../icon/react-icon/IconLoading';
+```
+
+如果没有本地的 `Icon` 打包后的代码，那么我们在启动调试站点的时候就会报错。
 
 ```json
 "start": "concurrently npm:dev npm:dev:site",
@@ -137,7 +148,7 @@ yarn build
 "dev:site": "arco-scripts dev:site --port 9000"
 ```
 
-
+所以接着我们运行 `start` 命令就能把这个库给跑起来了。  
 
 `concurrently` 是一个工具，能够并行执行 `dev` 和 `dev:site` 命令，提升脚本的构建速度。有朋友发现了，运行脚本是 `arco-scripts` ，这是什么东西？
 
@@ -149,7 +160,7 @@ yarn build
 "compile": "npm run clean && antd-tools run compile"
 ```
 
-这类工具都是把构建封装到了 `CLI` 中，我自己也封装了一个脚本，[twist-scripts]([Downloads](https://www.npmjs.com/package/twist-scripts))，也借鉴了它们的写法，到时候可以写篇文章分享一下，核心的思想都是差不多的。
+这类工具都是把构建封装到了 `CLI` 中，关于这些做法，我自己也封装了一个脚本，[twist-scripts](https://www.npmjs.com/package/twist-scripts)，也借鉴了它们的写法，到时候可以写篇文章分享一下，核心的思想都是差不多的。
 
 
 
@@ -162,6 +173,35 @@ package.json
  "dev": "pnpm -C play dev"
 ```
 
+dev > package.json
+
+```json
+{
+  "name": "@element-plus/play",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "unplugin-vue-components": "0.21.2",
+    "vite": "^2.9.15",
+    "vite-plugin-inspect": "^0.5.0",
+    "vite-plugin-mkcert": "^1.7.2"
+  }
+}
+```
+
 我们只需要执行 `dev` 命令就可以看到调试环境啦。
 
-欧克，篇幅有点多了，我会在下篇介绍组件库是如何完成组件的打包。
+但是有没有朋友会感到好奇，`element-plus` 的调试环境中的**依赖项**为什么会没有「element-plus」呢？我们只看到了它的 `Icons` 库，那如何去引入调试其他组件呢？我将在「element-plus 调试环境分析」详细分析它的构建思路。
+
+## 结尾
+
+欧克，这篇文章围绕 `package.json`，以 `arco-design` 和 `element-plus` 组件库为场景，详细介绍了组件库的构建前置概念，我会在下篇介绍组件库的构建核心：如何完成组件的打包。
