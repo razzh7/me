@@ -33,7 +33,7 @@ updatedTime: 2024-08-05
 
 - main: 库的入口文件，一般是 `CommonJS` 格式的访问入口
 - module: `ESModule` 格式的访问入口
-- typings: `TS` 类型文件的访问入口
+- typings: 类型文件的访问入口
 - unpkg: 非 `package.json` 官方字段，在组件库发包后可在 `unpkg` 网站访问 `UMD` 格式的路径，通常 `UMD` 格式的文件我们约定存放在 `dist` 目录下 
 
 上述都是针对组件库**打包**后的字段，现代 Web 项目我们使用组件一般采用 `ESModule` 语法导入：
@@ -52,7 +52,7 @@ export { default as Button } from './Button';
 
 通过 `module` 字段的关联，`Button` 组件得以被导入到我们的项目中。  
 
-所以一个组件库打包后的 `package.json` 中 「main」 和 「module」 字段是**必要**的，`typings` 是根据项目采用的语言类型来确定是否添加这个字段，
+所以一个组件库打包后的 `package.json` 中 「main」 和 「module」 字段是**必要**的，`typings` 是根据项目采用的语言类型(ts/flow)来确定是否添加这个字段，
 `unpkg` 字段是否使用取决于组件库是否打包了 `UMD` 类型的文件，一般的组件库都会提供这种通用格式以便让开发者能够在本地引用unpkg的CDN或者是在一些在线编辑环境的网站上编辑调试组件。
 
 还有一些我们在组件库中常常看见的字段：
@@ -204,4 +204,4 @@ dev > package.json
 
 ## 结尾
 
-欧克，这篇文章围绕 `package.json`，以 `arco-design` 和 `element-plus` 组件库为场景，详细介绍了组件库的构建前置概念，我会在下篇介绍组件库的构建核心：如何完成组件的打包。
+欧克，这篇文章围绕 `package.json`，以 `arco-design` 和 `element-plus` 组件库为例，详细介绍了组件库的构建前置概念，我会在下篇介绍组件库的构建核心：如何完成组件的打包。
