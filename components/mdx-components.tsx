@@ -81,7 +81,7 @@ const components = {
   },
   p: ({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
     <p
-      className={cn('leading-7 my-[1.25em]', className)}
+      className={cn('leading-8 my-[1.25em]', className)}
       {...props}
     />
   ),
@@ -121,7 +121,7 @@ const components = {
     <ol className={cn('my-6 ml-6 list-decimal', className)} {...props} />
   ),
   li: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <li className={cn('mt-2', className)} {...props} />
+    <li className={cn('mt-2 leading-8', className)} {...props} />
   ),
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement> & { 'data-language'?: string }) => !props['data-language'] ? (
     <code
