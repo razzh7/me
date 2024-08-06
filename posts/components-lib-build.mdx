@@ -1,0 +1,653 @@
+---
+title: 组件库构建流程分析（中）
+date: 2024-08-06
+tech: blog
+---
+
+上一篇已经详细介绍了 `package.json` 中各个字段在组件库中的作用，这篇文章我们着重介绍组件库的打包流程
+
+> es/Button
+
+```js
+├── __test__
+├── demo
+└── style
+├── index.tsx （组件代码）
+├── README.en-US.md
+├── README.zh-CN.md
+```
+
+一个组件库通常会打包组件输出到三个目录下：
+
+- es：存放 `ESModule` 格式目录
+
+- lib：存放 `CommonJs` 格式目录
+
+- dist: 存放 `UMD` 格式目录
+
+我们要做的就是打包逻辑代码、样式文件输出到上述的目录下，我们来介绍几种打包方式。
+
+## TSC 组件打包
+
+以 `Typescript` + `React` 为例我们打包一个组件最常见的作法就是通过 `TS` 自带的编译器(tsc)打包，这样的做法的好处是你**只需要**配置 `tsconfig` 文件就可以完成对一个组件的打包并为其生成**类型文件**。
+
+以 [arco-scripts](https://www.npmjs.com/package/arco-scripts) 为例子，它在打包的时候就使用了 `tsc` 来打包组件
+
+```ts
+import tsc from 'node-typescript-compiler';
+
+function withTSC({ type, outDir, watch }: CompileOptions) {
+  const { compilerOptions } = getTSConfig();
+  let module = type === 'es' ? 'es6' : 'commonjs';
+
+  return tsc.compile({
+    ...tscConfig,
+    module,
+    outDir,
+    watch: !!watch,
+    declaration: type === 'es',
+  });
+}
+```
+
+`arco-scripts` 会读取项目根目录下的 `tsconfig.json` 文件，我们只需要配置选项，我们只需要配置 `module`、`outDir` 和 `declaration` 选项就能轻松打包出 `ESModule` 和 `CommonJs` 模块，如果配置了 `watch` 选项，那它就是一个**开发模式**下的组件打包工具了。
+
+## Babel 组件打包
+
+另外一种方式就是使用 `Babel` 来完成打包。
+
+```ts
+async function withBabel({ type, outDir, watch }: CompileOptions) {
+  const tsconfig = getTSConfig();
+  const targetPath = path.resolve(CWD, outDir);
+
+  // The base path of the matching directory patterns
+  let srcPath = '';
+  for (const pattern of tsconfig.include as string[]) {
+    // match 'src/**/*.ts` or 'src/**/*.{ts,tsx}' or 'src/**/*.t{s,sx}'
+    if (/\/\*{2}\/\*\.{?t{?s/.test(pattern)) {
+      srcPath = pattern.split('/**/')[0];
+      break;
+    }
+  }
+
+  const transform = (file) => {
+    // Avoid directly modifying the original presets array, it will cause errors when withBabel is called multiple times
+    babelConfig.presets = babelConfig.presets.map((preset) => {
+      const strPresetEnv = '@babel/preset-env';
+      const presetOptions = { modules: type === 'es' ? false : 'cjs' };
+
+      if (preset === strPresetEnv) {
+        return [strPresetEnv, presetOptions];
+      }
+
+      if (Array.isArray(preset) && preset[0] === strPresetEnv) {
+        const _preset = preset.slice();
+        _preset[1] = {
+          ...(_preset[1] || {}),
+          ...presetOptions,
+        };
+        return _preset;
+      }
+
+      return preset;
+    });
+
+    return babelTransform(file.contents, {
+      ...babelConfig,
+      filename: file.path,
+      // Ignore the external babel.config.js and directly use the current incoming configuration
+      configFile: false,
+    }).code;
+  };
+
+  const createStream = (src) => {
+    return vfs
+      .src(src, {
+        allowEmpty: true,
+        base: srcPath,
+      })
+      .pipe(watch ? gulpPlumber() : through.obj())
+      .pipe(
+        gulpIf(
+          ({ path }) => {
+            return /\.tsx?$/.test(path);
+          },
+          // Delete outDir to avoid static resource resolve errors during the babel compilation of next step
+          gulpTS({ ...tsconfig.compilerOptions, declaration: type === 'es', outDir: undefined })
+        )
+      )
+      .pipe(
+        gulpIf(
+          ({ path }) => {
+            return !path.endsWith('.d.ts') && /\.(t|j)sx?$/.test(path);
+          },
+          through.obj((file: { path: string; contents: Buffer }, _, cb) => {
+            try {
+              file.contents = Buffer.from(transform(file));
+              // .jsx -> .js
+              file.path = file.path.replace(path.extname(file.path), '.js');
+              cb(null, file);
+            } catch (error) {
+              print.error('[arco-scripts]', `Failed to compile ${file.path}`);
+              console.error(error);
+              cb(null);
+            }
+          })
+        )
+      )
+      .pipe(vfs.dest(targetPath));
+  };
+
+  return new Promise<void>((resolve) => {
+    const patterns = [
+      ...tsconfig.include,
+      `!${path.resolve(srcPath, '**/demo{,/**}')}`,
+      `!${path.resolve(srcPath, '**/__test__{,/**}')}`,
+      `!${path.resolve(srcPath, '**/*.md')}`,
+      `!${path.resolve(srcPath, '**/*.mdx')}`,
+    ];
+    createStream(patterns).on('end', () => {
+      if (watch) {
+        print.info('[arco-scripts]', `Start watching file in ${srcPath.replace(`${CWD}/`, '')}...`);
+
+        const watcher = chokidar.watch(patterns, {
+          ignoreInitial: true,
+        });
+
+        const files = [];
+        const debouncedCompileFiles = debounce(() => {
+          while (files.length) {
+            createStream(files.pop());
+          }
+        }, 1000);
+
+        watcher.on('all', (event, fullPath) => {
+          print.info(`[${event}] ${path.join(fullPath).replace(`${CWD}/`, '')}`);
+          if (fs.existsSync(fullPath) && fs.statSync(fullPath).isFile()) {
+            if (!files.includes(fullPath)) {
+              files.push(fullPath);
+            }
+            debouncedCompileFiles();
+          }
+        });
+      } else {
+        resolve(null);
+      }
+    });
+  });
+}
+```
+
+流程略显复杂，使用了 `gulp` 去处理文件流，你也可以直接使用 `NodeJS` 的 `fs` 来处理，看个人选择。通过 `pattern` 来匹配需要转换的文件并通过 `gulp-ts` 传入 `tsconfig`，去转换每一个文件为 `js` ，再根据 `Babel` 配置文件使用 `Babel API` 来再次转化匹配到的每一个文件。
+
+## 使用 Vite 打包
+
+`Vite` 提供了可在线运行的 「dev server」并且它的启动项目的速度，相比传统的打包工具 `Webpack` 和 `Rollup`，已经快了不止一点半点，特别是在大型项目上如组件库这样量级的代码库。
+
+  热更新 `HMR` 速度特别「快」，我们知道像组件库这样的项目通常有很多依赖关系，如果开发服务器使用的是 `Webpack` ，那你在开发的时候每次保存代码可能都需要等好几秒的时间页面才做出更新，也是比较磨人的，像传统项目，比如 `Vue-CLI` 构建的项目，随着项目的变大，启动速度不仅非常慢，而且 `HMR` 的反应速度是完全跟不上你的手速，而 `Vite` 它做到了。
+
+`Vite` 不仅仅快并对 `Rollup` 做了一层抽象提供了打包的能力，它的打包功能是在底层对 `Rollup` 封装了一层 `Options`，底层打包还是使用的 `Rollup`。
+
+在开发时使用的是 `Vite` 的本地开发服务器，处理图片资源等也可以使用 `Vite` 的插件，你还可以自己编写 `Vite` 插件对代码进行「编译」上的改动，并提供了 `Rollup` 打包的预设。可以说 `Vite` 提供了前端项目全流程的开发体验。
+
+介绍了这么多，举个例子：`arco-design-vue`：
+
+```ts
+const config: InlineConfig = {
+  mode: 'production',
+  build: {
+    target: 'modules',
+    outDir: 'es',
+    emptyOutDir: false,
+    minify: false,
+    brotliSize: false,
+    rollupOptions: {
+      input: ['components/index.ts', 'components/icon/index.ts', ...langFiles],
+      output: [
+        {
+          format: 'es',
+          dir: 'es',
+          entryFileNames: '[name].js',
+          preserveModules: true,
+          preserveModulesRoot: 'components',
+        },
+        {
+          format: 'commonjs',
+          dir: 'lib',
+          entryFileNames: '[name].js',
+          preserveModules: true,
+          preserveModulesRoot: 'components',
+        },
+      ],
+    },
+    // 开启lib模式，但不使用下面配置
+    lib: {
+      entry: 'components/index.ts',
+      formats: ['es', 'cjs'],
+    },
+  },
+  // @ts-ignore vite内部类型错误
+  plugins: [external(), vue(), vueJsx(), vueExportHelper()],
+};
+```
+
+这里引用了它打包 `ESModule` 和 `CommonJS` 两个模块的配置代码，配置方面指定 `input` 入口和 `output` 输出目录和格式，其中我们的组件库都会有一个入口的文件 `index.ts`，文件里面导出了所有的文件，`Rollup` 会通过入口去分析依赖的引用从而打包全部的组件。
+
+顺带一提，`arco-design-vue` 的组件构建部分是使用 `Vite`，开发服务器是使用 `Vite`。
+
+## UMD 格式打包
+
+通常组件库的打包 `UMD` 格式的代码都会用到 `Webpack` 和 `Rollup` 两个工具，有些库也会直接使用 `Vite` 来打包，因为 `Vite` 在底层可以使用 `Rollup` 来打包（前文已经讲过）。
+
+`Babel` 的 `@babel/preset-env` 中的 `modules` 也支持 `umd` 格式的打包，同样 `TSC` 也可以指定 `modules` 选项为 `umd` 来打包 `UMD` 格式的代码，那为什么不使用 `Babel` 和 `TSC` 来打包呢？
+
+术业有专攻，`Webpack` 和 `Rollup` 在处理**模块解析**、**依赖关系**、**代码优化**的方面要强于 `Babel` 和 `TSC`。
+
+两款打包工具都提供了原生的「摇树 Tree-shaking」、「死代码消除 dead code elimination」功能，这些功能都需要依赖打包工具的静态分析模块依赖关系的能力，这是 `Babel` 和 `TSC` 不具备的能力。
+
+这里贴一下 `arco-scripts` 的例子
+
+```ts
+let config = {
+  mode: 'production',
+  entry: {
+    arco: `${CWD}/${DIR_NAME_COMPONENT_LIBRARY}/index.tsx`,
+  },
+  output: {
+    path: `${CWD}/${DIR_NAME_UMD}`,
+    publicPath: `https://unpkg.com/${packageName}@latest/${DIR_NAME_UMD}/`,
+    filename: '[name].min.js',
+    library: '[name]',
+    libraryTarget: 'umd',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: require.resolve('babel-loader'),
+            options: babelConfig,
+          },
+          {
+            loader: require.resolve('ts-loader'),
+            options: getTSLoaderOptions(),
+          },
+        ],
+      },
+      {
+        test: lessRegex,
+        exclude: lessModuleRegex,
+        use: getUse(false),
+      },
+      {
+        test: /\.css$/,
+        sideEffects: true,
+        use: [
+          {
+            loader: require.resolve('style-loader'),
+          },
+          {
+            loader: require.resolve('css-loader'),
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|ttf|eot|woff|woff2)$/,
+        loader: require.resolve('file-loader'),
+        options: {
+          esModule: false,
+        },
+      },
+      {
+        test: /\.svg$/,
+        use: [require.resolve('@svgr/webpack')],
+      },
+      {
+        test: lessModuleRegex,
+        use: getUse(true),
+      },
+    ],
+  },
+  externals: [
+    {
+      react: {
+        root: 'React',
+        commonjs2: 'react',
+        commonjs: 'react',
+        amd: 'react',
+      },
+      'react-dom': {
+        root: 'ReactDOM',
+        commonjs2: 'react-dom',
+        commonjs: 'react-dom',
+        amd: 'react-dom',
+      },
+    },
+    webpackExternalForArco,
+  ],
+  resolve: {
+    modules: ['node_modules'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+  },
+  resolveLoader: {
+    modules: ['node_modules/arco-scripts/node_modules', 'node_modules'],
+  },
+  plugins: [
+    new ProgressBarPlugin({
+      format: `[arco-scripts]: [:bar] ${chalk.green.bold(':percent')} (:elapsed seconds)`,
+    }),
+    new webpack.BannerPlugin({
+      banner: `${packageNameWithoutScope} v${version}\n\nCopyright 2019-present, Bytedance, Inc.\nAll rights reserved.\n`,
+    }),
+  ],
+};
+const processor = getConfigProcessor<Function | { component: Function }>('webpack');
+// When webpack.config.js directly exposes a function, it defaults to the configuration of component webpack
+const realProcessor =
+  typeof processor === 'function'
+    ? processor
+    : processor && processor.component
+    ? processor.component
+    : null;
+
+if (realProcessor) {
+  config = realProcessor(config) || config;
+}
+```
+
+在 `modules` 选项我们可以看见它配置了大量了 `loader` 来处理项目中的图片资源、样式文件。
+
+并且我们还可以在外部定义一个自己的webpack配置文件，`arco-scripts` 会读取配置文件并做合并操作。
+
+所以各位有没有发现，其实打包的大部分配置都是大差不差的，都会去指定 `input`、`output` 选项，并配置一些插件让打包工具正确处理它们。
+
+## 组件样式打包
+
+> components/button/style
+
+```js
+└── style
+    ├── index.ts
+    └── index.less（原始样式文件，.less 或者 .sass）
+```
+
+一个组件样式文件目录基本都是上述描述那样，我们要做的就是将它打包转化成下面展示的样子：
+
+> es/button/style
+
+```js
+└── style
+    ├── css.js（用于样式按需加载，文件内容类似：import './index.css'）
+    ├── index.js（用于样式按需加载，文件内容类似：import './index.less'）
+    ├── index.css（当前组件的样式产物）
+    └── index.less（原始样式文件，.less 或者 .sass）
+```
+
+先来抛出两个问题：
+
+- 为什么 `components/button/style` 会有 `index.ts` 文件？我们在写 `React` 项目的时候不是都是直接在项目顶部引入样式文件的吗？
+- 为什么打包后的文件多了 css.js 是什么？
+
+### 样式按需加载
+
+我们在使用一个组件库的时候，组件库都会推荐我们 `按需加载样式`，所以需要安装一个插件叫 [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import)，大家是不是很熟悉？
+
+**`{ "libraryName": "antd", style: "css" }`**
+
+```tsx
+import { Button } from 'antd';
+ReactDOM.render(<Button>xxxx</Button>);
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+var _button = require('antd/lib/button');
+require('antd/lib/button/style/css');
+ReactDOM.render(<_button>xxxx</_button>);
+```
+
+`Babel` 在编译的时候会去寻找 `button/style` 下的 css.js，然后动态插入我们的代码中，所以我们需要在打包的时候提供 `css` 的 `js` 文件，这个插件通常是在 `Webpack` + `Babel-lodaer` 配合使用的。
+
+`Vite` 生态同样提供了相应的插件 [vite-plugin-style-import](https://github.com/vbenjs/vite-plugin-style-import)，效果是一样的，这里就不再介绍了。
+
+总的来说，`style` 目录下的 `index.ts` 就是为了按需加载准备的，`css.js` 是在样式打包的时候由 `index.js` 改名而来，并将导入的内容修改成 `.css` 为后缀的内容，而 `index.js` 导入的则是 `.less` 结尾的后缀。
+
+这也就解释了上一篇开头抛出的问题：看组件库源码的时候，顶部并没有样式引入的痕迹，答案就是组件库的调试环境已经安装了组件按需加载的插件，组件的样式被按需加载了。
+
+### 样式打包流程
+
+了解我们需要生成的样式产物后，现在着手介绍怎么打包样式。  
+实际上样式的处理逻辑都是相通的，对于 CSS 预处理文件，我们只需要使用 `glob` 去匹配样式的文件路径读取它们的内容再将它们一个个输出到目标目录中，我们的目标目录中不仅需要 CSS 预处理文件，还需要原生的 `CSS` 文件，我们可以通过预处理提供的NodeAPI来编译转化，再次执行上述步骤即可完成。  
+
+为了满足样式按需加载的需求，我们需要有一个入口的文件 `index.ts` 来引入样式文件，
+并且需要生成一个 `css.js`，在这过程中我们需要处理不同模块的导入方式不同，需要在编译样式的时候使用正则去匹配根据模块的导入来替换导入方式。  
+
+在这里贴上 `twist-scripts` 对样式文件的处理方案的代码，并做详细解释：
+
+> `twist-scripts` 是我学习并模仿 `arco-scripts` 的源码后写的一个基于 `Vite` 的 `React` 组件打包库(`arco-scripts` 内置的是开发服务器是 `Webpack`)
+
+```ts
+const { css: cssConfig, asset: assetConfig, jsEntry: jsEntryConfig } = StyleConfig;
+
+// 拷贝资源文件到dist目录下
+function copyAsset() {
+  return gulp.src(assetConfig.entry, { allowEmpty: true }).pipe(gulp.dest(assetConfig.output));
+}
+
+// 拷贝资源文件、less、css到es和lib文件夹下
+function copyFileWatched() {
+  const patternArray = cssConfig.watch;
+  const destDirs = [cssConfig.output.es, cssConfig.output.cjs].filter((path) => !!path);
+  if (destDirs.length) {
+    return new Promise((resolve) => {
+      let stream: NodeJS.ReadWriteStream = mergeStream(
+        patternArray.map((pattern) => gulp.src(pattern, {
+          allowEmpty: true,
+          base: cssConfig.watchBase[pattern]
+        }))
+      );
+
+      destDirs.forEach((dir) => {
+        stream = stream.pipe(gulp.dest(dir));
+      });
+
+      stream.on('end', resolve).on('error', (error) => {
+        print.error('[twist-scripts]', 'Failed to build css, error in copying files');
+        console.error(error);
+      });
+    });
+  }
+
+  return Promise.resolve(null);
+}
+
+function compileLess() {
+  const destDirs = [cssConfig.output.es, cssConfig.output.cjs].filter((path) => path);
+
+  if (destDirs.length) {
+    return new Promise((resolve) => {
+      let stream: NodeJS.ReadWriteStream = gulp.src(cssConfig.entry);
+      stream = stream.pipe(cssConfig.compiler(cssConfig.compilerOptions));
+
+      destDirs.forEach((dir) => {
+        stream = stream.pipe(gulp.dest(dir));
+      });
+
+      stream.on('end', resolve).on('error', (error) => {
+        print.error(error);
+        console.error(error);
+      });
+    });
+  }
+
+  return Promise.resolve(null);
+}
+
+// 生成 dist 文件夹下的 less 文件
+function distLess(cb) {
+  const { path: distPath } = cssConfig.output.dist;
+  let entries = [];
+  cssConfig.entry.forEach((pattern) => {
+    entries = entries.concat(glob.sync(pattern));
+  });
+
+  const texts = [];
+  if (entries.length) {
+    entries.forEach((entry) => {
+      const esEntry = cssConfig.output.es + entry.slice(entry.indexOf('/'));
+      const releativePath = path.relative(distPath, esEntry);
+      texts.push(`@import "${releativePath}";`);
+
+      fs.outputFileSync(`${distPath}/${FILENAME_DIST_LESS}`, texts.join('\n'), 'utf-8');
+    });
+  }
+
+  cb();
+}
+
+// 编译 dist 文件夹下的 less 文件生成 css 文件
+function distCss(isDev: boolean) {
+  const { path: distPath, rawFileName, cssFileName } = cssConfig.output.dist;
+  const needClean = BUILD_ENV_MODE === 'production' && !isDev;
+  let stream = gulp.src(`${distPath}/${rawFileName}`, { allowEmpty: true });
+
+  stream = stream.pipe(cssConfig.compiler(cssConfig.compilerOptions));
+
+  return stream
+    .pipe(
+      /**
+       * background-image: url(../../es/img.jpg) => background-image: url(../../asset/img.jpg)
+       */
+      replace(
+        new RegExp(`(\.{2}\/)+${cssConfig.output.es}`, 'g'),
+        path.relative(cssConfig.output.dist.path, assetConfig.output)
+      )
+    )
+    .pipe(gulpIf(needClean, CleanCSS()))
+    .pipe(rename(cssFileName))
+    .pipe(gulp.dest(distPath))
+    .on('error', (error) => {
+      print.error('[twist-scripts]', 'Failed to build css, error in dist all css');
+      console.error(error);
+    });
+}
+
+async function compileCssJsEntry() {
+  const ES_DIR = cssConfig.output.es;
+  const CJS_DIR = cssConfig.output.cjs;
+  const compile = (module: 'es' | 'cjs') => new Promise((resolve, reject) => {
+    mergeStream(
+      jsEntryConfig.entry.map((entry) => gulp.src(entry, {
+        allowEmpty: true,
+        base: entry.replace(/\/(\*{1,2})*\/style\/index.[jt]s$/, '')
+      }))
+    ).pipe(
+      replace(`.${jsEntryConfig.styleSheetExtension}`, '.css')
+    ).pipe(
+      replace(
+        /import\s+'(.+(?:\/style)?)(.+(?:\/index.[jt]s))?'/g,
+        (_, $1) => {
+          const suffix = $1.endsWith('/style') ? '/css.js' : '';
+          return module === 'es' ? `import '${$1}${suffix}'` : `require('${$1}${suffix}')`;
+        }
+      )
+    ).pipe(
+      rename((path) => {
+        const [basename, extname] = FILENAME_STYLE_ENTRY_CSS.split('.');
+        path.basename = basename;
+        path.extname = `.${extname}`;
+      })
+    )
+      .pipe(
+        gulp.dest(module === 'es' ? ES_DIR : CJS_DIR)
+      )
+      .on('error', reject)
+      .on('end', resolve);
+  });
+
+  if (Array.isArray(cssConfig.entry) && cssConfig.entry.length) {
+    const asyncTask = [];
+    if (fs.pathExistsSync(ES_DIR)) {
+      asyncTask.push(compile('es'));
+    }
+    if (fs.pathExistsSync(CJS_DIR)) {
+      asyncTask.push(compile('cjs'));
+    }
+
+    try {
+      await Promise.all(asyncTask);
+    } catch (error) {
+      print.error('[twist-scripts]', `Failed to build ${FILENAME_STYLE_ENTRY_CSS}`);
+      console.error(error);
+    }
+  }
+}
+
+export function watch() {
+  const cwd = process.cwd();
+  const watchBuild = gulp.parallel(
+    copyAsset,
+    gulp.series(copyFileWatched, distLess, distCss.bind(true))
+  );
+
+  // First build
+  watchBuild(null);
+
+  const watcher = chokidar.watch(cssConfig.watch, {
+    ignoreInitial: true,
+    ignored: cssConfig.watchIgnored
+  });
+
+  watcher.on('all', (event, fullPath) => {
+    const relPath = fullPath.replace(cwd, '');
+    print.info(`[${event}] ${relPath}`);
+    try {
+      watchBuild(null);
+    } catch (error) {
+      print.error('[twist-scripts]', 'Build style failed in watch');
+      console.error(error);
+    }
+  });
+}
+
+export function build() {
+  return new Promise<void>((resolve) => {
+    gulp.series(
+      gulp.parallel(copyAsset, copyFileWatched),
+      gulp.parallel(compileLess, compileCssJsEntry),
+      gulp.series(distLess, distCss.bind(false)),
+      gulp.series(() => resolve(null))
+    )(null);
+  });
+}
+```
+
+1. 将组件库的资源文件，如 svg 等静态资源文件输出至 `dist` 目录
+
+2. 将组件库的样式文件、资源文件分别输出至 `es` 和 `lib` 目录
+
+3. 将组件库中的所有 `Less` 文件编译成 `CSS` 输出至 `es` 和 `lib` 目录
+
+4. 处理组件 `style` 目录下的入口文件也就是 `index.ts`，处理过后我们会得到 `index.css` 文件
+
+   1. 对于 `module` 的类型是 `Commonjs`，那么我们需要将把里面的导入文件改成 `Commonjs` 的格式
+   2. 由于 `css.js` 文件导入的是 `css` 文件，我们需要将原先的预处理器 `less` 更换为 `.css `的后缀，这项操作通过读取文件内容并通过正则表达式匹配替换完成。
+   3. 还有一个情况是组件引用在另一个组件的样式文件，比如：「import '../es/Button/style' => import '../es/Button/style/css.js」，我们要做的就是使用正则去捕获 `style`, 并将它拼接上 `css.js`
+   4. 将 `index.ts` 文件名和后缀修改成 `css` 和 `js` 合并起来就是 `css.js` 文件
+   5. 输出到 `es` 和 `lib` 目录
+
+5. 使用 `glob` 获取所有的 `Less` 文件路径，进行拼接，输出到 `dist` 目录下就像这样：
+
+   ```less
+   @import "../../es/Affix/style/index.less";
+   @import "../../es/Alert/style/index.less";
+   @import "../../es/Anchor/style/index.less";
+   @import "../../es/AutoComplete/style/index.less";
+   ```
+
+6. 对 `dist` 目录下的 index.less 入口文件使用 `less` 编译器进行编译，输出到 `dist` 目录下 `dist/index.css`，样式文件根据环境决定是否压缩，一般在生产环境下才会选择压缩。
+
+## 结尾
+这篇文章介绍了组件和样式的打包思路，下篇文章将会介绍如何搭建组件库文档。
