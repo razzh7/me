@@ -18,6 +18,11 @@
   margin-bottom: .8em;
 }
 
+.mdx blockquote > p {
+  @apply leading-8;
+  @apply my-0;
+}
+
 [data-rehype-pretty-code-fragment] {
   @apply relative mt-4;
 }
