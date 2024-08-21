@@ -6,9 +6,9 @@ import { TiLogoGithub } from '@twist-space/react-icons/ti'
 
 const Divider = () => <div className="w-[60px] h-[1px] mx-auto my-6 bg-muted"></div>
 const Text = ({ children }: {children: React.ReactNode}) => <span className="text-secondary mx-1">{children}</span>
-const OutLink = ({ children }: {children: React.ReactNode}) => (
+const OutLink = ({ link, children }: {link: string, children: React.ReactNode}) => (
   <a className="flex items-center gap-1 font-base text-secondary border-b-[1px] border-link decoration-primary"
-    href="https://twitter.com/razzhAvenir"
+    href={link}
     target="_blank"
     rel="noreferrer">
     {children}
@@ -54,11 +54,11 @@ const Home = () => (
       <div>
         <p className="flex gap-2">
           <span>Find me on</span>
-          <OutLink>
+          <OutLink link='https://github.com/razzh7'>
             <TiLogoGithub size={17} />
             Github
           </OutLink>
-          <OutLink>
+          <OutLink link='https://twitter.com/razzhAvenir'>
             <BiTwitterX size={17} />
             Twitter
           </OutLink>
