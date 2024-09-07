@@ -2,7 +2,7 @@
 title: 我的 Twist-Icons
 date: 2024-03-14
 tech: blog
-updatedTime: 2024-06-01
+updatedTime: 2024-09-07
 ---
 
 今天来介绍一下我自己写的小家伙 [Twist-Icons](https://github.com/twist-space/twist-icons)，它是一个 `SVG` 图标库，可以在 `React`、`Vue3`、`Vue2` 中使用。具体使用方法可以在[文档](https://twist-icons-docs.vercel.app/)中看到，这篇文章主要是介绍一下这个项目的由来和一些灵感由来。
@@ -65,8 +65,8 @@ import { IconName } from "react-icons/ai"
 做到这里，我目前是对这个项目比较满意了，我终于也拥有了自己的图标库。
 
 ## 更新
-
-6.1：在 `v0.3.0-aplha.2` 版本中，我再一次重构了打包脚本，将原有的 `tsc` 编译 `React` 代码的方式改成使用 `Bable` 编译，`tsc` 只负责**类型文件**的生成。  
+### 24.06.01
+在 `v0.3.0-aplha.2` 版本中，我再一次重构了打包脚本，将原有的 `tsc` 编译 `React` 代码的方式改成使用 `Bable` 编译，`tsc` 只负责**类型文件**的生成。  
 为什么这样做呢？因为我最近在写 `twist-scripts` 打包脚本的时候发现，使用 `Rollup` 打包带有 `twist-icons` 的项目，编译输出格式为 `UMD` 的时候，`Rollup` 会抛出一些警告：
 
 <ImagePreview src='/img/twist-icons-build-warning.png' />
@@ -110,3 +110,77 @@ import { IconName } from "react-icons/ai"
 优化之前的 `lib` 目录结构其实存在着耦合的情况，它们使用的类型文件其实是一样的，所以现在我将 `esm` 和 `cjs` 目录铺平，可以减少耦合和一些打包体积。  
 
 通过这次优化，我对打包后的结果有了一些浅薄的了解，今天是儿童节，正如这个节日一样，我在这个项目中也像儿童一样在蹒跚学步。
+
+### 24.09.07
+在之前发布 `0.3.1` 的版本后，我在使用中发现导入的 `icons` 没有被编译到目标文件下，也就是某些库的 icons 没有生成。
+
+```tsx
+// no export member AiBook in @twist-space/react-icons/ai
+import { AiBook } from '@twist-space/react-icons/ai'
+```
+
+引起这个问题的原因在如下代码：
+
+<ImagePreview src='/img/twist-icons-bad-code.png' />
+
+这段代码有两个问题：  
+1. 重复向目标文件使用 `writeFile` 方法覆盖之前的写入的内容，导致之前通过 `appendFile` 方法写入的 `icon` 数据被覆盖，
+所以就存在一个库可能就存在几行 icon data 的存在。
+2. 在 `for` 循环中使用了过多的写入操作是不合理的，它会严重拖慢 `icon` 文件的生成速度  
+
+举个例子：
+```js
+import fs from 'fs'
+
+for(let i = 0; i < 10000; i++) {
+  fs.appendFile('react-icons/ai/index.mjs', icon)
+}
+```
+
+这种写法在循环次数少的情况下，看不出写入速度的差异，但是一旦循环次数变多，那么大量的循环频繁操作文件导致生成速度会变得非常慢，这在 `windows` 的机器上尤为明显，在我的 `Mac M1` 上
+打包 `twist-icons` 基本也需要1分多钟，但是在 `9700K` + `2060s` 的配置上跑 `0.3.2` 版本的打包代码，打包的速度、成功率都是非常低的，这也是 `v1.0.0-alpha` 需要解决的核心问题。  
+
+正确的作法是将步骤1拆出去，在初始化文件的时候就添加 `headerTemplate` 内容，步骤2的写入操作可以先放在一个数组中（内存），
+等 `data` 全部存入数组中的时候，我们再将数组中的数据一次性追加到目标文件中。
+
+这是优化后的结果：  
+**v0.3.2**
+<ImagePreview src='/img/twist-icons-build-0.3.2.png' />
+
+**v1.0.0-alpha.1**
+<ImagePreview src='/img/twist-icons-build-1.0-alpha.png' />
+
+<ImagePreview src='/img/twist-icons-build-windows.png' />
+
+此外 `v1.0.0-alpha.1` 版本中还优化了 `Icon` 组件的性能，因为 `twist-icons` 内置 `spin` 选项，开启后可以让 `Icon` 旋转，
+在之前的写法中是通过组件 `hooks` 的方式向 `head` 标签中插入 `style` 标签样式，也就是每一个 `Icon` 组件都会执行一个判断是否挂载 `style` 的方法：
+
+<ImagePreview src='/img/twist-spin-v0.3.2.png' />
+
+这会造成不必要的性能开销，这个操作步骤完全可以放在我们程序的启动文件中来执行，所以 `v1.0.0-alpha.1` 抽离了这段逻辑：
+
+<ImagePreview src='/img/twist-icons-spin-1.0.0.png' />
+
+如果需要让 `Icon` 组件旋转，我们可以选择在主文件中导入：
+
+```tsx
+// main file
+import { mountedTwistIconsStyles } from '@twist-space/xxx-icons'
+
+mountedTwistIconsStyles()
+```
+你也可以自己编写 `Icon` 的动画。  
+
+还有一些更新的内容，比如打包后的根目录 `package.json` 增加了 `peerDependencies` 和 `exports` 字段、新增 `Lucide Icon`、小错误的修复。  
+
+还有目前我能体验到的使用上的**痛点**是：导入的名字过长了：
+
+```tsx
+import { AiBook } from '@twist-space/`react-icons/ai'
+```
+
+说实话有点小后悔用了 `@twist-space` 作为这个库的前缀名，因为本身这个库的使用方式就需要多级访问  
+我想过把 `@twist-space` 改成更短的名字比如 `@twist`，但是这个组织名已经被注册了，还是 `adobe` 公司使用的，但好在 `Vue` 的使用上我写了自动导入插件，
+所以稍微弥补了一下这点不足吧😂
+
+说了这么多，我觉得就像之前我说的一样，我依然是一位"学童"在蹒跚前行。
