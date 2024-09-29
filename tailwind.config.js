@@ -17,6 +17,7 @@ module.exports = {
     colors: {
       background: 'hsl(var(--background))',
       hover: 'hsl(var(--hover))',
+      hover2: 'hsl(var(--hover2))',
       icon: 'hsl(var(--icon))',
       primary: 'hsl(var(--primary))',
       secondary: 'hsl(var(--secondary))',

@@ -21,30 +21,30 @@ function Navbar() {
 
       <nav className="flex items-center gap-5 text-primary font-[500]">
         {/* PC */}
-        <Link className="hidden md:block hover:text-hover" href="/">
+        <Link className="hidden md:block hover:text-hover2 transition-all" href="/">
           Me
         </Link>
-        <Link className="hidden md:block hover:text-hover" href="/posts">
+        <Link className="hidden md:block hover:text-hover2 transition-all" href="/posts">
           Blog
         </Link>
-        <Link className="hidden md:block hover:text-hover" href="/projects">
+        <Link className="hidden md:block hover:text-hover2 transition-all" href="/projects">
           Projects
         </Link>
-        <Link className="hidden md:block hover:text-hover" href="/books">
+        <Link className="hidden md:block hover:text-hover2 transition-all" href="/books">
           Books
         </Link>
         {/* Mobile */}
-        <Link className="block md:hidden" href="/posts">
+        <Link className="block md:hidden hover:text-hover2 transition-all" href="/posts">
           <MiArticleOutline size={20} />
         </Link>
-        <Link className="block md:hidden" href="/projects">
+        <Link className="block md:hidden hover:text-hover2 transition-all" href="/projects">
           <SoLightbulbMinimalisticOutline size={20} />
         </Link>
-        <Link className="block md:hidden" href="/books">
+        <Link className="block md:hidden hover:text-hover2 transition-all" href="/books">
           <TaBrandBooking size={20} />
         </Link>
         {/* Universal */}
-        <a className="hover:text-hover" href="https://github.com/razzh7" target="_blank" rel="noreferrer">
+        <a className="hover:text-hover2 transition-all" href="https://github.com/razzh7" target="_blank" rel="noreferrer">
           <AiGithubFilled size={20} />
         </a>
         <ThemeButton
