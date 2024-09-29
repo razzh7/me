@@ -13,14 +13,14 @@ export interface PostsProps extends Post {
 
 let _cache:PostsProps[]
 
-export const getAllSortedPosts = () => {
+export const getAllSortedPosts = (type: 'blog' | 'logs' = 'blog') => {
   if (!_cache) {
     _cache = allPosts
       .map((post: Post) => {
         const { readtime, words } = readTime(post?.body?.code)
         const mouthDay = dayjs(post.date).format('MMM D')
         const year = dayjs(post.date).format('YYYY')
-        const updatedTime = post.updatedTime? dayjs(post.updatedTime).format('YYYY MMM D') : ''
+        const updatedTime = post.updatedTime ? dayjs(post.updatedTime).format('YYYY MMM D') : ''
 
         return {
           ...post,
@@ -39,6 +39,6 @@ export const getAllSortedPosts = () => {
       })
   }
 
-  return _cache
+  return _cache.filter((post: Post) => post.tech === type)
 }
 

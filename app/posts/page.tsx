@@ -6,24 +6,27 @@ import { getAllSortedPosts } from '@/util/post'
 import clsx from 'clsx'
 import type { PostsProps } from '@/util/post'
 
-interface Tech {
+interface Category {
   name: string
+  type: 'blog' | 'logs'
   selected: boolean
 }
 
 function PostsList() {
-  const [category, setCategory] = useState([
+  const [category, setCategory] = useState<Category[]>([
     {
       name: 'Blog',
+      type: 'blog',
       selected: true
+    },
+    {
+      name: 'Memoirs',
+      type: 'logs',
+      selected: false
     }
-    // {
-    //   name: 'Life',
-    //   selected: false
-    // }
   ])
-  const posts = getAllSortedPosts()
-  const handleTech = (item: Tech, idx: number) => {
+  const [posts, setPosts] = useState(() => getAllSortedPosts())
+  const handleTech = (item: Category, idx: number) => {
     setCategory(
       prevCategory => prevCategory.map((prevItem, prevIdx) => {
         if (prevIdx === idx) {
@@ -31,14 +34,14 @@ function PostsList() {
             ...prevItem,
             selected: true
           }
-        } else {
-          return {
-            ...prevItem,
-            selected: false
-          }
+        }
+        return {
+          ...prevItem,
+          selected: false
         }
       })
     )
+    setPosts(() => getAllSortedPosts(item.type))
   }
 
   const getNowYear = (date: string) => new Date(date).getFullYear()
@@ -47,13 +50,13 @@ function PostsList() {
 
   return (
     <Fragment>
-      <div className="flex gap-3 md:gap-5 md:mb-5">
+      <div className="flex items-center	gap-3 md:gap-5 md:mb-5">
         {
           category.map((item, idx) => (
             <span
               className={
                 clsx(
-                  'text-xl md:text-3xl hover:text-hover cursor-pointer font-[500]',
+                  'text-xl md:text-3xl hover:text-hover cursor-pointer font-[500] transition-all',
                   item.selected ? 'text-hover' : 'text-muted'
                 )
               }
@@ -81,8 +84,8 @@ function PostsList() {
                 }
                 <li className="mb-5">
                   <Link className="group md:flex items-center gap-2 cursor-pointer" href={`/posts/${item.id}`}>
-                    <div className="text-lg md:text-xl text-primary mb-1 group-hover:text-secondary">{item.title}</div>
-                    <div className="text-sm md:text-base text-muted group-hover:text-hover">
+                    <div className="text-lg md:text-xl text-primary mb-1 group-hover:text-secondary transition-all">{item.title}</div>
+                    <div className="text-sm md:text-base text-muted group-hover:text-hover transition-all">
                       {item.mouthDay} · {item.readtime}
                     </div>
                   </Link>
