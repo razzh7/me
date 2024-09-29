@@ -17,7 +17,7 @@ const OutLink = ({ link, children }: {link: string, children: React.ReactNode}) 
 const Home = () => (
   <div className="container px-5 py-10">
     <p className="font-[800] text-4xl text-secondary mb-7">Razzh</p>
-    <article className="text-base font-[500] leading-8 text-primary">
+    <article className="text-base font-[500] leading-8 text-primary slide-enter-content">
       <div>
         Hey, I am Razzh, a front developer, "ra" is the abbreviation of my hometown: Ruian Wenzhou, China.
         <p>

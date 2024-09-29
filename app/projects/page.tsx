@@ -7,6 +7,7 @@ import { SoPostsCarouselHorizontalBoldDuotone } from '@twist-space/react-icons/s
 import { AiCarOutlined } from '@twist-space/react-icons/ai'
 import { BiBarChartSteps } from '@twist-space/react-icons/bi'
 import { useTheme } from '@/hooks/useTheme'
+import type { CSSProperties } from 'react'
 
 function Projects() {
   const { theme } = useTheme()
@@ -104,16 +105,17 @@ function Projects() {
       <div className="max-w-5xl mx-auto">
         <div className="block md:flex md:flex-wrap md:gap-5 md:gap-y-10 p-[10px]">
           {
-            projectsInfo.map((item) => {
+            projectsInfo.map((item, idx) => {
               const { title, description, href, icon: Icon } = item
 
               return (
                 <a
-                  className="group flex items-center gap-5 w-[350px] max-w-full p-[10px] text-primary cursor-pointer hover:bg-muted2 hover:bg-opacity-10 rounded-md transition-all"
+                  className="slide-enter group flex items-center gap-5 w-[350px] max-w-full p-[10px] text-primary cursor-pointer hover:bg-muted2 hover:bg-opacity-10 rounded-md transition-all"
                   href={href}
                   target="_blank"
                   rel="noreferrer"
                   key={href}
+                  style={{ '--enter-stage': idx + 1 } as CSSProperties}
                 >
                   <div>
                     <Icon size={40} color={color} />

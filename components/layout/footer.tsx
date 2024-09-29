@@ -5,7 +5,7 @@ interface FooterProps {
 }
 function Footer({ className }: FooterProps) {
   return (
-    <div className={cn('my-5 mx-0 text-primary text-end', className)}>
+    <div className={cn('my-5 mx-0 text-primary text-end slide-enter', className)}>
       <p>
         <a
           href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
