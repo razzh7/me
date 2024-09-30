@@ -11,34 +11,46 @@ export interface PostsProps extends Post {
   words: string
 }
 
-let _cache:PostsProps[]
+const _cache:PostsProps[] = []
 
-export const getAllSortedPosts = (type: 'blog' | 'logs' = 'blog') => {
-  if (!_cache) {
-    _cache = allPosts
-      .map((post: Post) => {
-        const { readtime, words } = readTime(post?.body?.code)
-        const mouthDay = dayjs(post.date).format('MMM D')
-        const year = dayjs(post.date).format('YYYY')
-        const updatedTime = post.updatedTime ? dayjs(post.updatedTime).format('YYYY MMM D') : ''
+export const getAllSortedPosts = () => {
+  if (!_cache.length) {
+    allPosts.forEach((post: Post) => {
+      const { readtime, words } = readTime(post?.body?.code)
+      const mouthDay = dayjs(post?.date).format('MMM D')
+      const year = dayjs(post?.date).format('YYYY')
+      const updatedTime = post?.updatedTime ? dayjs(post.updatedTime).format('YYYY MMM D') : ''
 
-        return {
-          ...post,
-          id: post?._raw?.flattenedPath,
-          year,
-          mouthDay,
-          updatedTime,
-          readtime,
-          words
-        }
+      _cache.push({
+        ...post,
+        id: post?._raw?.flattenedPath,
+        year,
+        mouthDay,
+        updatedTime,
+        readtime,
+        words
       })
-      .sort(({ date: a }, { date: b }) => {
-        const timeA = new Date(a)
-        const timeB = new Date(b)
-        return timeB.getTime() - timeA.getTime()
-      })
+    })
+
+    _cache.sort(({ date: a }, { date: b }) => {
+      const timeA = new Date(a)
+      const timeB = new Date(b)
+      return timeB.getTime() - timeA.getTime()
+    })
   }
 
-  return _cache.filter((post: Post) => post.tech === type)
+  return _cache
+}
+
+export const postTimeHandler = (post: Post) => {
+  const { readtime } = readTime(post?.body?.code)
+  const mouthDay = dayjs(post?.date).format('MMM D')
+  const updatedTime = post?.updatedTime ? dayjs(post.updatedTime).format('YYYY MMM D') : ''
+
+  return {
+    readtime,
+    mouthDay,
+    updatedTime
+  }
 }
 

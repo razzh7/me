@@ -4,7 +4,7 @@ import Mdx from '@/components/mdx-components'
 import { getTableOfContents } from "@/util/toc"
 import DashboardTableOfContents from '@/components/toc'
 import { ScrollArea } from '@/components/scroll-area'
-import { getAllSortedPosts } from '@/util/post'
+import { postTimeHandler } from '@/util/post'
 
 interface PostPageProps {
   params: {
@@ -25,9 +25,9 @@ function getSpecialPost({ params }: PostPageProps) {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const post = await getSpecialPost({ params })!
-  const posts = getAllSortedPosts().find((post: Post) => post._raw.flattenedPath === params.slug)!
+  const post = await getSpecialPost({ params })
   if (!post) notFound()
+  const { mouthDay, readtime, updatedTime } = postTimeHandler(post)
   const toc = await getTableOfContents(post.body.raw)
 
   return (
@@ -35,8 +35,8 @@ export default async function PostPage({ params }: PostPageProps) {
       <div className="max-w-prose m-auto">
         <p className="text-4xl font-[800] text-secondary">{post.title}</p>
         <p className="mt-4 text-muted">
-          {posts.mouthDay} · {posts.readtime}
-          {posts.updatedTime ? ` · updated on ${posts.updatedTime}` : ''}
+          {mouthDay} · {readtime}
+          {updatedTime ? ` · updated on ${updatedTime}` : ''}
         </p>
       </div>
       <article className="py-6 lg:py-8">

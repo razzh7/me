@@ -5,6 +5,7 @@ import styles from '@/styles/posts.module.css'
 import { getAllSortedPosts } from '@/util/post'
 import clsx from 'clsx'
 import type { PostsProps } from '@/util/post'
+import { Post } from 'contentlayer/generated'
 
 interface Category {
   name: string
@@ -25,7 +26,10 @@ function PostsList() {
       selected: false
     }
   ])
-  const [posts, setPosts] = useState(() => getAllSortedPosts())
+  const [posts, setPosts] = useState(() =>
+    getAllSortedPosts()
+      .filter((post: Post) => post.tech === 'blog')
+  )
   const handleTech = (item: Category, idx: number) => {
     setCategory(
       prevCategory => prevCategory.map((prevItem, prevIdx) => {
@@ -41,7 +45,10 @@ function PostsList() {
         }
       })
     )
-    setPosts(() => getAllSortedPosts(item.type))
+    setPosts(() =>
+      getAllSortedPosts()
+        .filter((post: Post) => post.tech === item.type)
+    )
   }
 
   const getNowYear = (date: string) => new Date(date).getFullYear()
