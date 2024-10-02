@@ -25,7 +25,7 @@ function ImagePreview({ src, alt }: ImagePreviewProps) {
       {
         show ? (
           <div
-            className="fixed top-0 left-0 right-0 bottom-0 z-50 backdrop-blur-md image-preview"
+            className="fixed top-0 left-0 right-0 bottom-0 z-50 backdrop-blur-md image-preview border-none"
             onClick={() => setShow(false)}
           >
             <Image
