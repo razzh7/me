@@ -68,7 +68,7 @@
 @media (prefers-reduced-motion: no-preference) {
   [data-slide-enter],
   .slide-enter,
-  .slide-enter-content > * {
+  .slide-enter-content > *:not(:has(.image-preview)) {
     --enter-stage: 0;
     --enter-step: 60ms;
     --enter-initial: 0ms;
