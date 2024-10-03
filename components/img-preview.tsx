@@ -25,11 +25,11 @@ function ImagePreview({ src, alt }: ImagePreviewProps) {
       {
         show ? (
           <div
-            className="fixed top-0 left-0 right-0 bottom-0 z-50 backdrop-blur-md image-preview border-none"
+            className="fixed top-0 left-0 right-0 bottom-0 z-50 backdrop-blur-md image-preview transition-all"
             onClick={() => setShow(false)}
           >
             <Image
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain image-preview"
               src={src}
               alt={alt ? alt : 'image'}
               width={0}

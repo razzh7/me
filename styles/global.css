@@ -53,7 +53,11 @@
 }
 
 .image-preview {
+  margin: 0;
+  padding: 0;
   outline: none;
+  border: none;
+  box-shadow: none;
 }
 
 /** reference https://github.com/antfu/antfu.me/blob/main/src/styles/main.css#L90 */
