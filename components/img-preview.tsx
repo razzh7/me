@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 import { useState } from 'react'
-// import Image from 'next/image'
+import Image from 'next/image'
 
 interface ImagePreviewProps {
   src: string
@@ -12,11 +13,13 @@ function ImagePreview({ src, alt }: ImagePreviewProps) {
   return (
     <div className='my-5'>
       <div className="w-full h-auto">
-        <img
-          className="w-full h-auto cursor-pointer rounded md:rounded-md image-preview"
+        <Image
+          className="w-full h-auto cursor-pointer rounded md:rounded-md image-preview slide-enter"
           src={src}
           alt={alt ? alt : 'image'}
-
+          width={0}
+          height={0}
+          sizes="100vw"
           onClick={() => setShow(!show)}
         />
       </div>
@@ -30,7 +33,6 @@ function ImagePreview({ src, alt }: ImagePreviewProps) {
               className="w-full h-full object-contain image-preview"
               src={src}
               alt={alt ? alt : 'image'}
-
             />
           </div>
         ) : null

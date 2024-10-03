@@ -146,7 +146,7 @@ interface MdxProps {
 export default function Mdx({ code }: MdxProps) {
   const MDXComponent = useMDXComponent(code)
   return (
-    <div className='mdx'>
+    <div className='mdx slide-enter-content'>
       <MDXComponent components={components} />
     </div>
   )
