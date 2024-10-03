@@ -13,7 +13,7 @@ function ImagePreview({ src, alt }: ImagePreviewProps) {
     <div className='my-5'>
       <div className="relative w-full h-auto">
         <Image
-          className="w-full h-auto cursor-pointer rounded md:rounded-md slide-enter image-preview"
+          className="w-full h-auto cursor-pointer rounded md:rounded-md image-preview"
           src={src}
           alt={alt ? alt : 'image'}
           width={0}
