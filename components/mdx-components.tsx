@@ -2,9 +2,11 @@ import { useMDXComponent } from 'next-contentlayer/hooks'
 import { cn } from '@/util/merge'
 import ImagePreview from '@/components/img-preview'
 import MdxPre from '@/components/mdx-pre'
+import VideoPlayer from './video'
 
 const components = {
   ImagePreview,
+  VideoPlayer,
   pre: MdxPre,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
