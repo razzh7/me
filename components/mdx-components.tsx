@@ -3,10 +3,12 @@ import { cn } from '@/util/merge'
 import ImagePreview from '@/components/img-preview'
 import MdxPre from '@/components/mdx-pre'
 import VideoPlayer from './video'
+import YouTubeEmbed from './youtube-embed'
 
 const components = {
   ImagePreview,
   VideoPlayer,
+  YouTubeEmbed,
   pre: MdxPre,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1

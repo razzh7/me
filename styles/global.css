@@ -61,6 +61,12 @@
   box-shadow: none;
 }
 
+iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
 /** reference https://github.com/antfu/antfu.me/blob/main/src/styles/main.css#L90 */
 @keyframes slide-enter {
   0% {
