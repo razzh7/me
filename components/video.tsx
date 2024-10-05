@@ -30,7 +30,7 @@ const VideoPlayer: FC<PlayerProps> = (props) => {
 
 
   return (
-    <div id={id} className='rounded-lg box-border border border-muted backdrop-blur' />
+    <div id={id} className='rounded-lg box-border border border-round backdrop-blur' />
   )
 }
 
