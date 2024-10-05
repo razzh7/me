@@ -7,7 +7,7 @@ export interface PostContent {
   htmlContent: string
   readtime: string
   words: string | number
-  tech: string
+  category: string
   length?: number
 }
 

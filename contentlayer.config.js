@@ -21,7 +21,7 @@ export const Post = defineDocumentType(() => ({
       type: 'string',
       required: true
     },
-    tech: {
+    category: {
       type: 'string',
       required: true
     },

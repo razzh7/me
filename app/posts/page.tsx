@@ -1,55 +1,26 @@
 'use client'
-import { Fragment, useState, type CSSProperties } from 'react'
+import { useState, useEffect, Fragment, type CSSProperties } from 'react'
 import Link from 'next/link'
 import styles from '@/styles/posts.module.css'
 import { getAllSortedPosts } from '@/util/post'
 import clsx from 'clsx'
 import type { PostsProps } from '@/util/post'
 import { Post } from 'contentlayer/generated'
-
-interface Category {
-  name: string
-  type: 'blog' | 'logs'
-  selected: boolean
-}
+import { useCategory } from '@/hooks/useCategory'
 
 function PostsList() {
-  const [category, setCategory] = useState<Category[]>([
-    {
-      name: 'Blog',
-      type: 'blog',
-      selected: true
-    },
-    {
-      name: 'Memoirs',
-      type: 'logs',
-      selected: false
-    }
-  ])
+  const { categories, setSelectedCategory } = useCategory()
   const [posts, setPosts] = useState(() =>
     getAllSortedPosts()
-      .filter((post: Post) => post.tech === 'blog')
+      .filter((post: Post) => post.category === 'blog')
   )
-  const handleTech = (item: Category, idx: number) => {
-    setCategory(
-      prevCategory => prevCategory.map((prevItem, prevIdx) => {
-        if (prevIdx === idx) {
-          return {
-            ...prevItem,
-            selected: true
-          }
-        }
-        return {
-          ...prevItem,
-          selected: false
-        }
-      })
-    )
-    setPosts(() =>
-      getAllSortedPosts()
-        .filter((post: Post) => post.tech === item.type)
-    )
-  }
+
+  useEffect(() => {
+    const selectedCategory = categories.find(cat => cat.selected)
+    if (selectedCategory) {
+      setPosts(() => getAllSortedPosts().filter((post: Post) => post.category === selectedCategory.type))
+    }
+  }, [categories])
 
   const getNowYear = (date: string) => new Date(date).getFullYear()
 
@@ -59,7 +30,7 @@ function PostsList() {
     <Fragment>
       <div className="flex items-center	gap-3 md:gap-5 md:mb-5">
         {
-          category.map((item, idx) => (
+          categories.map((item) => (
             <span
               className={
                 clsx(
@@ -68,7 +39,7 @@ function PostsList() {
                 )
               }
               key={item.name}
-              onClick={() => handleTech(item, idx)}
+              onClick={() => setSelectedCategory(item.type)}
             >
               {item.name}
             </span>
