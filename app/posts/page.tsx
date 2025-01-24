@@ -1,12 +1,18 @@
 'use client'
 import { useState, useEffect, Fragment, type CSSProperties } from 'react'
-import Link from 'next/link'
 import styles from '@/styles/posts.module.css'
 import { getAllSortedPosts } from '@/util/post'
 import clsx from 'clsx'
 import type { PostsProps } from '@/util/post'
 import { Post } from 'contentlayer/generated'
 import { useCategory } from '@/hooks/useCategory'
+import { AiBilibiliOutlined as BIcon } from '@twist-space/react-icons/ai'
+import Link from 'next/link'
+
+interface PageLinkProps {
+  item: PostsProps
+  children: React.ReactNode
+}
 
 function PostsList() {
   const { categories, setSelectedCategory } = useCategory()
@@ -26,6 +32,28 @@ function PostsList() {
 
   const isSameYear = (a: string, b: string) => a && b && getNowYear(a) === getNowYear(b)
 
+  const PageLink = (props: PageLinkProps) => {
+    const { item } = props
+
+    if (item.link) {
+      return (
+        <a
+          href={item.link}
+          className="group md:flex items-center gap-2 cursor-pointer"
+          target='_blank'>
+          {props.children}
+        </a>
+      )
+    }
+
+    return (
+      <Link
+        href={`/posts/${item.id}`}
+        className="group md:flex items-center gap-2 cursor-pointer">
+        {props.children}
+      </Link>
+    )
+  }
   return (
     <Fragment>
       <div className="flex items-center	gap-3 md:gap-5 md:mb-5">
@@ -67,12 +95,18 @@ function PostsList() {
                   className="mb-5 slide-enter"
                   style={{ '--enter-stage': idx + 1 } as CSSProperties}
                 >
-                  <Link className="group md:flex items-center gap-2 cursor-pointer" href={`/posts/${item.id}`}>
+                  <PageLink item={item}>
                     <div className="text-lg md:text-xl text-primary mb-1 group-hover:text-secondary transition-all">{item.title}</div>
                     <div className="text-sm md:text-base text-muted group-hover:text-hover transition-all">
-                      {item.mouthDay} · {item.readtime}
+                      <span className='flex gap-1'>
+                        {item.mouthDay} · {item.link ? (
+                          <i className='flex justify-items-center items-center'>
+                            <BIcon size={20} />
+                          </i>
+                        ) : item.readtime}
+                      </span>
                     </div>
-                  </Link>
+                  </PageLink>
                 </li>
               </div>
             ))
