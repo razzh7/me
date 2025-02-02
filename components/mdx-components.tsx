@@ -4,11 +4,13 @@ import ImagePreview from '@/components/img-preview'
 import MdxPre from '@/components/mdx-pre'
 import VideoPlayer from './video'
 import YouTubeEmbed from './youtube-embed'
+import Divider from './divider'
 
 const components = {
   ImagePreview,
   VideoPlayer,
   YouTubeEmbed,
+  Divider,
   pre: MdxPre,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
