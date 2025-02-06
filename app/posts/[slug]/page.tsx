@@ -20,6 +20,12 @@ export async function generateMetadata({ params }: PostPageProps) {
   }
 }
 
+export async function generateStaticParams() {
+  return allPosts.map((post) => ({
+    slug: post._raw.flattenedPath
+  }))
+}
+
 function getSpecialPost({ params }: PostPageProps) {
   return allPosts.find((post: Post) => post._raw.flattenedPath === params.slug)
 }
