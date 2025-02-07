@@ -34,7 +34,7 @@ category: blog
 - 依赖明确，不需要关注依赖引入的顺序问题
 
 ## IIFE
-```js
+```js showLineNumbers
 // 自执行函数模拟模块化
 
 // Person 模块
@@ -80,7 +80,7 @@ category: blog
 
 `AMD` ，异步模块定义（Asynchronous Module Definition），它的特点是**依赖前置**，依赖必须在最先定义好，等到异步加载完成这些依赖后会**立刻执行**这些依赖代码。
 
-```js
+```js showLineNumbers
 // 依赖必须一开始就写好
 define(['./a', './b'], function (a, b) {
   a.doSomething()
@@ -93,7 +93,7 @@ define(['./a', './b'], function (a, b) {
 
 `CMD` ，通用模块定义（Common Module Definition），它的特点是**就近依赖**，也就是什么时候 `require` ，就什么时候执行依赖代码。
 
-```js
+```js showLineNumbers
 define(function (require, exports, module) {
   var a = require('./a')
   a.doSomething()
@@ -113,13 +113,13 @@ define(function (require, exports, module) {
 
 `CommonJS` 模块中，通过 `require` 导入模块，通过 `exports/modeule.exports`来导出。
 
-```js
+```js showLineNumbers
 // 导入
 const sum = require('./add.js')
 console.log(sum(2, 3)) // 5
 ```
 
-```js
+```js showLineNumbers
 // 导出
 module.exports = {
   sum
@@ -130,7 +130,7 @@ exports.sum = sum
 
 其内在机制是将 `exports` 指向了 `module.exports` ，而 `module.exports` 在初始化时是一个空对象。我们可以简单地理解为，`CommonJS` 在每个模块的首部默认添加了以下代码：
 
-```js
+```js showLineNumbers
 var module = {
   exports: {}
 }
@@ -158,7 +158,7 @@ var exports = module.exports
 
 ESModule 是 ES6 的模块化规范，它的特点是输出的是值的引用，脚本执行时，根据引用，到模块里面取值，若原始值变了，`import` 加载的值也会跟着变）。[基本语法](https://zh.javascript.info/import-export)：
 
-```js
+```js showLineNumbers
 // export
 export { sum, sub, div, mult }
 // import
@@ -171,7 +171,7 @@ mult(2, 3)
 
 觉得上面看着太冗余，可以使用这样的写法：
 
-```js
+```js showLineNumbers
 // export
 export { sum, sub, div, mult }
 // import
@@ -183,8 +183,9 @@ myMath.mult(2, 3)
 ```
 
 ## UMD
+
 UMD 是一个兼容写法，一个开源模块可能会提供给 CommonJS 标准的项目中实现，也可能提供给 AMD 标准的项目使用, UMD 应运而生。
-```js
+```js showLineNumbers
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) { // AMD
     define(['person'], factory)

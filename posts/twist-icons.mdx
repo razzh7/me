@@ -129,7 +129,7 @@ import { AiBook } from '@twist-space/react-icons/ai'
 2. 在 `for` 循环中使用了过多的写入操作是不合理的，它会严重拖慢 `icon` 文件的生成速度  
 
 举个例子：
-```js
+```js showLineNumbers
 import fs from 'fs'
 
 for(let i = 0; i < 10000; i++) {

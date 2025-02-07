@@ -17,7 +17,7 @@ category: blog
 
 先看构图部分：
 
-```vue
+```vue showLineNumbers
 <template>
   <div class="el-switch is-checked">
     <input class="el-switch__input" />
@@ -31,7 +31,7 @@ category: blog
 
 switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体样式采用了 `BEM` 的规范。源码中的样式都是通过 `useNameSpace` 这个方法来生成 BEM 样式的，这里我将样式名字抽离出来，比较好看清楚一些。
 
-```vue
+```vue showLineNumbers
 <template>
   <div class="el-switch is-checked" @click.prevent="switchValue"></div>
 </template>
@@ -41,7 +41,7 @@ switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体�
 
 ## 人机交互设计
 
-```vue
+```vue showLineNumbers
 <template>
   <input
     :id="inputId"
@@ -78,7 +78,7 @@ switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体�
 
 在按下 tab 键的时候，可以发现 switch 的边框变亮了，源码中使用了伪类选择器中的 focus-visible 来实现：
 
-```scss
+```scss showLineNumbers
 .el-switch__input {
   position: absolute;
   width: 0;
@@ -101,7 +101,7 @@ switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体�
 
 ## 切换按钮
 
-```vue
+```vue showLineNumbers
 <template>
   <span class="el-switch__action"></span>
 </template>
@@ -109,7 +109,7 @@ switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体�
 
 这里是 switch 切换动作的动画标签，相关类名：`el-switch__core`。
 
-```scss {14}
+```scss showLineNumbers {14}
 .el-switch {
   display: inline-flex;
   align-items: center;
@@ -150,7 +150,7 @@ switch 的大致的 HTML 结构是这样的，我们知道 element-plus 整体�
 
 在逻辑方面首先定义了组件的名字
 
-```ts
+```ts showLineNumbers
 <script setup lang="ts">
 defineOptions({
   name: 'ElSwitch'
@@ -162,7 +162,7 @@ defineOptions({
 
 接下来定义 `props` 和 `emit` :
 
-```js
+```js showLineNumbers
 const props = defineProps(switchProps)
 const emit = defineEmits(switchEmits)
 ```
@@ -179,7 +179,7 @@ const emit = defineEmits(switchEmits)
 
 这里展示的属性不全，但其余属性都是类似的实现方式。先来看如下代码：
 
-```js {1,17}
+```js showLineNumbers {1,17}
 const isControlled = ref(props.modelValue !== false)
 watch(
   () => props.modelValue,
@@ -213,7 +213,7 @@ const checked = computed(() => modelValue.value === props.activeValue)
 
 ## 用户点击时
 
-```js
+```js showLineNumbers
 const switchValue = () => {
   if (switchDisabled.value) return
 
@@ -229,7 +229,7 @@ const switchValue = () => {
 
 先看 handleChange 方法：
 
-```js {2}
+```js showLineNumbers {2}
 const handleChange = () => {
   const val = checked.value ? props.inactiveValue : props.activeValue
   emit(UPDATE_MODEL_EVENT, val) // 帮助父组件更新modelValue的值
@@ -244,7 +244,7 @@ const handleChange = () => {
 
 定义了 val 值，从[官网](https://element-plus.org/zh-CN/component/switch.html#%E5%B1%9E%E6%80%A7)可以看到，绑定值 `modelValue` 等于 `inactiveValue` 和 `activeValue` 中的其中之一，在 checked 被选中的时候，这里却选择了 `inactiveValue` ，而不是 `activeValue` ，当初我看到的时候比较困惑。为什么要这样写呢？看个小例子：
 
-```vue
+```vue showLineNumbers
 <script setup>
 import { ref } from 'vue'
 const data = ref(true)
@@ -261,7 +261,7 @@ const test = val => {
 
 ## beforeChange 钩子函数
 
-```js {8,15,25}
+```js showLineNumbers {8,15,25}
 const { beforeChange } = props
 const shouldChange = beforeChange()
 
@@ -299,7 +299,7 @@ if (isPromise(shouldChange)) {
 
 ## 剩余 style 相关 Props
 
-```js
+```js showLineNumbers
 const coreStyle =
   computed <
   CSSProperties >

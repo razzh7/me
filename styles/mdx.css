@@ -48,3 +48,32 @@
 [data-rehype-pretty-code-fragment] .line-highlighted span {
   @apply relative;
 }
+
+/** data line numbers */
+code[data-line-numbers] {
+  counter-reset: line;
+}
+ 
+code[data-line-numbers] > .line::before {
+  counter-increment: line;
+  content: counter(line);
+ 
+  /* Other styling */
+  display: inline-block;
+  width: 0.75rem;
+  margin-right: 2rem;
+  text-align: right;
+  color: rgb(102, 102, 102);
+}
+ 
+code[data-line-numbers-max-digits="2"] > .line::before {
+  width: 1.25rem;
+}
+ 
+code[data-line-numbers-max-digits="3"] > .line::before {
+  width: 1.75rem;
+}
+ 
+code[data-line-numbers-max-digits="4"] > .line::before {
+  width: 2.25rem;
+}

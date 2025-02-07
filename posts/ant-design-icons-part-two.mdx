@@ -9,7 +9,7 @@ category: blog
 ## Icons 入口文件生成
 代码还是位于 [gulpfile.ts](https://github.com/ant-design/ant-design-icons/blob/master/packages/icons-svg/gulpfile.ts) 入口文件中：
 
-```ts {2}
+```ts showLineNumbers {2}
 // 3.1 generate entry file: src/index.ts
 generateEntry({
   entryName: 'index.ts',
@@ -26,7 +26,7 @@ generateEntry({
 
 作者封装了一个函数，用于将 src下的 `asn` (Abstract Node)文件生成导出文件 index.ts，进到方法里面看看：
 
-```ts
+```ts showLineNumbers
 export const generateEntry = ({
   from,
   toDir,
@@ -52,7 +52,7 @@ export const generateEntry = ({
 
 ## AST To SVG File
 
-```ts
+```ts showLineNumbers
 // 3.2 generate inline SVG files
 generateInline({
   from: ['src/asn/*.ts'],
@@ -86,7 +86,7 @@ generateInline({
 
 仔细观察它们传入的参数只有 `renderOptions` 不同，这一点作者也给出了注释，是专门为了生成 SVG 的命名空间的，关于命名空间的作用可能是为了更好的兼容浏览器的解析器，避免出现不必要的错误。
 
-```ts
+```ts showLineNumbers
 export const generateInline = ({
   from,
   toDir,
@@ -107,7 +107,7 @@ export const generateInline = ({
 
 主要是使用了 `useRender` 函数对 src/ans/.ts 文件做处理：
 
-```ts
+```ts showLineNumbers
 export const useRender = ({
   getIconDefinitionFromSource,
   renderOptions
@@ -124,7 +124,7 @@ export const useRender = ({
 ```
 由于 `content` 是一个 SVGAST 字符串，所以需要使用 getIconDefinitionFromSource 函数中利用正则 `/({\s*".*});/` ，去匹配 `{"icon": {...}}`, 这样的内容，这个函数中有一个细节就是正则匹配到的是一个 String 类型的字符串，而我们需要的是对象类型的 SVGAST，作者使用了new Function 构造出了一个 SVGAST 对象，再使用 `renderIconDefinitionToSVGElement` 方法进行 **AST to SVG** 的操作。
 
-```ts
+```ts showLineNumbers
 function renderAbstractNodeToSVGElement(
   node: AbstractNode,
   options: HelperRenderOptions

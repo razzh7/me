@@ -15,7 +15,7 @@ category: blog
 
 ​	`Ant-Design-Icons4.x` 是一个 Lerna + TS 管理的多包仓库，里面集成了各个框架的 Icons 组件包，我们今天的主角 icons-svg，是专门用来解析 SVG 图标文件，并将其抽象为 AST 抽象节点树，就像这样：
 
-```ts
+```ts showLineNumbers
 // This icon file is generated automatically.
 
 import { IconDefinition } from '../types';
@@ -66,7 +66,7 @@ export default AppstoreTwoTone;
 
   可以看到提到了 gulp 命令，它是执行目录下的 [gulpfile.ts](https://github.com/ant-design/ant-design-icons/blob/master/packages/icons-svg/gulpfile.ts) 文件的命令，所以生成文件的入口就在这个文件中，我只截取了一部分代码
 
-```ts
+```ts showLineNumbers
 export const generateIcons = ({
   from,
   toDir,
@@ -105,7 +105,7 @@ export const generateIcons = ({
 
 ​  下一步就是将 SVG 转换成抽象节点树的过程了，也是生成 Icons 的核心方法，它在 plugins/svg2Definition/index.ts 文件中被导出：
 
-```ts
+```ts showLineNumbers
 import { createTrasformStream } from '../creator';
 import { ThemeType, AbstractNode } from '../../templates/types';
 import {
@@ -221,7 +221,7 @@ export const svg2Definition = ({
 
 ​  首先执行了 `createTrasformStream` 方法，将我们要执行的函数传入，`createTrasformStream` 本身是为了满足 gulp 的 `pipe` 管道方法的入参而封装的一个方法，其内部使用了闭包和 `through2` 包装了一个转换流(Transform)：
 
-```ts
+```ts showLineNumbers
 import through from 'through2';
 import File from 'vinyl';
 
@@ -245,7 +245,7 @@ export const createTrasformStream = (fn: (raw: string, file: File) => string) =>
 
 ​  回到pipe中，使用 applyTo 方法将 SVGString 绑定，可以让 pipe 中的方法会被自动传入 SVGString 参数，而 pipe 中组装的方法的执行结果会传递给下一个函数的形参中，正如作者注释中写到的从0 -> 1的过程，使用 `parseXML` 库将 SVGString 抽象成一个 Node 节点树：
 
-```ts
+```ts showLineNumbers
   {
     "type": "document",
     "children": [
@@ -271,7 +271,7 @@ export const createTrasformStream = (fn: (raw: string, file: File) => string) =>
 
 ​  接下来的 `element2AbstractNode` 方法，也是在这个文件中：
 
-```ts
+```ts showLineNumbers
 function element2AbstractNode({
   name,
   theme,
@@ -325,7 +325,7 @@ function element2AbstractNode({
 
   回归到代码中，首先使用了 applyTo 对 extraNodeTransformFactories 参数进行绑定，那么这个参数是什么东东？这个参数是在我们的入口文件 gulpfile.ts 中执行 `generateIcons` 方法传入的，文章的开头有贴出：
 
-```ts
+```ts showLineNumbers
   // 2.2 generate abstract node with the theme "filled"
   generateIcons({
     theme: 'filled',
@@ -350,7 +350,7 @@ function element2AbstractNode({
 
   我们在上面可以看到 `extraNodeTransformFactories` 数组，里面执行了`assignAttrsAtTag`，它在 plugins/svg2Definition/tranforms/creator.ts 中：
 
-```ts
+```ts showLineNumbers
 export function assignAttrsAtTag(
   tag: string,
   extraPropsOrFn:
@@ -383,7 +383,7 @@ export function assignAttrsAtTag(
 
   这个函数也是返回一个箭头函数，主要的作用是对 SVGAST 中的 attrs 对象中的属性进行改动，回到 `element2AbstractNode` 方法：
 
-```ts
+```ts showLineNumbers
 function element2AbstractNode({
   name,
   theme,
@@ -431,7 +431,7 @@ function element2AbstractNode({
 
   其中的 `map` 方法就是执行了分别 `extraNodeTransformFactories` 数组中的方法，`reduce`方法是将 applyTo 之后的值：
 
-```ts
+```ts showLineNumbers
 const SVGASt = {
   "tag": "svg",
   "attrs": { "viewBox": "0 0 1024 1024", "focusable": "false" },
@@ -448,14 +448,14 @@ const SVGASt = {
 
   传入 `extraTransformFn` 方法中执行，这样就可以对 AST 的 `attrs` 对象进行额外的修改操作，这样我们已经可以看到一个比较完整的 AST 结构了，接着下面的操作：
 
-```ts
+```ts showLineNumbers
 pipe(objOf('icon'), assoc('name', name), assoc('theme', theme)),
 defaultTo(JSON.stringify)(stringify)
 ```
 
   使用 `objof` 方法将 SVGAST 放到新对象的 icon 属性中，将新增 name、theme 属性，此时的数据结构就变成了这样：
 
-```ts
+```ts showLineNumbers
 const SVGASt = {
   icon: {
     "tag": "svg",
@@ -481,7 +481,7 @@ const SVGASt = {
 
   代码中的最后一个步骤 `defaultTo(JSON.stringify)(stringify)` 就是做的这件事，在入口文件 gulpfile.ts 中对于双色图标作者会传入 `twotoneStringify` 函数，而对于单色图标则是传入 `JSON.stringify` 来将对象转为 JSON 字符串：
 
-```ts
+```ts showLineNumbers
 {
   "icon": function render(primaryColor, secondaryColor) {
     return {

@@ -12,7 +12,7 @@ category: blog
 好像这样讲也是挺难理解的喔，下面直接上 [koa-compose 源码](https://github.com/koajs/compose/blob/master/index.js) ，来分析一下好像很难的“洋葱模型”。
 ## 解析洋葱模型源码
 
-```js
+```js showLineNumbers
 function compose (middleware) {
   if (!Array.isArray(middleware)) throw new TypeError('Middleware stack must be an array!')
   for (const fn of middleware) {
@@ -46,7 +46,8 @@ function compose (middleware) {
 ```
 
 就是这个 `compose` 函数了！除去前面的抛错代码，看似复杂的逻辑竟然就10多行代码！下面我们直接关注**核心逻辑**  
-```js {22,23}
+
+```js showLineNumbers {22,23}
 function compose (middleware) {
  // 返回一个闭包函数，返回 context 和 next 两个参数
   return function (context, next) {
@@ -80,8 +81,9 @@ function compose (middleware) {
 }
 ```
 可能你现在还是不怎么清楚，我们举个 🌰 来详细剖析
+
 ## 例子
-```js
+```js showLineNumbers
 const m1 = async (context, next) => {
   console.log('in-1')
   await next()

@@ -10,7 +10,7 @@ category: blog
 
 ## 实际应用
 
-```javascript
+```js showLineNumbers
 var vm = new Vue({
   el: '#app',
   template: '<div @click="addItem">{{list}}</div>',
@@ -30,7 +30,7 @@ var vm = new Vue({
 
 已经可以看到这个时候 `list` 中的第一项已经变成了 `a`，但页面视图却没有更新，可见通过数组索引修改内容并不能触发页面更新，所以这个时候 `Vue.set` 就该登场了:
 
-```javascript
+```js showLineNumbers
 var vm = new Vue({
   el: '#app',
   template: '<div @click="addItem">{{list}}</div>',
@@ -51,7 +51,7 @@ var vm = new Vue({
 
 顺着这个思路，我想到在生命周期 `created` 中通过下标修改数组的值，那么此时视图会变吗？
 
-```javascript
+```js showLineNumbers
 var vm = new Vue({
   el: '#app',
   template: '<div>{{list}}</div>',
@@ -71,7 +71,7 @@ var vm = new Vue({
 
 ## set 源码
 
-```js
+```js showLineNumbers
 function set(target, key, val) {
   if (process.env.NODE_ENV !== 'production' && (isUndef(target) || isPrimitive(target))) {
     warn(`Cannot set reactive property on undefined, null, or primitive value: ${target}`)
@@ -108,7 +108,7 @@ function set(target, key, val) {
 
 ## 数组处理
 
-```js
+```js showLineNumbers
 function set(target, key, val) {
   if (Array.isArray(target) && isValidArrayIndex(key)) {
     target.length = Math.max(target.length, key)
@@ -121,7 +121,7 @@ function set(target, key, val) {
 
 通过 `Array.isArray` 来判断 `target` 是否是数组，并验证 `key` 是否是数组下标，可能你会对 `splice` 之前对 `target.length` 赋值的操作感到困惑，这里举一个小案例
 
-```js
+```js showLineNumbers
 const key = 5
 const arr1 = [1, 2, 3]
 arr1.splice(key, 1, 666)
@@ -141,7 +141,7 @@ console.log(arr2) // [1, 2, 3, empty x 2, 666]
 
 ## 对象处理
 
-```js {6}
+```js showLineNumbers {6}
 function set(target, key, val) {
   if (key in target && !(key in Object.prototype)) {
     target[key] = val

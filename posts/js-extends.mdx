@@ -10,7 +10,7 @@ category: JS
 
 首先来说说 `Javascript` 中实现继承的基本方式，如下代码所示：
 
-```javascript
+```js showLineNumbers
 function SuperType() {
   this.superOwner = 'razzh'
   this.brand = ['Ford', 'Cadillac']
@@ -55,7 +55,7 @@ console.log(instance2.brand)
 
 这时，就需要介绍一下**借用继承**了：
 
-```javascript {18}
+```js showLineNumbers {18}
 function SuperType() {
   this.superOwner = arguments[0]
   this.brand = arguments[1]
@@ -94,7 +94,7 @@ console.log(instance2.brand)
 
 组合继承（combination inheritance），有时候也叫做**伪经典继承**。是将基本继承和借用构造函数的技术组合到一块，从而发挥二者之长的一种继承模式。
 
-```javascript
+```js showLineNumbers
 function SuperType() {
   this.superOwner = 'razzh'
   this.brand = ['Ford', 'Cadillac']
@@ -133,7 +133,7 @@ console.log(instance2.skill) // ['Ford', 'Cadillac']
 
 寄生组合式继承**避免了组合继承中调用两次父类构造函数**。
 
-```javascript
+```js showLineNumbers
 
 function SuperType() {
   this.superOwner = arguments[0]
@@ -166,7 +166,7 @@ console.log(instance.getBrand()) // ['Ford', 'Cadillac']
 
 ES6 中 `extends` 的出现，让我们能够轻松完成 ES5 中复杂的继承模式:
 
-```javascript
+```js showLineNumbers
 class SuperType {
   constructor(name) {
     this.superProperty = name
@@ -198,7 +198,7 @@ console.log(instance.getValue())
 
 前两条的实现原理实际上就是在子类中调用父类执行 `call/apply` 方法。
 第三条来看下例:
-```js
+```js showLineNumbers
 class Parent {
   render() {
     console.log('父类的render函数')
@@ -228,8 +228,9 @@ new Children().init()
 ```
 
 ### Bebel 转译后的 class
+
 在我们项目中的 `class` 类在打包的时候通常会被 `Bebel` 转译成 `ES5` 的代码:
-```js
+```js showLineNumbers
 function _inherits(subClass, superClass) {
   if (typeof superClass !== 'function' && superClass !== null) {
     throw new TypeError('Super expression must either be null or a function')

@@ -11,7 +11,7 @@ category: blog
 `var` 没有块级作用域，`let` 和 `const` 有 `块级作用域`
 用 `var` 声明变量：
 
-```js
+```js showLineNumbers
 for (var i = 0; i < 3; i++) {
   console.log(`循环内i的值:${i}`)
 }
@@ -27,7 +27,7 @@ console.log(`循环外i的值：${i}`)
 
 用 `let` 声明变量：
 
-```js
+```js showLineNumbers
 for (let i = 0; i < 3; i++) {
   console.log(`循环内i的值：${i}`)
 }
@@ -46,7 +46,7 @@ Uncaught ReferenceError: i is not defined
 只要使用了 let 和 const 声明的变量就会绑定这个**块级作用域**，不受外部影响  
 使用 `var` 来声明变量:
 
-```js
+```js showLineNumbers
 var a = 10
 if (true) {
   console.log(a) // 10
@@ -56,7 +56,7 @@ if (true) {
 
 使用 `let` 声明变量:
 
-```js
+```js showLineNumbers
 var a = 10
 if (true) {
   console.log(a)
@@ -67,7 +67,7 @@ if (true) {
 
 使用 `const` 声明变量:
 
-```js
+```js showLineNumbers
 var a = 10
 if (true) {
   console.log(a)
@@ -84,13 +84,13 @@ if (true) {
 
 `var` 声明的变量可以重复声明, `let` 和 `const` 声明的不可以重复声明
 
-```js
+```js showLineNumbers
 var a = 10
 var a = 20
 console.log(a) // 20
 ```
 
-```js
+```js showLineNumbers
 var a = 10
 let a = 20
 // const a = 20
@@ -102,13 +102,13 @@ console.log(a)
 
 `var` 和 `let` 声明的变量可以修改，但 `const` 声明的常量不能修改
 
-```js
+```js showLineNumbers
 var a = 10  || let a = 10
 a = 20
 console.log(a) // 20
 ```
 
-```js
+```js showLineNumbers
 const a = 10
 a = 20
 console.log(a)

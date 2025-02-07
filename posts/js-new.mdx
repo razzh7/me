@@ -9,7 +9,7 @@ category: blog
 - 使用 `call` 来执行 `new` 之后的构造函数，将其指向新创建的对象上
 - 返回函数执行结果或返回创建的对象
 
-```js
+```js showLineNumbers
 function create(fn) {
   var obj = {}
   obj.__proto__ = fn.prototype

@@ -10,7 +10,7 @@ category: blog
 `this` 指向的位置与**函数执行时的上下文**相关，来看具体例子。
 
 ## 默认绑定
-```js
+```js showLineNumbers
 function foo() {
   console.log(this.a)
 }
@@ -23,7 +23,7 @@ foo() // 2
 严格模式下，`this` 将指向 `undefined`。
 
 ## 隐式绑定
-```js
+```js showLineNumbers
 function foo() {
   console.log(this.a)
 }
@@ -39,7 +39,7 @@ obj.foo() // 2
 在 `foo` 函数被调用时，它前面加上了对 `obj` 的引用，当函数引用上下文对象时，隐式绑定规则会把函数调用中的 `this` 绑定到这个上下文对象。因为调用的 `foo()` 时 `this` 被绑定到 `obj`，因此 `this.a` 和 `obj.a` 是一样的。
 
 ## 对象嵌套
-```js
+```js showLineNumbers
 function foo() {
   console.log(this.a)
 }
@@ -59,7 +59,7 @@ obj1.obj2.foo() // 42
 对象属性引用链中只有上一层或者说是最后一层在函数调用位置中起作用。
 
 ## 隐式丢失
-```js
+```js showLineNumbers
 function foo() {
   console.log(this.a)
 }
@@ -76,7 +76,7 @@ bar() // 'oops, global'
 虽然 `bar` 是 `obj.foo` 的一个引用，但实际上，它引用的是 `foo` 函数本身在堆中的内存地址，因此此时的 `bar()` 其实是一个不带任何修饰的函数调用，因此应用了**默认绑定**。
 
 一种变相的情况：
-```js
+```js showLineNumbers
 function foo() {
   console.log(this.a)
 }
@@ -102,7 +102,7 @@ doFoo(obj.foo) // "oops, global"
 可以通过 `call`、`apply`、`bind` 等函数改变 `this` 指向。  
 
 2. API调用的上下文  
-```js {12}
+```js showLineNumbers {12}
 function foo(el) {
   console.log(el, this.id)
   // 1 'awesome' 
@@ -119,7 +119,8 @@ arr.forEach(foo, obj)
 一些原生方法中，可以通过传入参数的方式改变 `this` 指向，如果不传，默认指向的是 `window` 全局对象。
 
 ## new 绑定
-```js
+
+```js showLineNumbers
 function foo(a) {
   this.a = a
 }
@@ -134,8 +135,9 @@ console.log(bar.a) // 2
 - 返回函数执行结果或返回创建的对象
 
 ## this 指向优先级
+
 显式绑定 > 隐式绑定
-```js
+```js showLineNumbers
 function foo() {
   console.log(this.a)
 }
@@ -159,7 +161,7 @@ obj2.foo.call(obj1) // 2
 可以看到，显式绑定优先级更高。  
 
 `new` 绑定 > 隐式绑定  
-```js {18,19}
+```js showLineNumbers {18,19}
 function foo(something) {
   this.a = something
 }
@@ -183,7 +185,7 @@ console.log(bar.a) // 4
 可以看到 `new` 绑定的优先级比隐式绑定优先级高
 
 `new` 绑定和显式绑定的对比
-```js {15}
+```js showLineNumbers {15}
 function foo(something) {
   this.a = something
 }
@@ -202,19 +204,23 @@ console.log(baz.a) // 3
 ```
 在最后一行可以看到，硬绑定的 `this` 指向被改变了 `new` 绑定改变了。所以 `new` 绑定的 `this` 指向是大于硬性绑定的 `this` 指向的。  
 ## 被忽略的 this
+
 如果把 `null` 或 `undefined` 作为 `this` 的绑定对象传入 `call`、`apply` 或者 `bind`，这些值在调用时会被忽略，实际应用的是**默认绑定**规则：  
-```js
+
+```js showLineNumbers
 function foo() {
   console.log(this.a)
 }
 var a = 2
 foo.call(null) // 2
 ```
+
 那么什么情况会传入 `null` 作为参数呢？  
 
 一种非常常见的做法是 `apply` 来展开一个数组，并当作参数传入一个函数。
 类似地，`bind(...)` 可以对参数进行**柯里化**（预先设置一些参数），这种方法有时非常有用：
-```js
+
+```js showLineNumbers
 function foo(a, b) {
   console.log("a:" + a + ",b:" + b)
 }
@@ -229,7 +235,8 @@ bar(3) // a:2, b:3
 ```
 
 ## 间接引用
-```js
+
+```js showLineNumbers
 function foo() {
   console.log(this.a)
 }
@@ -244,7 +251,8 @@ o.foo() // 3
 
 ## 箭头函数 this 指向
 箭头函数的 `this` 指向由**函数所在的作用域即函数定义时父级作用域的 this 指向**来决定。来看一个普通函数的例子：
-```js
+
+```js showLineNumbers
 var name = 'window' // 其实是window.name = 'window'
 
 var A = {
@@ -270,7 +278,8 @@ A.sayHello.call() // window
 - 第二条应用了**硬绑定**规则，但没有将对象传入 `call` 中，`this` 默认指向 `window`  
 
 同样的例子，我们来看看箭头函数的 `this` 指向：
-```js
+
+```js showLineNumbers
 var name = 'window'
 
 var A = {
@@ -282,10 +291,12 @@ var A = {
 
 A.sayHello() // 还是以为输出A? 错啦，其实输出的是window!
 ```
+
 这里的箭头函数，也就是 `sayHello`，所在的作用域其实是最外层的 `JS` 环境，因为没有其他函数包裹；然后最外层的 `JS` 环境指向的对象是 `winodw` 对象，所以这里的 `this` 指向的是 `window` 对象。
 
 另外箭头函数的 `this` 指向不会被 `call`、`apply`、`bind` 改变：
-```js
+
+```js showLineNumbers
 var name = 'window'
 
 var A = {
@@ -303,6 +314,7 @@ A.sayHello.call(B) // window
 ```
 
 ## 总结
+
 如果要判断一个运行中函数的 `this` 绑定，就需要找到这个函数的直接调用位置。找到之后就可以顺序应用下面这四条规则来判断 `this` 的绑定对象。
 1. 由 `new` 调用？`this` 绑定到新创建的对象  
 2. 由 `call` 或者 `apply` (或者 `bind`)调用？`this` 绑定到指定对象  

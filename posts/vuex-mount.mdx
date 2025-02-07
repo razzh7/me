@@ -14,7 +14,7 @@ Vuex 是如何引入 Vue 项目的？
    2、使用 `Vue.use(Vuex)` ，将 Vuex 作为插件安装  
    3、实例化 `new Vuex.Store({...})` ，将其放入 `new Vue()` 的 options 中
 
-  ```js
+  ```js showLineNumbers
   import Vuex from 'vuex'
   import Vue from 'vue'
   Vue.use(Vuex)
@@ -35,7 +35,7 @@ Vuex 是如何引入 Vue 项目的？
 
 ## 解析 Vuex 的挂载过程
 
-```js {10,11,16}
+```js showLineNumbers {10,11,16}
 function initUse(Vue: GlobalAPI) {
   Vue.use = function (plugin: Function | Object) {
     // 插件缓存，若这个插件已被安装，那么直接返回Vue构造函数
@@ -69,7 +69,7 @@ function initUse(Vue: GlobalAPI) {
 
 来到 `Vuex` 的 `install` 方法:
 
-```js {13}
+```js showLineNumbers {13}
 let Vue
 function install (_Vue) {
   if (Vue && _Vue === Vue) {
@@ -88,7 +88,7 @@ function install (_Vue) {
 
 `install` 里面就执行了一个 `applyMixin` 方法，我们进去看看：
 
-```js
+```js showLineNumbers
 function applyMixin(Vue) {
   const version = Number(Vue.version.split('.')[0])
 
@@ -113,7 +113,7 @@ function applyMixin(Vue) {
 
 可以看到执行了 `Vue.mixin` 方法，将 `vuexInit` 这个方法放到了 `beforeCreate` 生命周期中传入了 **mixin** 方法中，这个方法会调用 `mergeOptions` 方法将其合并到 `Vue.options` 中，类似这样的代码：
 
-```js
+```js showLineNumbers
 Vue.options = {
   beforeCreate: [function vuexInit(){}],
   ...
@@ -129,7 +129,7 @@ Vue.options = {
 
 vuexInit 的执行，首先就是将 this.$options 赋值给了 options，这里其实有个问题，这个 `this` 是谁？我们知道 js 的 this 指向是通过运行时的环境决定的，所以我们需要知道  vuexInit **在哪里被执行**，通过前面的分析是在 beforeCreate hook 执行的时候，来到代码中：
 
-```js
+```js showLineNumbers
 function callHook(vm: Component, hook: string) {
   pushTarget();
   const handlers = vm.$options[hook];
@@ -168,7 +168,7 @@ function invokeWithErrorHandling (
 
 代码块中高亮的那一行执行了 `invokeWithErrorHandling` 方法，我们可以在这个方法中看到 `handler` 就是我们的 `vuexInit` 方法，可以看到的是它们在被调用的时候用 `apply/call` 方法将 `vm` 实例传入，所以这个时候 `vuexInit` 方法中的 this 指向的是当前 `Vue` 的实例对象。回到 vuexinit 方法中：
 
-```js
+```js showLineNumbers
 function vuexInit() {
   const options = this.$options
   if (options.store) {
@@ -181,7 +181,7 @@ function vuexInit() {
 
 前面提到这时的 $options **已经有了Store实例**，那么有两个 if 分支，里面的逻辑大致相同，都是为了让 `vm.$store` 指向 `Store 实例` 。回想一下我们是怎么向 Vuex 派发内容的？
 
-```js
+```js showLineNumbers
 this.$store.commit('type', playload)
 ```
 
