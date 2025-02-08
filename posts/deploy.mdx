@@ -23,7 +23,7 @@ category: blog
 
 如果云服务器上还没安装docker，可以按照阿里云[文档](https://help.aliyun.com/zh/ecs/use-cases/install-and-use-docker) 提供的方法安装。
 
-`docker`的指令可以见[文档](https://docs.docker.com/reference/cli/docker/)
+`docker` 的指令可以见[文档](https://docs.docker.com/reference/cli/docker/)
 
 首先，我们需要使用 docker 拉取一个 Nginx 镜像：
 
@@ -118,13 +118,18 @@ docker  exec \
     acme.sh --deploy -d razzh.cn  --deploy-hook docker
 ```
 
-#### 测试 SSH
+#### 测试
+
+打开你的网站就可以看到
+
+<ImagePreview src='/img/ssh-https.webp' />
 
 证书只有3个月有效期，我们在第四步已经做了自动续期的操作，在证书快到期的时候 `acme.sh` 会自动续期。
 
+<ImagePreview src='/img/blog-certs.webp' />
 ### Nginx 配置
 
-`SSH` 证书已经部署完成，我们还需要配置 `Nginx` 来监听80和443接口，高亮的行必须跟 `docker` 中 `nginx` 中创建数据卷(映射)时的路径一致，网站也要替换成自己的。
+`SSL` 证书已经部署完成，我们还需要配置 `Nginx` 来监听80和443接口，高亮的行必须跟 `docker` 中 `nginx` 中创建数据卷(映射)时的路径一致，网站也要替换成自己的。
 
 ```nginx showLineNumbers {4,17,19,20,34}
 #/etc/conf/conf.d/razzh.cn.conf 
