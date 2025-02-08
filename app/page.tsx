@@ -19,36 +19,35 @@ const Home = () => (
     <p className="font-[800] text-4xl text-secondary mb-7">Razzh</p>
     <article className="text-base font-[500] leading-8 text-primary slide-enter-content">
       <div>
-        Hey, I am Razzh, a front developer, "ra" is the abbreviation of my hometown: Ruian Wenzhou, China.
-        <p>
-        "zzh" is the Chinese abbreviation of my name. My friends call me Xiǎoháo as my nickname.</p>
+        Hey, I am Robin, also known as Razzh, a front developer, "ra" is the abbreviation of my hometown: Ruian Wenzhou, China.
+        "zzh" is the Chinese abbreviation of my name. My friends call me Xiǎoháo as my nickname.
         <Divider />
         <div className="mx-0 my-5">
-          I have been paying attention to the cutting-edge technology in
-          <Text>front-end</Text>, use
+          I have been keeping up with cutting-edge
+          <Text>front-end</Text> technologies, and have used
           <Text>Vue</Text>
           and
           <Text>React</Text>
-          make some
+          to build
           <Text>
             <Link href="/projects" className="font-base text-secondary underline decoration-primary">
               projects
             </Link>
           </Text>
-          like:
+          like
           <Text>
             <a href="https://twist-icons-docs.vercel.app/" target="_blank" rel="noreferrer">Twist-Icons</a>
           </Text>.
-          And now I study
+          In my leisure time, I am also exploring the
           <Text>back-end</Text>
-          ecosystem in leisure time, such as Node.js, Java.
+          ecosystem, including Node.js and Java.
         </div>
       </div>
       <Divider />
       <div>
-        Outside of programming, I enjoy guiter solo and piano music in
-        <Text>bilibili</Text>,
-        playing esports matches.
+        Outside of programming, I enjoy guitar solos and piano music on
+        <Text>Bilibili</Text>,
+        playing esports, and watching TV dramas.
       </div>
       <Divider />
       <div>
