@@ -1,0 +1,226 @@
+---
+title: docker 部署博客至阿里云
+date: 2025-02-07
+category: blog
+---
+
+## 写在之前
+
+本文主要记录了作者如何部署当前博客到云服务器的过程，分为以下两个阶段：
+
+- `acme.sh` 为 `docker` 中的 `Nginx` 添加 SSL 证书
+- `Github Actions` 任务流自动上传提交代码的打包版本至服务器指定目录
+
+整篇教程以 `docker` 为基础来部署博客至阿里云
+
+### acme.sh
+
+[acme.sh](https://github.com/acmesh-official/acme.sh)是 github 上的一个开源项目，目前以有41K🌟，acme 协议是 `Let’s Encrypt` 和其他 `CA` 机构使用的一种网络交互协议，用于自动验证网站/域名并颁发 SSL/TLS 证书。
+
+在签发证书后可同时创建定时任务，在证书将要过期时自动重新申请并部署，其还可以于 Nginx 或者 Apache 直接交互完成证书申请过程。
+
+### docker
+
+如果云服务器上还没安装docker，可以按照阿里云[文档](https://help.aliyun.com/zh/ecs/use-cases/install-and-use-docker) 提供的方法安装。
+
+`docker`的指令可以见[文档](https://docs.docker.com/reference/cli/docker/)
+
+首先，我们需要使用 docker 拉取一个 Nginx 镜像：
+
+```shell showLineNumbers
+docker container run \
+  -d \
+  --rm \
+  --name mynginx \
+  nginx
+docker container cp mynginx:/etc/nginx .
+mv nginx conf
+mkdir ./conf/certs
+mkdir html
+docker stop mynginx
+```
+
+这一步的作用是运行 docker 容器中的 nginx，复制 nginx 的目录文件至当前目录，并创建 `certs` 目录和 `html` 目录，目的是为后续与 docker 容器内的 nginx 做数据卷(映射)。
+
+`certs` 目录是用来在存放证书的目录，而 `html` 目录则是存放我们博客打包后资源的目录。
+
+```shell showLineNumbers
+docker container run \
+  --rm \
+  --name mynginx_1 \
+  --volume "$PWD/html":/usr/share/nginx/html \
+  --volume "$PWD/conf":/etc/nginx \
+  --label=sh.acme.autoload.domain=razzh.cn \
+  -p 80:80 \
+  -p 443:443 \
+  -d \
+  nginx
+```
+
+> 因为HTTP和HTTPS的默认端口是80和443，云服务器需要在安全组手动添加80和443端口，才能完成后续的成功访问。
+
+接下来，我们按照 `acme.sh` 提供的 [docker部署文档](https://github.com/acmesh-official/acme.sh/wiki/deploy-to-docker-containers) 来操作。
+
+```shell showLineNumbers
+docker container run \
+  --name mynginx_1 \
+  --volume "$PWD/html":/usr/share/nginx/html \
+  --volume "$PWD/conf":/etc/nginx \
+  --label=sh.acme.autoload.domain=razzh.cn \
+  -d \
+  nginx
+```
+
+文档中要求我们使用 `docker` 运行一个 `nginx`，并打上 `label` 标签，因为后续acme.sh在部署的时候需要用 `label` 去找到这个容器。
+
+#### 1. 向阿里云申请API
+
+在[这里](https://ak-console.aliyun.com/#/accesskey)简单的登录后，申请一个`AccessKey ID`和`Access Key Secret`，妥善保存。
+
+#### 2. 创建 acme.sh 容器
+
+下面的命令将在当前目录创建一个 `out` 目录存放一些证书文件，但我们将不会直接使用这些文件
+
+```shell showLineNumbers
+docker run --rm  -itd \
+    -v "$(pwd)/out":/acme.sh \
+    --net=host \
+    --name=acme.sh   \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    neilpang/acme.sh daemon
+```
+
+#### 3. 使用acme.sh申请证书
+
+将`Ali_Key`和`Ali_Secret`替换为你在本节第一步申请的 `AccessKey ID` 和 `Access Key Secret`，并将 `example.com` 替换为你的域名，执行，你会看到 `checking` 的字样，这时 `CA` 正在颁发证书，稍等两分钟，之后弹出 `success` 之类的提示词，那么说明，申请证书成功了！～
+
+`example.com` 一级域名和它的二级域名 `*.example.com`，都可以使用同一证书。
+
+```shell showLineNumbers
+docker  exec \
+    -e Ali_Key="你的Key" \
+    -e Ali_Secret="你的Secret"  \
+    acme.sh --issue -d example.com -d "*.example.com" --dns dns_ali --server letsencrypt
+```
+
+#### 4. 使用acme.sh自动部署证书
+
+注意，`sh.acme.autoload.domain`的值需要与你运行的 `nginx` 容器 `label` 值一致，并把**文件路径**、**域名**替换成自己的。
+
+```shell showLineNumbers
+docker  exec \
+    -e DEPLOY_DOCKER_CONTAINER_LABEL=sh.acme.autoload.domain=razzh.cn  \
+    -e DEPLOY_DOCKER_CONTAINER_KEY_FILE=/etc/nginx/certs/razzh.cn/key.pem   \
+    -e DEPLOY_DOCKER_CONTAINER_CERT_FILE="/etc/nginx/certs/razzh.cn/cert.pem"  \
+    -e DEPLOY_DOCKER_CONTAINER_CA_FILE="/etc/nginx/certs/razzh.cn/ca.pem"   \
+    -e DEPLOY_DOCKER_CONTAINER_FULLCHAIN_FILE="/etc/nginx/certs/razzh.cn/full.pem"  \
+    -e DEPLOY_DOCKER_CONTAINER_RELOAD_CMD="service nginx force-reload"   \
+    acme.sh --deploy -d razzh.cn  --deploy-hook docker
+```
+
+#### 测试 SSH
+
+证书只有3个月有效期，我们在第四步已经做了自动续期的操作，在证书快到期的时候 `acme.sh` 会自动续期。
+
+### Nginx 配置
+
+`SSH` 证书已经部署完成，我们还需要配置 `Nginx` 来监听80和443接口，高亮的行必须跟 `docker` 中 `nginx` 中创建数据卷(映射)时的路径一致，网站也要替换成自己的。
+
+```nginx showLineNumbers {4,17,19,20,34}
+#/etc/conf/conf.d/razzh.cn.conf 
+server {
+    listen       80;
+    server_name  razzh.cn;
+
+    #80跳转到443
+    rewrite ^(.*)$ https://${server_name}$1 permanent;
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name  razzh.cn;
+
+    ssl_certificate          /etc/nginx/certs/razzh.cn/full.pem;
+    ssl_certificate_key      /etc/nginx/certs/razzh.cn/key.pem;
+
+    ssl_session_timeout  5m;
+
+    #开启HSTS
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384;
+    #适时移除TLSv1.2
+    ssl_protocols TLSv1.3 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:SSL:10m;
+
+    location / {
+        root   /usr/share/nginx/html/blog/out;
+        index  index.html index.htm;
+    }
+
+}
+```
+
+保存好配置后，我们执行命令重启一下 `docker` 中的 `nginx` 即可
+
+```shell
+docker container restart mynginx_1
+```
+### Github Actions 部署
+
+要使用工作流，我们需要在项目跟目录下创建一个 `.github/workflows` 的目录并添加 `deploy.yml` 的文件，文件名可以随便起。
+
+```yml showLineNumbers
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    # 运行在ubuntu上
+    runs-on: ubuntu-latest
+
+    # 任务流步骤
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 安装NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install -g pnpm
+      - run: pnpm install
+      - run: pnpm build
+
+      - name: 部署博客
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.REMOTE_PASS }}
+          port: 22
+          # 本地打包后的目录
+          source: './out/'
+          # 服务器存放dist的目录
+          target: ${{ secrets.REMOTE_TARGET }}
+```
+为了安全性考虑，服务器的信息不能对外暴露，所以我们需要设置 `secrets` 变量，`secrets` 变量可在 `Github` 中的 **Settings -> Secrets and variables -> actions** 中配置。
+
+## 参考
+
+[全员docker化！使用docker中的acme.sh为docker中的Nginx添加SSL证书](https://blog.iyu.icu/posts/acmesh_docker/#)
+[Github Actions 文档](https://docs.github.com/zh/actions/writing-workflows/quickstart)
+
