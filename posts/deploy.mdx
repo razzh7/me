@@ -1,14 +1,14 @@
 ---
-title: docker 部署博客至阿里云
+title: acme.sh 申请 SSL 部署博客至阿里云
 date: 2025-02-07
 category: blog
 ---
 
 ## 写在之前
 
-本文主要记录了作者如何部署当前博客到云服务器的过程，分为以下两个阶段：
+本文主要记录了作者如何申请免费的 `SSL` 证书并部署当前博客到云服务器的过程，分为以下两个阶段：
 
-- `acme.sh` 为 `docker` 中的 `Nginx` 添加 SSL 证书
+- `acme.sh` 为 `docker` 中的 `Nginx` 添加 `SSL` 证书
 - `Github Actions` 任务流自动上传提交代码的打包版本至服务器指定目录
 
 整篇教程以 `docker` 为基础来部署博客至阿里云
@@ -75,11 +75,11 @@ docker container run \
 
 #### 1. 向阿里云申请API
 
-在[这里](https://ak-console.aliyun.com/#/accesskey)简单的登录后，申请一个`AccessKey ID`和`Access Key Secret`，妥善保存。
+在[这里](https://ak-console.aliyun.com/#/accesskey)简单的登录后，申请一个 `AccessKey ID` 和 `Access Key Secret`，妥善保存。
 
 #### 2. 创建 acme.sh 容器
 
-下面的命令将在当前目录创建一个 `out` 目录存放一些证书文件，但我们将不会直接使用这些文件
+下面的命令将在当前目录创建一个 `out` 目录存放一些证书文件，但我们将不会直接使用这些文件。
 
 ```shell showLineNumbers
 docker run --rm  -itd \
@@ -92,7 +92,7 @@ docker run --rm  -itd \
 
 #### 3. 使用acme.sh申请证书
 
-将`Ali_Key`和`Ali_Secret`替换为你在本节第一步申请的 `AccessKey ID` 和 `Access Key Secret`，并将 `example.com` 替换为你的域名，执行，你会看到 `checking` 的字样，这时 `CA` 正在颁发证书，稍等两分钟，之后弹出 `success` 之类的提示词，那么说明，申请证书成功了！～
+将 `Ali_Key` 和 `Ali_Secret` 替换为你在本节第一步申请的 `AccessKey ID` 和 `Access Key Secret`，并将 `example.com` 替换为你的域名，执行，你会看到 `checking` 的字样，这时 `CA` 正在颁发证书，稍等两分钟，之后弹出 `success` 之类的提示词，那么说明，申请证书成功了！～
 
 `example.com` 一级域名和它的二级域名 `*.example.com`，都可以使用同一证书。
 
@@ -201,7 +201,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm install -g pnpm
+      - run: npm install -g pnpm@10
       - run: pnpm install
       - run: pnpm build
 
@@ -217,10 +217,14 @@ jobs:
           # 服务器存放dist的目录
           target: ${{ secrets.REMOTE_TARGET }}
 ```
-为了安全性考虑，服务器的信息不能对外暴露，所以我们需要设置 `secrets` 变量，`secrets` 变量可在 `Github` 中的 **Settings -> Secrets and variables -> actions** 中配置。
+为了安全性考虑，服务器的信息不能对外暴露，所以我们需要设置 `secrets` 变量，`secrets` 变量可在 `Github` 中的 **Settings -> Secrets and variables -> actions** 中配置。  
+
+代码被 `push` 到 github 上时就会触发工作流执行这个脚本。  
+
+<ImagePreview src='/img/deploy-blog.webp' />
 
 ## 参考
 
-[全员docker化！使用docker中的acme.sh为docker中的Nginx添加SSL证书](https://blog.iyu.icu/posts/acmesh_docker/#)
+[全员docker化！使用docker中的acme.sh为docker中的Nginx添加SSL证书](https://blog.iyu.icu/posts/acmesh_docker/#)  
 [Github Actions 文档](https://docs.github.com/zh/actions/writing-workflows/quickstart)
 
