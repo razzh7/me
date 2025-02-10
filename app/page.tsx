@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Footer from '@/components/layout/footer'
 import { BiTwitterX } from '@twist-space/react-icons/bi'
 import { TiLogoGithub } from '@twist-space/react-icons/ti'
+import { AiBilibiliOutlined as BIcon } from '@twist-space/react-icons/ai'
 
 const Divider = () => <div className="w-[60px] h-[1px] mx-auto my-6 bg-muted"></div>
 const Text = ({ children }: {children: React.ReactNode}) => <span className="text-secondary mx-1">{children}</span>
@@ -56,6 +57,10 @@ const Home = () => (
           <OutLink link='https://github.com/razzh7'>
             <TiLogoGithub size={17} />
             Github
+          </OutLink>
+          <OutLink link='https://space.bilibili.com/281435222?spm_id_from=333.33.0.0'>
+            <BIcon size={17} />
+            Bilibili
           </OutLink>
           <OutLink link='https://twitter.com/razzhAvenir'>
             <BiTwitterX size={17} />
