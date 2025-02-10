@@ -99,22 +99,10 @@ export default function books() {
   ]
   const otherBook = [
     {
-      title: '时间从来不语，却回答了所有问题',
-      spine: '#E5CA9D',
+      title: '被讨厌的勇气',
+      spine: '#3090e6',
       tag: '',
-      cover: '/books/time.jpeg'
-    },
-    {
-      title: '停止你的内在战争',
-      spine: '#E45D42',
-      tag: '',
-      cover: '/books/stopwar.jpeg'
-    },
-    {
-      title: '百年孤独',
-      spine: '#543530',
-      tag: '',
-      cover: '/books/gd.jpeg'
+      cover: 'https://img9.doubanio.com/view/subject/l/public/s34348664.jpg'
     }
   ]
 
