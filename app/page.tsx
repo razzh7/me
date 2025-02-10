@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link'
 import Footer from '@/components/layout/footer'
-import { BiTwitterX } from '@twist-space/react-icons/bi'
+// import { BiTwitterX } from '@twist-space/react-icons/bi'
 import { TiLogoGithub } from '@twist-space/react-icons/ti'
 import { AiBilibiliOutlined as BIcon } from '@twist-space/react-icons/ai'
 
@@ -62,10 +62,10 @@ const Home = () => (
             <BIcon size={17} />
             Bilibili
           </OutLink>
-          <OutLink link='https://twitter.com/razzhAvenir'>
+          {/* <OutLink link='https://twitter.com/razzhAvenir'>
             <BiTwitterX size={17} />
             Twitter
-          </OutLink>
+          </OutLink> */}
         </p>
         <p className="leading-10">
           <span className="font-base text-secondary underline decoration-primary">Mail me at: razzhavenir@163.com</span>
