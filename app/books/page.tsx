@@ -102,7 +102,7 @@ export default function books() {
       title: '被讨厌的勇气',
       spine: '#3090e6',
       tag: '',
-      cover: 'https://img9.doubanio.com/view/subject/l/public/s34348664.jpg'
+      cover: '/books/courage.jpg'
     }
   ]
 
