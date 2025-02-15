@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 export default function books() {
   const reading = [
     {
-      title: 'JavaScript高级程序设计',
-      spine: '#9C1A31',
-      tag: 'JS',
-      cover: '/books/javascript.jpeg'
+      title: '被讨厌的勇气',
+      spine: '#3090e6',
+      tag: '',
+      cover: '/books/courage.jpg'
     }
   ]
   const frontBook = [
