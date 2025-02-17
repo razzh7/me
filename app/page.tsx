@@ -37,7 +37,7 @@ const Home = () => (
           </Text>
           like
           <Text>
-            <a href="https://twist-icons-docs.vercel.app/" target="_blank" rel="noreferrer">Twist-Icons</a>
+            <a href="https://icons.razzh.cn/" target="_blank" rel="noreferrer">Twist-Icons</a>
           </Text>.
           In my leisure time, I am also exploring the
           <Text>back-end</Text>
