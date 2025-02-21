@@ -6,6 +6,7 @@ import BackTop from '@/components/back-top'
 import { Analytics } from '@/components/analytics'
 import { type FC, type PropsWithChildren } from 'react'
 import AppProgressBar from '@/components/progress-bar'
+import { RecordsCode } from '@/components/records-code'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => (
   <ThemeProvider>
@@ -13,6 +14,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => (
     <Plum />
     <main className="px-7 py-10 of-x-hidden">
       {children}
+      <RecordsCode />
     </main>
     <BackTop />
     <Analytics />
