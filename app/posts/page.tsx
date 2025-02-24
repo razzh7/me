@@ -8,6 +8,7 @@ import { Post } from 'contentlayer/generated'
 import { useCategory } from '@/hooks/useCategory'
 import { AiBilibiliOutlined as BIcon } from '@twist-space/react-icons/ai'
 import Link from 'next/link'
+import Badge from '@/components/badge'
 
 interface PageLinkProps {
   item: PostsProps
@@ -59,18 +60,26 @@ function PostsList() {
       <div className="flex items-center	gap-3 md:gap-5 md:mb-5">
         {
           categories.map((item) => (
-            <span
-              className={
-                clsx(
-                  'text-xl md:text-3xl hover:text-hover cursor-pointer font-[500] transition-all',
-                  item.selected ? 'text-hover' : 'text-muted'
-                )
-              }
-              key={item.name}
-              onClick={() => setSelectedCategory(item.type)}
-            >
-              {item.name}
-            </span>
+            <div className="relative flex" key={item.name}>
+              <span
+                className={
+                  clsx(
+                    'text-xl md:text-3xl hover:text-hover cursor-pointer font-[500] transition-all',
+                    item.selected ? 'text-hover' : 'text-muted'
+                  )
+                }
+                onClick={() => setSelectedCategory(item.type)}
+              >
+                {item.name}
+              </span>
+              {item.tag ? (
+                <span className='absolute md:top-[-0.1rem] top-[-0.3rem] md:right-[-2.65rem] right-[-2.2rem]'>
+                  <Badge className='md:scale-[.7] scale-50'>
+                    生活
+                  </Badge>
+                </span>
+              ) : null}
+            </div>
           ))
         }
       </div>

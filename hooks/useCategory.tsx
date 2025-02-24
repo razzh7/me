@@ -10,6 +10,7 @@ type Category = {
   name: string;
   type: PostType;
   selected: boolean;
+  tag?: boolean;
 };
 
 interface CategoryContextType {
@@ -22,7 +23,7 @@ const CategoryContext = createContext<CategoryContextType | undefined>(undefined
 export const CategoryProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [categories, setCategories] = useState<Category[]>([
     { name: 'Blog', type: 'blog', selected: true },
-    { name: 'Memoirs', type: 'logs', selected: false }
+    { name: 'Memoirs', type: 'logs', selected: false, tag: true }
   ])
 
   const setSelectedCategory = (type: PostType) => {

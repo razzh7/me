@@ -29,7 +29,8 @@ module.exports = {
       code: 'hsl(var(--code))',
       hightlight: 'hsl(var(--highlight))',
       block: 'hsl(var(--block))',
-      link: 'hsl(var(--link))'
+      link: 'hsl(var(--link))',
+      badge: 'hsl(var(--badge))'
     },
     extend: {
       animation: {
