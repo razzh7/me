@@ -2,7 +2,7 @@
 title: 我的 Twist-Icons
 date: 2024-03-14
 category: blog
-updatedTime: 2024-09-22
+updatedTime: 2025-02-26
 ---
 
 今天来介绍一下我自己写的小家伙 [Twist-Icons](https://github.com/twist-space/twist-icons)，它是一个 `SVG` 图标库，可以在 `React`、`Vue3`、`Vue2` 中使用。具体使用方法可以在[文档](https://twist-icons-docs.vercel.app/)中看到，这篇文章主要是介绍一下这个项目的由来和一些灵感由来。
@@ -237,3 +237,36 @@ import { AiCiCircleFilled } from '@twistify/react-icons/ai';
 
 这次更新是因为我在使用 `Vue3` 写一个自己用的后台重度使用了 `twist-icons`，导入不够友好我是能够深刻体验到的，所以我下定决定进行了这次更新，现在的版本下不管是组件质量、还是使用体验上
 ，我觉得已经可以上生产环境了，我想 `v1.0.0` 版本是可以发布了。
+
+### 25.02.26
+
+今天在运行 `realease:all` 命令打包项目的时候出现了报错：
+
+<ImagePreview src='/img/twist-build-error.webp' />
+
+首先我来简单介绍一下 `realease:all` 这个命令的运行逻辑，在打包 `icons` 库之前，它会检查 `@iconify/json` 是否已经有新版本发布，如有发布，就会更新本地的 `iconify` 的包版本，随后打包各个版本的 `icons` 库。  
+
+从图中我们可以看到报错是指向 `@iconify/json@2.2.299` 这个旧版本，也就意味着打包时引用的是旧版本的方法，可是现在这个版本已经被更新成了 `2.2.310`。检查时我发现，打包脚本时使用了 iconify/json 提供的方法 `locate` 方法：
+
+```ts
+import { locate } from '@iconfiy/json'
+
+async function generateIconsModule(iconConfig) {
+  const { prefix } = iconConfig
+  const iconifyPath = await locate(prefix)
+  ...
+}
+```
+
+我想如果把 `locate` 方法从静态导入改成动态导入这个问题就能迎刃而解了。
+
+```ts
+import { importModule } from 'local-pkg'
+const { locate } = await importModule('@iconify/json')
+```
+
+这里用了一下 `antfu` 的包 [local-pkg](https://www.npmjs.com/package/local-pkg)。
+
+> 这里没有使用 `await import` 的方式是因为，这种动态导入方式 `ts` 编译要求 `module` 必须是 `esnext`，而我的目标配置是 `es6`。  
+
+修改完成后，以后的打包只需要一条指令就能帮我做完全部的事情，再也不需要担心报错啦。
