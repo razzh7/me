@@ -248,7 +248,7 @@ import { AiCiCircleFilled } from '@twistify/react-icons/ai';
 
 从图中我们可以看到报错是指向 `@iconify/json@2.2.299` 这个旧版本，也就意味着打包时引用的是旧版本的方法，可是现在这个版本已经被更新成了 `2.2.310`。检查时我发现，打包脚本时使用了 iconify/json 提供的方法 `locate` 方法：
 
-```ts
+```ts showLineNumbers
 import { locate } from '@iconfiy/json'
 
 async function generateIconsModule(iconConfig) {
@@ -260,9 +260,13 @@ async function generateIconsModule(iconConfig) {
 
 我想如果把 `locate` 方法从静态导入改成动态导入这个问题就能迎刃而解了。
 
-```ts
-import { importModule } from 'local-pkg'
-const { locate } = await importModule('@iconify/json')
+```ts showLineNumbers
+async function generateIconsModule(iconConfig) {
+  const { prefix } = iconConfig
+  const { locate } = await importModule('@iconify/json')
+  const iconifyPath = await locate(prefix)
+  ...
+}
 ```
 
 这里用了一下 `antfu` 的包 [local-pkg](https://www.npmjs.com/package/local-pkg)。
