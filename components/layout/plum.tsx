@@ -14,12 +14,12 @@ const Plum = () => {
   const r180 = Math.PI
   const r90 = Math.PI / 2
   const r15 = Math.PI / 12
+  const MIN_BRANCH = 30
   const color = '#88888825'
 
   const { random } = Math
   const [mouted, setMouted] = useState(false)
   const start = useRef<Fn>()
-  const init = useRef(4)
   const len = useRef(6)
   const stopped = useRef(false)
 
@@ -62,7 +62,6 @@ const Plum = () => {
 
   let steps: Fn[] = []
   let prevSteps: Fn[] = []
-  let iterations = 0
 
   let lastTime = performance.now()
   const interval = 1000 / 40
@@ -70,7 +69,6 @@ const Plum = () => {
   let controls: ReturnType<typeof useRafFn>
   const frame = () => {
     if (performance.now() - lastTime < interval) return
-    iterations += 1
     prevSteps = steps
     steps = []
     lastTime = performance.now()
@@ -78,7 +76,16 @@ const Plum = () => {
       controls.pause()
       stopped.current = true
     }
-    prevSteps.forEach(i => i())
+
+    // Execute all the steps from the previous frame
+    prevSteps.forEach(i => {
+      // 50% chance to keep the step for the next frame, to create a more organic look
+      if (random() < 0.5) {
+        steps.push(i)
+      } else {
+        i()
+      }
+    })
   }
   controls = useRafFn(frame)
   const renderPages = ['/', '/posts/', '/books/', '/projects/']
@@ -94,32 +101,50 @@ const Plum = () => {
     const { ctx } = initCanvas(canvas, size.width, size.height)
     const { width, height } = canvas
 
-    const step = (x: number, y: number, rad: number) => {
+    const step = (x: number, y: number, rad: number, counter: { value: number } = { value: 0 }) => {
       const length = random() * len.current
       const [nx, ny] = polar2cart(x, y, length, rad)
+      counter.value += 1
       ctx.beginPath()
       ctx.moveTo(x, y)
       ctx.lineTo(nx, ny)
       ctx.stroke()
       const rad1 = rad + random() * r15
       const rad2 = rad - random() * r15
+
+      // out of bounds
       if (nx < -100 || nx > size.width + 100 || ny < -100 || ny > size.height + 100) return
-      if (iterations <= init.current || random() > 0.5) steps.push(() => step(nx, ny, rad1))
-      if (iterations <= init.current || random() > 0.5) steps.push(() => step(nx, ny, rad2))
+
+      const rate = counter.value <= MIN_BRANCH
+        ? 0.8
+        : 0.5
+
+      // left branch
+      if (random() < rate) {
+        steps.push(() => step(nx, ny, rad1, counter))
+      }
+
+      if (random() < rate) {
+        steps.push(() => step(nx, ny, rad2, counter))
+      }
     }
+
+    /**
+   * 0.2 - 0.8
+   */
+    const randomMiddle = () => random() * 0.6 + 0.2
 
     start.current = () => {
       controls.pause()
-      iterations = 0
       ctx.clearRect(0, 0, width, height)
       ctx.lineWidth = 1
       ctx.strokeStyle = color
       prevSteps = []
       steps = [
-        () => step(random() * size.width, 0, r90),
-        () => step(random() * size.width, size.height, -r90),
-        () => step(0, random() * size.height, 0),
-        () => step(size.width, random() * size.height, r180)
+        () => step(randomMiddle() * size.width, -5, r90),
+        () => step(randomMiddle() * size.width, size.height + 5, -r90),
+        () => step(-5, randomMiddle() * size.height, 0),
+        () => step(size.width + 5, randomMiddle() * size.height, r180)
       ]
       if (size.width < 500) steps = steps.slice(0, 2)
       controls.resume()
