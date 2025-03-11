@@ -39,7 +39,7 @@ const Home = () => (
           <Text>
             <a href="https://icons.razzh.cn/" target="_blank" rel="noreferrer">Twist-Icons</a>
           </Text>.
-          In my leisure time, I am also exploring the
+          In my spare time, I am also exploring the
           <Text>back-end</Text>
           ecosystem, including Node.js and Java.
         </div>
