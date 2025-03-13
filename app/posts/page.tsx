@@ -1,11 +1,9 @@
 'use client'
-import { useState, useEffect, Fragment, type CSSProperties } from 'react'
+import { Fragment, type CSSProperties } from 'react'
 import styles from '@/styles/posts.module.css'
-import { getAllSortedPosts } from '@/util/post'
 import clsx from 'clsx'
 import type { PostsProps } from '@/util/post'
-import { Post } from 'contentlayer/generated'
-import { useCategory } from '@/hooks/useCategory'
+import { usePosts } from '@/hooks/usePosts'
 import { AiBilibiliOutlined as BIcon } from '@twist-space/react-icons/ai'
 import Link from 'next/link'
 import Badge from '@/components/badge'
@@ -16,18 +14,7 @@ interface PageLinkProps {
 }
 
 function PostsList() {
-  const { categories, setSelectedCategory } = useCategory()
-  const [posts, setPosts] = useState(() =>
-    getAllSortedPosts()
-      .filter((post: Post) => post.category === 'blog')
-  )
-
-  useEffect(() => {
-    const selectedCategory = categories.find(cat => cat.selected)
-    if (selectedCategory) {
-      setPosts(() => getAllSortedPosts().filter((post: Post) => post.category === selectedCategory.type))
-    }
-  }, [categories])
+  const { categories, setSelectedCategory, posts } = usePosts()
 
   const getNowYear = (date: string) => new Date(date).getFullYear()
 
