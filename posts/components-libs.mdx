@@ -10,7 +10,7 @@ updatedTime: 2024-08-05
 不知道各位是不是跟我有一样感受，在看组件库的代码的时候，还没有看逻辑代码，已经被他们的目录结构困惑住了，通常组件的目录长这样：
 
 
-```js
+```js showLineNumbers
 ├── __test__
 ├── demo
 └── style
@@ -38,13 +38,13 @@ updatedTime: 2024-08-05
 
 上述都是针对组件库**打包**后的字段，现代 Web 项目我们使用组件一般采用 `ESModule` 语法导入：
 
-```tsx
+```tsx showLineNumbers
 import { Button } from 'ui';
 ```
 
 实际上访问 `ui`，我们的系统会根据使用的语法类型，这里使用的是 `ESModule` 方式的导入，所以会去使用 `module` 字段去查找 `Button` 组件。导出的入口文件一般都长这样：
 
-```tsx
+```tsx showLineNumbers
 export * from './Button';
 // 或者
 export { default as Button } from './Button';
@@ -91,7 +91,7 @@ export { default as Button } from './Button';
 
 像 `antd` 的目录下就没有 `lock` 文件，我在它的 `package.json` 中找到了对应的命令：
 
-```json
+```json showLineNumbers
  "clean:lockfiles": "rimraf package-lock.json yarn.lock",
 ```
 
@@ -99,7 +99,7 @@ export { default as Button } from './Button';
 
 [element-plus](https://github.com/element-plus/element-plus) 的根目录下存在 `pnpm-lock.yaml` 和 `pnpm-workspace` 明显是一个 `pnpm` 管理的库，再观察它的 `package.json` 文件，它还细心的标明了包管理器的版本：
 
-```json
+```json showLineNumbers
 "packageManager": "pnpm@8.14.1"
 ```
 
@@ -117,13 +117,13 @@ export { default as Button } from './Button';
 
 package.json
 
-```json
+```json showLineNumbers
 "init": ".\\scripts\\init.sh"
 ```
 
 init.sh
 
-```shell
+```shell showLineNumbers
 cd site
 yarn
 
@@ -136,13 +136,13 @@ yarn build
 `init.sh` 脚本的作用就是在本地打包组件库的 `Icons`，为什么这么做？
 因为这意味着组件的代码引用 `Icon` 组件是通过相对路径引入的:
 
-```tsx
+```tsx showLineNumbers
 import IconLoading from '../../icon/react-icon/IconLoading';
 ```
 
 如果没有本地的 `Icon` 打包后的代码，那么我们在启动调试站点的时候就会报错。
 
-```json
+```json showLineNumbers
 "start": "concurrently npm:dev npm:dev:site",
 "dev": "arco-scripts dev:component ",
 "dev:site": "arco-scripts dev:site --port 9000"
@@ -156,7 +156,7 @@ import IconLoading from '../../icon/react-icon/IconLoading';
 
 这种 `CLI` 构建 的在组件库中也是比较常见的作法，`antd` 也同样使用了自家的构建工具 `antd-tools` 来构建组件库：
 
-```json
+```json showLineNumbers
 "compile": "npm run clean && antd-tools run compile"
 ```
 
@@ -168,14 +168,14 @@ import IconLoading from '../../icon/react-icon/IconLoading';
 
 package.json
 
-```json
+```json showLineNumbers
  "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C internal/metadata dev\""，
  "dev": "pnpm -C play dev"
 ```
 
 dev > package.json
 
-```json
+```json showLineNumbers
 {
   "name": "@element-plus/play",
   "private": true,

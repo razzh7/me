@@ -8,7 +8,7 @@ category: blog
 
 > es/Button
 
-```js
+```js showLineNumbers
 ├── __test__
 ├── demo
 └── style
@@ -33,7 +33,7 @@ category: blog
 
 以 [arco-scripts](https://www.npmjs.com/package/arco-scripts) 为例子，它在打包的时候就使用了 `tsc` 来打包组件
 
-```ts
+```ts showLineNumbers
 import tsc from 'node-typescript-compiler';
 
 function withTSC({ type, outDir, watch }: CompileOptions) {
@@ -56,7 +56,7 @@ function withTSC({ type, outDir, watch }: CompileOptions) {
 
 另外一种方式就是使用 `Babel` 来完成打包。
 
-```ts
+```ts showLineNumbers
 async function withBabel({ type, outDir, watch }: CompileOptions) {
   const tsconfig = getTSConfig();
   const targetPath = path.resolve(CWD, outDir);
@@ -193,7 +193,7 @@ async function withBabel({ type, outDir, watch }: CompileOptions) {
 
 介绍了这么多，举个例子：`arco-design-vue`：
 
-```ts
+```ts showLineNumbers
 const config: InlineConfig = {
   mode: 'production',
   build: {
@@ -248,7 +248,7 @@ const config: InlineConfig = {
 
 这里贴一下 `arco-scripts` 的例子
 
-```ts
+```ts showLineNumbers
 let config = {
   mode: 'production',
   entry: {
@@ -368,7 +368,7 @@ if (realProcessor) {
 
 > components/button/style
 
-```js
+```js showLineNumbers
 └── style
     ├── index.ts
     └── index.less（原始样式文件，.less 或者 .sass）
@@ -378,7 +378,7 @@ if (realProcessor) {
 
 > es/button/style
 
-```js
+```js showLineNumbers
 └── style
     ├── css.js（用于样式按需加载，文件内容类似：import './index.css'）
     ├── index.js（用于样式按需加载，文件内容类似：import './index.less'）
@@ -397,7 +397,7 @@ if (realProcessor) {
 
 **`{ "libraryName": "antd", style: "css" }`**
 
-```tsx
+```tsx showLineNumbers
 import { Button } from 'antd';
 ReactDOM.render(<Button>xxxx</Button>);
 
@@ -428,7 +428,7 @@ ReactDOM.render(<_button>xxxx</_button>);
 
 > `twist-scripts` 是我学习并模仿 `arco-scripts` 的源码后写的一个基于 `Vite` 的 `React` 组件打包库(`arco-scripts` 内置的是开发服务器是 `Webpack`)
 
-```ts
+```ts showLineNumbers
 const { css: cssConfig, asset: assetConfig, jsEntry: jsEntryConfig } = StyleConfig;
 
 // 拷贝资源文件到dist目录下
@@ -640,12 +640,12 @@ export function build() {
 
 5. 使用 `glob` 获取所有的 `Less` 文件路径，进行拼接，输出到 `dist` 目录下就像这样：
 
-   ```less
-   @import "../../es/Affix/style/index.less";
-   @import "../../es/Alert/style/index.less";
-   @import "../../es/Anchor/style/index.less";
-   @import "../../es/AutoComplete/style/index.less";
-   ```
+```less showLineNumbers
+@import "../../es/Affix/style/index.less";
+@import "../../es/Alert/style/index.less";
+@import "../../es/Anchor/style/index.less";
+@import "../../es/AutoComplete/style/index.less";
+```
 
 6. 对 `dist` 目录下的 index.less 入口文件使用 `less` 编译器进行编译，输出到 `dist` 目录下 `dist/index.css`，样式文件根据环境决定是否压缩，一般在生产环境下才会选择压缩。
 
