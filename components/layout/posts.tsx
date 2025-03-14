@@ -1,9 +1,10 @@
 'use client'
-import { useRouter, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { createContext, useMemo } from "react"
 import Badge from '@/components/badge'
 import { cn } from "@/util/merge"
 import { getAllSortedPosts, type PostsProps } from '@/util/post'
+import Link from 'next/link'
 import type { PropsWithChildren } from "react"
 
 type PostType = 'posts' | 'logs'
@@ -23,7 +24,6 @@ export const PostsContext = createContext<{ posts: PostsProps[] | null }>({
 })
 
 function PostsLayout({ children }: PropsWithChildren) {
-  const router = useRouter()
   const pathname = usePathname()
   const posts = useMemo<PostsProps[]>(() => pathname === '/posts/' ? postsBlog : postsLogs, [pathname])
   const categories = useMemo<Category[]>(() => [
@@ -43,17 +43,13 @@ function PostsLayout({ children }: PropsWithChildren) {
 
   const isSelected = (link: string) => pathname === `${link}/`
 
-  const handleClick = (link: string) => {
-    router.push(link)
-  }
-
   return (
     <PostsContext.Provider value={{ posts }}>
       {categoryRenderPage ? (
         <div className="flex items-center	gap-3 md:gap-5 md:mb-5">
           {
             categories.map((item) => (
-              <div className="relative flex" key={item.name}>
+              <Link href={item.link} className="relative flex" key={item.name}>
                 <span
                   className={
                     cn(
@@ -61,7 +57,6 @@ function PostsLayout({ children }: PropsWithChildren) {
                       isSelected(item.link) ? 'text-hover' : 'text-muted'
                     )
                   }
-                  onClick={() => handleClick(item.link)}
                 >
                   {item.name}
                 </span>
@@ -72,7 +67,7 @@ function PostsLayout({ children }: PropsWithChildren) {
                     </Badge>
                   </span>
                 ) : null}
-              </div>
+              </Link>
             ))
           }
         </div>
