@@ -1,4 +1,4 @@
-import { TiModeDark, TiSunny } from '@twist-space/react-icons/ti'
+import { TiModeDark, TiSunny } from '@twistify/react-icons/ti'
 
 interface ThemeButton {
   theme: 'dark' | 'light'

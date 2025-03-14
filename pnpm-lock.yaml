@@ -14,9 +14,9 @@ importers:
       '@radix-ui/react-scroll-area':
         specifier: ^1.0.5
         version: 1.0.5(@types/react-dom@18.0.10)(@types/react@18.0.26)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      '@twist-space/react-icons':
-        specifier: ^0.3.0
-        version: 0.3.0
+      '@twistify/react-icons':
+        specifier: ^1.0.4
+        version: 1.0.4(react@18.2.0)
       '@types/node':
         specifier: 18.11.18
         version: 18.11.18
@@ -830,8 +830,10 @@ packages:
   '@swc/helpers@0.5.2':
     resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==, tarball: https://registry.npmmirror.com/@swc/helpers/-/helpers-0.5.2.tgz}
 
-  '@twist-space/react-icons@0.3.0':
-    resolution: {integrity: sha512-CLQiL2DUnfKodxpymYKIV+JTCn9sxvNlGiAdrLs1uvd9gNNjlwLAOw1G4yNaWK3+5gJsd77T0+rvmr1UPCZQ8w==}
+  '@twistify/react-icons@1.0.4':
+    resolution: {integrity: sha512-sbCISZa2rOFiLyyXmmL0oSV7WT550G5V/jMbwjDePC85nkRp7sNnf3qshiQKmRQq5AytBNHyFzsHcpTHWZu6QQ==}
+    peerDependencies:
+      react: '*'
 
   '@types/acorn@4.0.6':
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==, tarball: https://registry.npmmirror.com/@types/acorn/-/acorn-4.0.6.tgz}
@@ -4530,7 +4532,9 @@ snapshots:
     dependencies:
       tslib: 2.4.1
 
-  '@twist-space/react-icons@0.3.0': {}
+  '@twistify/react-icons@1.0.4(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
 
   '@types/acorn@4.0.6':
     dependencies:
@@ -5346,7 +5350,7 @@ snapshots:
       eslint: 8.31.0
       eslint-import-resolver-node: 0.3.6
       eslint-import-resolver-typescript: 3.5.2(eslint-plugin-import@2.29.1(eslint@8.31.0))(eslint@8.31.0)
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@5.48.1(eslint@8.31.0)(typescript@4.9.4))(eslint-import-resolver-typescript@3.5.2(eslint-plugin-import@2.29.1(eslint@8.31.0))(eslint@8.31.0))(eslint@8.31.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@5.48.1(eslint@8.31.0)(typescript@4.9.4))(eslint-import-resolver-typescript@3.5.2)(eslint@8.31.0)
       eslint-plugin-jsx-a11y: 6.8.0(eslint@8.31.0)
       eslint-plugin-react: 7.33.2(eslint@8.31.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.31.0)
@@ -5376,7 +5380,7 @@ snapshots:
       debug: 4.3.4
       enhanced-resolve: 5.12.0
       eslint: 8.31.0
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@5.48.1(eslint@8.31.0)(typescript@4.9.4))(eslint-import-resolver-typescript@3.5.2(eslint-plugin-import@2.29.1(eslint@8.31.0))(eslint@8.31.0))(eslint@8.31.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@5.48.1(eslint@8.31.0)(typescript@4.9.4))(eslint-import-resolver-typescript@3.5.2)(eslint@8.31.0)
       get-tsconfig: 4.3.0
       globby: 13.1.3
       is-core-module: 2.13.1
@@ -5396,7 +5400,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.29.1(@typescript-eslint/parser@5.48.1(eslint@8.31.0)(typescript@4.9.4))(eslint-import-resolver-typescript@3.5.2(eslint-plugin-import@2.29.1(eslint@8.31.0))(eslint@8.31.0))(eslint@8.31.0):
+  eslint-plugin-import@2.29.1(@typescript-eslint/parser@5.48.1(eslint@8.31.0)(typescript@4.9.4))(eslint-import-resolver-typescript@3.5.2)(eslint@8.31.0):
     dependencies:
       array-includes: 3.1.7
       array.prototype.findlastindex: 1.2.4

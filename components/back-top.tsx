@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useWindowScroll } from 'react-use'
-import { SoRoundArrowUpOutline } from '@twist-space/react-icons/so'
+import { SoRoundArrowUpOutline } from '@twistify/react-icons/so'
 
 export default function Top() {
   const [show, setShow] = useState(false)

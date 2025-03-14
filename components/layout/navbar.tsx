@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import ThemeButton from './theme-button'
-import { AiGithubFilled } from '@twist-space/react-icons/ai'
+import { AiGithubFilled } from '@twistify/react-icons/ai'
 import { useTheme } from '@/hooks/useTheme'
-import { MiRainyLight, MiArticleOutline } from '@twist-space/react-icons/mi'
-import { SoLightbulbMinimalisticOutline } from '@twist-space/react-icons/so'
-import { TaBrandBooking } from '@twist-space/react-icons/ta'
-import { PhButterflyLight } from '@twist-space/react-icons/ph'
+import { MiRainyLight, MiArticleOutline } from '@twistify/react-icons/mi'
+import { SoLightbulbMinimalisticOutline } from '@twistify/react-icons/so'
+import { TaBrandBooking } from '@twistify/react-icons/ta'
+import { PhButterflyLight } from '@twistify/react-icons/ph'
 
 function Navbar() {
   const { theme, toggleTheme, darkColor, lightColor } = useTheme()

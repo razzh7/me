@@ -1,9 +1,9 @@
 "use client"
 import Link from 'next/link'
 import Footer from '@/components/layout/footer'
-// import { BiTwitterX } from '@twist-space/react-icons/bi'
-import { TiLogoGithub } from '@twist-space/react-icons/ti'
-import { AiBilibiliOutlined as BIcon } from '@twist-space/react-icons/ai'
+// import { BiTwitterX } from '@twistify/react-icons/bi'
+import { TiLogoGithub } from '@twistify/react-icons/ti'
+import { AiBilibiliOutlined as BIcon } from '@twistify/react-icons/ai'
 
 const Divider = () => <div className="w-[60px] h-[1px] mx-auto my-6 bg-muted"></div>
 const Text = ({ children }: {children: React.ReactNode}) => <span className="text-secondary mx-1">{children}</span>

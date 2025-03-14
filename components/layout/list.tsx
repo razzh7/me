@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { cn } from "@/util/merge"
 import styles from '@/styles/posts.module.css'
 import type { CSSProperties } from 'react'
-import { AiBilibiliOutlined as BIcon } from '@twist-space/react-icons/ai'
+import { AiBilibiliOutlined as BIcon } from '@twistify/react-icons/ai'
 import { useContext } from "react"
 import { PostsContext } from "@/components/layout/posts"
 
