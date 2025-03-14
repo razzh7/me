@@ -88,7 +88,7 @@ const Plum = () => {
     })
   }
   controls = useRafFn(frame)
-  const renderPages = ['/', '/posts/', '/books/', '/projects/']
+  const renderPages = ['/', '/posts/', '/books/', '/projects/', '/memoirs/']
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const isRender = useMemo(() => renderPages.includes(pathname), [pathname])
   const fn = async () => {
