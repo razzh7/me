@@ -49,7 +49,7 @@ function PostsLayout({ children }: PropsWithChildren) {
         <div className="flex items-center	gap-3 md:gap-5 md:mb-5">
           {
             categories.map((item) => (
-              <Link href={item.link} className="relative flex" key={item.name}>
+              <Link href={item.link} prefetch={false} className="relative flex" key={item.name}>
                 <span
                   className={
                     cn(

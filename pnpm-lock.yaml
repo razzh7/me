@@ -41,9 +41,6 @@ importers:
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
-      fastclick:
-        specifier: ^1.0.6
-        version: 1.0.6
       next:
         specifier: 14.1.0
         version: 14.1.0(@opentelemetry/api@1.7.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -84,9 +81,6 @@ importers:
       '@commitlint/config-angular':
         specifier: ^18.6.0
         version: 18.6.0
-      '@types/fastclick':
-        specifier: ^1.0.33
-        version: 1.0.33
       '@types/nprogress':
         specifier: ^0.2.0
         version: https://registry.npmmirror.com/@types/nprogress/-/nprogress-0.2.0.tgz
@@ -850,9 +844,6 @@ packages:
 
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==, tarball: https://registry.npmmirror.com/@types/estree/-/estree-1.0.5.tgz}
-
-  '@types/fastclick@1.0.33':
-    resolution: {integrity: sha512-9ozDtzt+22WVxpJvdoq1G24AWy6vUqu4utfbmpgU/i13vBtgOzLKtEPm3rLEHpzpooYKe+w/OxFFgOOGetlA9g==}
 
   '@types/hast@2.3.4':
     resolution: {integrity: sha512-wLEm0QvaoawEDoTRwzTXp4b4jpwiJDvR5KMnFnVodm3scufTlBOWRD6N1OBf9TZMhjlNsSfcO5V+7AF4+Vy+9g==}
@@ -1707,9 +1698,6 @@ packages:
 
   fast-shallow-equal@1.0.0:
     resolution: {integrity: sha512-HPtaa38cPgWvaCFmRNhlc6NG7pv6NUHqjPgVAkWGoB9mQMwYB27/K0CvOM5Czy+qpT3e8XJ6Q4aPAnzpNpzNaw==}
-
-  fastclick@1.0.6:
-    resolution: {integrity: sha512-cXyDBT4g0uWl/Xe75QspBDAgAWQ0lkPi/zgp6YFEUHj6WV6VIZl7R6TiDZhdOVU3W4ehp/8tG61Jev1jit+ztQ==}
 
   fastest-stable-stringify@2.0.2:
     resolution: {integrity: sha512-bijHueCGd0LqqNK9b5oCMHc0MluJAx0cwqASgbWMvkO01lCYgIhacVRLcaDz3QnyYIRNJRDwMb41VuT6pHJ91Q==}
@@ -4558,8 +4546,6 @@ snapshots:
 
   '@types/estree@1.0.5': {}
 
-  '@types/fastclick@1.0.33': {}
-
   '@types/hast@2.3.4':
     dependencies:
       '@types/unist': 2.0.6
@@ -5653,8 +5639,6 @@ snapshots:
   fast-loops@1.1.3: {}
 
   fast-shallow-equal@1.0.0: {}
-
-  fastclick@1.0.6: {}
 
   fastest-stable-stringify@2.0.2: {}
 
