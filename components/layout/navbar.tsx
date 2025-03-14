@@ -5,7 +5,7 @@ import { useTheme } from '@/hooks/useTheme'
 import { MiRainyLight, MiArticleOutline } from '@twistify/react-icons/mi'
 import { SoLightbulbMinimalisticOutline } from '@twistify/react-icons/so'
 import { TaBrandBooking } from '@twistify/react-icons/ta'
-import { PhButterflyLight } from '@twistify/react-icons/ph'
+import { PhButterfly } from '@twistify/react-icons/ph'
 
 function Navbar() {
   const { theme, toggleTheme, darkColor, lightColor } = useTheme()
@@ -42,7 +42,7 @@ function Navbar() {
           <MiArticleOutline size={20} />
         </Link>
         <Link className="block md:hidden hover:text-hover2 transition-all" href="/memoirs">
-          <PhButterflyLight size={20} />
+          <PhButterfly size={20} />
         </Link>
         <Link className="block md:hidden hover:text-hover2 transition-all" href="/projects">
           <SoLightbulbMinimalisticOutline size={20} />
