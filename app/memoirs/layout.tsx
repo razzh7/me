@@ -3,7 +3,7 @@ import Footer from '@/components/layout/footer'
 import { type PropsWithChildren } from 'react'
 import PostsLayout from '@/components/layout/posts'
 
-const Posts = ({ children }: PropsWithChildren) => (
+const MemoirsLayout = ({ children }: PropsWithChildren) => (
   <div className="max-w-prose m-auto">
     <PostsLayout>
       {children}
@@ -12,4 +12,4 @@ const Posts = ({ children }: PropsWithChildren) => (
   </div>
 )
 
-export default Posts
+export default MemoirsLayout
