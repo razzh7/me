@@ -49,11 +49,16 @@ function PostsLayout({ children }: PropsWithChildren) {
         <div className="flex items-center	gap-3 md:gap-5 md:mb-5">
           {
             categories.map((item) => (
-              <Link href={item.link} prefetch={false} className="relative flex" key={item.name}>
+              <Link
+                href={item.link}
+                onTouchStart={(e) => e.currentTarget.click()}
+                className="relative flex"
+                key={item.name}
+              >
                 <span
                   className={
                     cn(
-                      'text-xl md:text-3xl hover:text-hover cursor-pointer font-[500] transition-all',
+                      'relative z-20 text-xl md:text-3xl hover:text-hover cursor-pointer font-[500] transition-all',
                       isSelected(item.link) ? 'text-hover' : 'text-muted'
                     )
                   }
@@ -61,7 +66,7 @@ function PostsLayout({ children }: PropsWithChildren) {
                   {item.name}
                 </span>
                 {item.tag ? (
-                  <span className='absolute md:top-[-0.1rem] top-[-0.3rem] md:right-[-2.65rem] right-[-2.2rem]'>
+                  <span className='absolute z-10 md:top-[-0.1rem] top-[-0.3rem] md:right-[-2.65rem] right-[-2.2rem]'>
                     <Badge className='md:scale-[.7] scale-50'>
                       生活
                     </Badge>
