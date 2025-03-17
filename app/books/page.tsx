@@ -5,8 +5,9 @@ import Divider from '@/components/divider'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Bookshelf'
+  title: 'Books - Razzh'
 }
+
 export default function books() {
   const reading = [
     {
