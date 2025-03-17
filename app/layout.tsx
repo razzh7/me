@@ -34,11 +34,12 @@ export default function RootLayout({ children }: PropsWithChildren) {
           {children}
         </Layout>
       </body>
-      <Script
-        id='baidu-analysis'
-        strategy='lazyOnload'
-        dangerouslySetInnerHTML={{
-          __html: `var _hmt = _hmt || [];
+      {process.env.NODE_ENV === 'production' ? (
+        <Script
+          id='baidu-analysis'
+          strategy='lazyOnload'
+          dangerouslySetInnerHTML={{
+            __html: `var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
   hm.src = "https://hm.baidu.com/hm.js?11038a882d198a857410c2ab295a2eff";
@@ -46,8 +47,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
   s.parentNode.insertBefore(hm, s);
 })();
         `
-        }}
-      />
+          }}
+        />
+      ) : null}
     </html>
   )
 }
