@@ -1,12 +1,12 @@
-import { PropsWithChildren, Suspense } from 'react'
+import { PropsWithChildren } from 'react'
 import { Inter } from 'next/font/google'
 import Layout from '@/components/layout'
+import type { Metadata, Viewport } from 'next'
+import { NavigationTracker, BaiduAnlaysisScript } from '@/components/layout/baidu-anlaysis'
 import '@/styles/global.css'
 import '@/styles/scrollbar.css'
 import '@/styles/mdx.css'
-import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
-import { NavigationEvents } from '@/components/navigation-events'
+
 
 export const metadata: Metadata = {
   title: 'Razzh Blog',
@@ -34,26 +34,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <Layout>
           {children}
         </Layout>
-        <Suspense fallback={null}>
-          <NavigationEvents />
-        </Suspense>
+        <NavigationTracker />
       </body>
-      {process.env.NODE_ENV === 'production' ? (
-        <Script
-          id='baidu-analysis'
-          strategy='lazyOnload'
-          dangerouslySetInnerHTML={{
-            __html: `var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?11038a882d198a857410c2ab295a2eff";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-        `
-          }}
-        />
-      ) : null}
+      <BaiduAnlaysisScript />
     </html>
   )
 }
