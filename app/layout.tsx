@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, Suspense } from 'react'
 import { Inter } from 'next/font/google'
 import Layout from '@/components/layout'
 import '@/styles/global.css'
@@ -6,6 +6,7 @@ import '@/styles/scrollbar.css'
 import '@/styles/mdx.css'
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
+import { NavigationEvents } from '@/components/navigation-events'
 
 export const metadata: Metadata = {
   title: 'Razzh Blog',
@@ -33,6 +34,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <Layout>
           {children}
         </Layout>
+        <Suspense fallback={null}>
+          <NavigationEvents />
+        </Suspense>
       </body>
       {process.env.NODE_ENV === 'production' ? (
         <Script
