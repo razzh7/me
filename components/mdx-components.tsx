@@ -5,6 +5,8 @@ import MdxPre from '@/components/mdx-pre'
 import VideoPlayer from './video'
 import YouTubeEmbed from './youtube-embed'
 import Divider from './divider'
+import TwistAPlayer from './twist-aplayer'
+import TheEnd from './the-end'
 
 const components = {
   ImagePreview,
@@ -12,6 +14,8 @@ const components = {
   YouTubeEmbed,
   Divider,
   pre: MdxPre,
+  APlayer: TwistAPlayer,
+  TheEnd,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
