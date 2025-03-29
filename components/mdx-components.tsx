@@ -7,6 +7,7 @@ import YouTubeEmbed from './youtube-embed'
 import Divider from './divider'
 import TwistAPlayer from './twist-aplayer'
 import TheEnd from './the-end'
+import OutLink from './outlink'
 
 const components = {
   ImagePreview,
@@ -16,6 +17,7 @@ const components = {
   pre: MdxPre,
   APlayer: TwistAPlayer,
   TheEnd,
+  OutLink,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
