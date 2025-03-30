@@ -69,8 +69,8 @@ importers:
         specifier: ^1.5.0
         version: 1.5.0
       twist-aplayer:
-        specifier: ^1.2.1
-        version: 1.2.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        specifier: ^1.3.3
+        version: 1.3.3(react@18.2.0)
       typescript:
         specifier: 4.9.4
         version: 4.9.4
@@ -3566,11 +3566,10 @@ packages:
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
 
-  twist-aplayer@1.2.1:
-    resolution: {integrity: sha512-N/c/Erb7iyYgJoJQQ6ijA42zpA7vA10iviFXWd2PqZW8gSTZVUjfuP674eLbGafHflKNpJylXuJedraBCF4+6Q==}
+  twist-aplayer@1.3.3:
+    resolution: {integrity: sha512-0LkcVjO3TMWbvaWvaaFcjhRQ9LIkXkR8EBPYOjKCbz8TJlwsOdVP1pIB60YsgxGj5RsNbLbYVq0auRo3bT/0pw==}
     peerDependencies:
       react: ^18.2.0
-      react-dom: ^18.2.0
 
   typanion@3.14.0:
     resolution: {integrity: sha512-ZW/lVMRabETuYCd9O9ZvMhAh8GslSqaUjxmK/JLPCh6l73CvLBiuXswj/+7LdnWOgYsQ130FqLzFz5aGT4I3Ug==, tarball: https://registry.npmmirror.com/typanion/-/typanion-3.14.0.tgz}
@@ -8090,13 +8089,12 @@ snapshots:
       tslib: 1.14.1
       typescript: 4.9.4
 
-  twist-aplayer@1.2.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
+  twist-aplayer@1.3.3(react@18.2.0):
     dependencies:
       '@twistify/react-icons': 1.0.4(react@18.2.0)
       '@twistui/bem-helper': 1.0.1
       clsx: 2.1.1
       react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.4.0(react@18.2.0)
 
   typanion@3.14.0: {}

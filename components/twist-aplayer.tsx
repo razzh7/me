@@ -1,5 +1,5 @@
 'use client'
-import { TwistAPlayer, APlayerProps } from 'twist-aplayer'
+import { TwistAPlayer, type TwistAPlayerProps } from 'twist-aplayer'
 import { ThemeContext } from '@/components/theme-provider'
 import { useContext } from 'react'
 
@@ -9,8 +9,9 @@ function TwistAPlayerWraper({
   volume = 0.6,
   appearance = 'normal',
   initialLoop = 'all',
-  autoPlay = false
-}: APlayerProps) {
+  autoPlay = false,
+  mutex = false
+}: TwistAPlayerProps) {
   const { theme } = useContext(ThemeContext)
 
   return (
@@ -22,6 +23,7 @@ function TwistAPlayerWraper({
       volume={volume}
       theme={theme}
       border={border}
+      mutex={mutex}
     />
   )
 }
