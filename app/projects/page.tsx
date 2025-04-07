@@ -14,6 +14,13 @@ function Projects() {
   const color = theme === 'dark' ? '#ffffff' : '#060606'
   const projectsInfo = [
     {
+      title: 'twist-aplayer',
+      description: 'A shadcn ui theme aplayer',
+      icon: 'https://assets.razzh.cn/aplayer/aplayer.svg',
+      href: 'https://player.razzh.cn',
+      type: 'img'
+    },
+    {
       title: 'twist-icons',
       description: 'A collection of icons for React、Vue.',
       icon: MdiLeafMaple,
@@ -106,7 +113,7 @@ function Projects() {
         <div className="block md:flex md:flex-wrap md:gap-5 md:gap-y-10 p-[10px]">
           {
             projectsInfo.map((item, idx) => {
-              const { title, description, href, icon: Icon } = item
+              const { title, description, href, icon: Icon, type } = item
 
               return (
                 <a
@@ -118,7 +125,12 @@ function Projects() {
                   style={{ '--enter-stage': idx + 1 } as CSSProperties}
                 >
                   <div>
-                    <Icon size={40} color={color} />
+                    {type === 'img' ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={item.icon} className='w-[40px] h-[40px]' alt="twist-aplayer"/>
+                    ) : (
+                      <Icon size={40} color={color} />
+                    )}
                   </div>
                   <div>
                     <p className="text-xl group-hover:text-secondary">{title}</p>
