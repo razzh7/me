@@ -50,7 +50,7 @@ const Home = () => (
           </div>
           <div className='mt-2'>
             <Text>
-              <a href="https://player.razzh.cn/" target="_blank" rel="noreferrer">Twist-APlayer</a>
+              <a href="https://player.razzh.cn/" target="_blank" rel="noreferrer">Twist-Aplayer</a>
             </Text>
             - a shadcn ui theme aplayer for your React application.
           </div>
