@@ -16,7 +16,18 @@ export const metadata: Metadata = {
     url: 'https://github.com/razzh7',
     name: 'razzh7'
   },
-  icons: '/favicon.svg',
+  icons: {
+    icon: [
+      {
+        media: '(prefers-color-scheme: light)',
+        url: '/faze.svg'
+      },
+      {
+        media: '(prefers-color-scheme: dark)',
+        url: '/faze-light.svg'
+      }
+    ]
+  },
   generator: 'react nextjs blog',
   keywords: "blog,razzh,razzh blog,xiaohao,xiaohao's blog,Xiaohao's Blog,小豪的博客"
 }

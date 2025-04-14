@@ -2,25 +2,35 @@ import Link from 'next/link'
 import ThemeButton from './theme-button'
 import { AiGithubFilled } from '@twistify/react-icons/ai'
 import { useTheme } from '@/hooks/useTheme'
-import { MiRainyLight, MiArticleOutline } from '@twistify/react-icons/mi'
+import { MiArticleOutline } from '@twistify/react-icons/mi'
 import { SoLightbulbMinimalisticOutline } from '@twistify/react-icons/so'
 import { TaBrandBooking } from '@twistify/react-icons/ta'
 import { PhButterfly } from '@twistify/react-icons/ph'
+import Logo from '../faze-logo'
 
 function Navbar() {
-  const { theme, toggleTheme, darkColor, lightColor } = useTheme()
+  const { theme, toggleTheme } = useTheme()
 
   return (
-    <header className="flex justify-between p-4 md:p-8">
+    <header className="flex justify-between">
       <Link href="/">
-        {
+        <Logo className='w-12 h-12 select-none outline-none absolute xl:fixed m-5' theme={theme} />
+        {/* {
           theme === 'dark'
-            ? <MiRainyLight size={40} color={darkColor} />
-            : <MiRainyLight size={40} color={lightColor} />
-        }
+            ? <img
+              className='w-12 h-12 select-none outline-none absolute xl:fixed m-5'
+              src="/faze-light.svg"
+              alt="faze logo"
+            />
+            : <img
+              className='w-12 h-12 select-none outline-none absolute xl:fixed m-5'
+              src="/faze.svg"
+              alt="faze logo"
+            />
+        } */}
       </Link>
 
-      <nav className="flex items-center gap-5 text-primary font-[500]">
+      <nav className="flex items-center gap-5 text-primary font-[500] p-8">
         {/* PC */}
         <Link className="hidden md:block hover:text-hover2 transition-all" href="/">
           Me

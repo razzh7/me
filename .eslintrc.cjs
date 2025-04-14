@@ -33,6 +33,7 @@ module.exports = {
       }
     ],
     'no-underscore-dangle': 'off',
-    'no-trailing-spaces': 'error'
+    'no-trailing-spaces': 'error',
+    '@next/next/no-img-element': 'off'
   }
 }
