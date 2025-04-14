@@ -147,7 +147,7 @@ const components = {
     <code {...props}></code>
   ),
   blockquote: ({ className, ...props }: React.HTMLAttributes<HTMLQuoteElement>) => (
-    <blockquote className={cn('my-5 p-2 text-muted border-l-[0.25em] border-muted')} {...props} />
+    <blockquote className={cn('my-3 p-1 md:my-4 text-muted border-l-[0.25em] border-muted')} {...props} />
   )
 }
 
