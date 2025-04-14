@@ -50,7 +50,8 @@ export const postTimeHandler = (post: Post) => {
   return {
     readtime,
     mouthDay,
-    updatedTime
+    updatedTime,
+    preview: post.preview
   }
 }
 

@@ -37,6 +37,10 @@ export const Post = defineDocumentType(() => ({
     link: {
       type: 'string',
       required: false
+    },
+    preview: {
+      type: 'boolean',
+      required: false
     }
   },
   computedFields: {
