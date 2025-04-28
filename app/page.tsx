@@ -30,8 +30,10 @@ const Home = () => (
     <p className='text-sm mt-2 mb-5 text-muted'>Front Developer & Creative Coder</p>
     <article className="linetext-base font-[500] leading-7 text-primary slide-enter-content">
       <div>
-        Hey, I am Robin, also known as Razzh, "ra" is the abbreviation of my hometown: Ruian Wenzhou, China. I live in HangZhou now.
-        "zzh" is the Chinese abbreviation of my name. My friends call me Xiǎoháo as my nickname.
+        Hey, I am Robin, also known as Razzh, "ra" is the abbreviation of my hometown: Ruian Wenzhou, China.
+        <div className="mx-0 my-1">
+          I live in HangZhou now. "zzh" is the Chinese abbreviation of my name. My friends call me Xiǎoháo as my nickname.
+        </div>
         <Divider />
         <div className="mx-0 my-1">
           I have been keeping up with cutting-edge
@@ -65,9 +67,10 @@ const Home = () => (
       <div>
         Outside of programming, I enjoy guitar solos and piano music on
         <Text>哔哩哔哩</Text>,
-        playing esports, and watching TV dramas. All these moments are captured in my memoirs, a collection of my life chunks. You can be found <InnerLink link="memoirs">
-           here
-        </InnerLink>
+        playing esports, and watching TV dramas.
+        <div className="mx-0 my-1">
+        All these moments are captured in my memoirs, a collection of my life chunks. If you are interested, you can find it <InnerLink link="memoirs">here</InnerLink>
+        </div>
       </div>
       <Divider />
       <div>
