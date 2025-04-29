@@ -1,21 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Image from 'next/image'
 
 interface ImagePreviewProps {
   src: string
   alt?: string
+  remote?: boolean
 }
-function ImagePreview({ src, alt }: ImagePreviewProps) {
+function ImagePreview({ src, alt, remote = false }: ImagePreviewProps) {
   const [show, setShow] = useState(false)
+  const _src = useMemo(() => remote ? `https://${process.env.NEXT_PUBLIC_ASSETS_URL}/${src.replace('/', '')}` : src, [remote, src])
 
   return (
     <div className='my-5'>
       <div className="w-full h-auto">
         <Image
           className="w-full h-auto cursor-pointer rounded md:rounded-md image-preview slide-enter"
-          src={src}
+          src={_src}
           alt={alt ? alt : 'image'}
           width={0}
           height={0}
@@ -31,7 +33,7 @@ function ImagePreview({ src, alt }: ImagePreviewProps) {
           >
             <img
               className="w-full h-full object-contain image-preview"
-              src={src}
+              src={_src}
               alt={alt ? alt : 'image'}
             />
           </div>
