@@ -8,6 +8,7 @@ import Divider from './divider'
 import TwistAPlayer from './twist-aplayer'
 import TheEnd from './the-end'
 import OutLink from './outlink'
+import BetweenArticle from './between-article'
 
 const components = {
   ImagePreview,
@@ -18,6 +19,7 @@ const components = {
   APlayer: TwistAPlayer,
   TheEnd,
   OutLink,
+  BetweenArticle,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
