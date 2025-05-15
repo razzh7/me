@@ -51,7 +51,7 @@ export default async function PostPage({ params }: PostPageProps) {
           ) : null}
         </p>
       </div>
-      <article className="py-6 lg:py-8">
+      <article className="pt-6 lg:py-8">
         <Mdx code={post.body.code} />
         {
           post.toc ? (
