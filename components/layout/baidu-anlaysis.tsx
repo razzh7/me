@@ -1,6 +1,6 @@
 "use client"
 import { NavigationEvents } from '@/components/navigation-events'
-import { Suspense  } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Script from 'next/script'
 
 export function NavigationTracker() {
@@ -12,7 +12,15 @@ export function NavigationTracker() {
 }
 
 export function BaiduAnlaysisScript() {
-  return process.env.NODE_ENV === 'production' && !window.location.href.includes('vercel.app') ? (
+  const [isVercelUrl, setIsVercelUrl] = useState(false)
+
+  useEffect(() => {
+    if (window.location.href.includes('vercel.app')) {
+      setIsVercelUrl(true)
+    }
+  }, [])
+
+  return process.env.NODE_ENV === 'production' && !isVercelUrl ? (
     <Script
       id='baidu-analysis'
       strategy='lazyOnload'
