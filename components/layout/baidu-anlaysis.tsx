@@ -1,3 +1,4 @@
+"use client"
 import { NavigationEvents } from '@/components/navigation-events'
 import { Suspense  } from 'react'
 import Script from 'next/script'
@@ -11,7 +12,7 @@ export function NavigationTracker() {
 }
 
 export function BaiduAnlaysisScript() {
-  return process.env.NODE_ENV === 'production' ? (
+  return process.env.NODE_ENV === 'production' && !window.location.href.includes('vercel.app') ? (
     <Script
       id='baidu-analysis'
       strategy='lazyOnload'
