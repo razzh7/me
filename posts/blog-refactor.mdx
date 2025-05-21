@@ -7,7 +7,7 @@ updatedTime: 2024-3-15
 
 ## 为什么要重构呢？
   起因我觉得我的博客基本都在说前端，但我现在认为生活并不只有前端，我也应该记录自己的生活，比如我喜欢在B站静静的听up们**弹弹钢琴**、**吉他**，我想分享我觉得好听的视频。
-  但是目前博客是将 `markdown` 文件通过 `markdown-it` 来转义成 `html`，并不支持嵌入 `iframe` 的方式来展示视频，我也想要对博客有更加细节的控制，之前在做[Twist-icons](https://twist-icons-docs.vercel.app/)文档中用到了`mdx`，我也对这个方案挺感兴趣，也想研究一下，所以我就有了这个想法。
+  但是目前博客是将 `markdown` 文件通过 `markdown-it` 来转义成 `html`，并不支持嵌入 `iframe` 的方式来展示视频，我也想要对博客有更加细节的控制，之前在做[Twist-icons](https://icons.razzh.cn/)文档中用到了`mdx`，我也对这个方案挺感兴趣，也想研究一下，所以我就有了这个想法。
   后面在升级的过程中，我发现自己之前的代码写得有点“幽默”，越改越多，干脆直接重构吧：)，其实这个博客已经是我的第四代博客了，想想也是够折腾的hhhhhh。
 
 ## 四代博客的由来
@@ -42,7 +42,7 @@ updatedTime: 2024-3-15
   - 样式重写，引入[tailwindcss](https://tailwindcss.com/)，只在部分文件中使用 Module CSS
     - 因为之前在写 [Twist-icons-doc](https://github.com/razzh7/twist-icons-docs) 的时候被 `tailwindcss` 惯坏了，这种原子化的方式写样式的效率特别高，加上我一直不太喜欢 `module.css` 的样式方案，因为这个方案的代码中有很多 `styles`，显得很乱（可能是我个人的原因哈哈
   - 引入 [contentlayer](https://contentlayer.dev/)、[remark](https://www.npmjs.com/package/remark) 等来代替之前的 markdown-it
-  - 使用 [twist-icons](https://twist-icons-docs.vercel.app/) 替换 react-icons，毕竟这是我自己写的 icon 集合库嘛，得用一下hhh
+  - 使用 [twist-icons](https://icons.razzh.cn/) 替换 react-icons，毕竟这是我自己写的 icon 集合库嘛，得用一下hhh
   - Blog 列表下的分类从 "All Vue JS Node Net Work" 改成了 "Blog Life"
   - 更新首页介绍，毕竟这是23年的初的介绍了，得换个新的
   - 首页介绍新增中英切换
