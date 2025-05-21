@@ -5,7 +5,7 @@ category: blog
 updatedTime: 2025-02-26
 ---
 
-今天来介绍一下我自己写的小家伙 [Twist-Icons](https://github.com/twist-space/twist-icons)，它是一个 `SVG` 图标库，可以在 `React`、`Vue3`、`Vue2` 中使用。具体使用方法可以在[文档](https://twist-icons-docs.vercel.app/)中看到，这篇文章主要是介绍一下这个项目的由来和一些灵感由来。
+今天来介绍一下我自己写的小家伙 [Twist-Icons](https://github.com/twist-space/twist-icons)，它是一个 `SVG` 图标库，可以在 `React`、`Vue3`、`Vue2` 中使用。具体使用方法可以在[文档](https://icons.razzh.cn/)中看到，这篇文章主要是介绍一下这个项目的由来和一些灵感由来。
 
 <ImagePreview src='/img/twist-icons.png' />
 
@@ -23,7 +23,7 @@ updatedTime: 2025-02-26
 
 ## 项目的灵感
 
-一波三折，为什么这么说呢？首先图标库首先得有图标才能开发对吧，其次我开始并不知道一个图标库该怎么开发，我花了一些时间看了 `Ant-Design` 和 `Arco-Design` Icons 代码，写了两篇文章 [Ant-Design-Icons 的生成之旅(上)](https://razzh.vercel.app/posts/ant-design-icons-part-one/)和 [Ant-Design-Icons 的生成之旅(下)](https://razzh.vercel.app/posts/ant-design-icons-part-two/)，分析了 `Antd Icons` 的生成流程，里面的用函数式的方法处理 `SVG` 数据的过程让我大开眼界，我当时也想着跟着它的处理过程模仿着做一个图标库，但是当时我又纠结于没有 `SVG` 图标为我所用（因为我不想抄得跟 Antd Icons 一模一样哈哈哈哈哈）。
+一波三折，为什么这么说呢？首先图标库首先得有图标才能开发对吧，其次我开始并不知道一个图标库该怎么开发，我花了一些时间看了 `Ant-Design` 和 `Arco-Design` Icons 代码，写了两篇文章 [Ant-Design-Icons 的生成之旅(上)](https://razzh.cn/posts/ant-design-icons-part-one/)和 [Ant-Design-Icons 的生成之旅(下)](https://razzh.cn/posts/ant-design-icons-part-two/)，分析了 `Antd Icons` 的生成流程，里面的用函数式的方法处理 `SVG` 数据的过程让我大开眼界，我当时也想着跟着它的处理过程模仿着做一个图标库，但是当时我又纠结于没有 `SVG` 图标为我所用（因为我不想抄得跟 Antd Icons 一模一样哈哈哈哈哈）。
 
 后来我想着多看看几家的图标库的处理过程，将它们的亮点整合一下，我找到了 `naive-ui` 作者开发的 [xicons](https://github.com/07akioni/xicons)，当时看到它文档的时候我就觉得 `amazing`，xicons 是集成了多个流行的图标库，我很好奇它是怎么做到的，就 `clone` 下它的代码看了一下。  
 
@@ -204,7 +204,7 @@ import { AiBook } from '@twist-space/react-icons/ai'
 
 #### Icons 文档更新
 
-为了彻底解决开发时需要输入一长串的命名空间，这次我在 [twist-icons-docs](https://twist-icons-docs.vercel.app/) 文档中加上了 `copy import` 的功能，意思是如果图标是第一次引入的，
+为了彻底解决开发时需要输入一长串的命名空间，这次我在 [twist-icons-docs](https://icons.razzh.cn/) 文档中加上了 `copy import` 的功能，意思是如果图标是第一次引入的，
 点击这个按钮它就会自动帮你生成你使用库的导入语句并复制到粘贴板，这样在开发的时候想要引入一个库的图标就不需要我们再手动再输入较长的导入语句了  
 
 <ImagePreview src='/img/twist-icons-import.png' />

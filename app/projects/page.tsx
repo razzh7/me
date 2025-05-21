@@ -24,7 +24,7 @@ function Projects() {
       title: 'twist-icons',
       description: 'A collection of icons for React、Vue.',
       icon: MdiLeafMaple,
-      href: 'https://twist-icons-docs.vercel.app/'
+      href: 'https://icons.razzh.cn/'
     },
     {
       title: 'me',
