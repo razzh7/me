@@ -17,11 +17,11 @@ export function LaAnlaysis() {
       strategy='lazyOnload'
       dangerouslySetInnerHTML={{
         __html: `(function() {
-var hm = document.createElement("script");
-hm.type="text/javascript"
-hm.src = "https://js.users.51.la/21961991.js";
+var la = document.createElement("script");
+la.type="text/javascript"
+la.src = "https://js.users.51.la/21961991.js";
 var s = document.getElementsByTagName("script")[0]; 
-s.parentNode.insertBefore(hm, s);
+s.parentNode.insertBefore(la, s);
 })();
     `
       }}
