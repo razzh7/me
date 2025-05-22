@@ -18,6 +18,7 @@ export function LaAnlaysis() {
       dangerouslySetInnerHTML={{
         __html: `(function() {
 var hm = document.createElement("script");
+hm.type="text/javascript"
 hm.src = "https://js.users.51.la/21961991.js";
 var s = document.getElementsByTagName("script")[0]; 
 s.parentNode.insertBefore(hm, s);
