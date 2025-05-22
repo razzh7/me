@@ -18,8 +18,9 @@ export function LaAnlaysis() {
       dangerouslySetInnerHTML={{
         __html: `(function() {
 var la = document.createElement("script");
-la.type="text/javascript"
-la.src = "https://js.users.51.la/21961991.js";
+la.id="LA_COLLECT"
+la.charset="UTF-8"
+la.src = "https://sdk.51.la/js-sdk-pro.min.js?id=3MFtVbbh1VuMsQ4N&ck=3MFtVbbh1VuMsQ4N";
 var s = document.getElementsByTagName("script")[0]; 
 s.parentNode.insertBefore(la, s);
 })();
