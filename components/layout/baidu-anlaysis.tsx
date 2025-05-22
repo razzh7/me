@@ -28,7 +28,7 @@ export function BaiduAnlaysisScript() {
         __html: `var _hmt = _hmt || [];
 (function() {
 var hm = document.createElement("script");
-hm.src = "https://hm.baidu.com/hm.js?11038a882d198a857410c2ab295a2eff";
+hm.src = "https://hm.baidu.com/hm.js?35a14bbf694021d3249d832b8025b103";
 var s = document.getElementsByTagName("script")[0]; 
 s.parentNode.insertBefore(hm, s);
 })();
