@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google'
 import Layout from '@/components/layout'
 import type { Metadata, Viewport } from 'next'
 import { NavigationTracker, BaiduAnlaysisScript } from '@/components/layout/baidu-anlaysis'
-import { LaAnlaysis } from '@/components/layout/la-anlaysis'
 import '@/styles/global.css'
 import '@/styles/scrollbar.css'
 import '@/styles/mdx.css'
@@ -49,7 +48,6 @@ export default function RootLayout({ children }: PropsWithChildren) {
         <NavigationTracker />
       </body>
       <BaiduAnlaysisScript />
-      <LaAnlaysis />
     </html>
   )
 }
