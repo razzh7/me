@@ -10,7 +10,9 @@ function TwistAPlayerWraper({
   appearance = 'normal',
   initialLoop = 'all',
   autoPlay = false,
-  mutex = false
+  mutex = false,
+  mini = false,
+  listFolded = false
 }: TwistAPlayerProps) {
   const { theme } = useContext(ThemeContext)
 
@@ -24,6 +26,8 @@ function TwistAPlayerWraper({
       theme={theme}
       border={border}
       mutex={mutex}
+      mini={mini}
+      listFolded={listFolded}
     />
   )
 }
