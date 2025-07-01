@@ -8,7 +8,7 @@ import { type FC, type PropsWithChildren } from 'react'
 import AppProgressBar from '@/components/progress-bar'
 import { RecordsCode } from '@/components/records-code'
 import ScreenLogo from './screen-logo'
-// import LayoutAplayer from './aplayer'
+import LayoutAplayer from './aplayer'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => (
   (
@@ -23,7 +23,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => (
       <BackTop />
       <Analytics />
       <AppProgressBar />
-      {/* <LayoutAplayer /> */}
+      <LayoutAplayer />
     </ThemeProvider>
   )
 )

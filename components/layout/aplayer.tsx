@@ -2,9 +2,10 @@
 import TwistAPlayerWraper from '../twist-aplayer'
 import type { AudioInfo } from 'twist-aplayer'
 import { useMemo } from 'react'
-import { isMobile } from 'react-device-detect'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 function LayoutAplayer() {
+  const isMobile = useIsMobile()
   const layoutAudioList: AudioInfo[] = useMemo(() => ([
     {
       name: '听你说',
