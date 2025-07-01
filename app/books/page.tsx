@@ -3,21 +3,22 @@ import Books from '@/components/books'
 import styles from '@/styles/books.module.css'
 import Divider from '@/components/divider'
 import { Metadata } from 'next'
+import { useMemo } from 'react'
 
 export const metadata: Metadata = {
   title: 'Books - Razzh'
 }
 
-export default function books() {
-  const reading = [
+export default function BooksPage() {
+  const reading = useMemo(() => [
     {
-      title: '被讨厌的勇气',
-      spine: '#3090e6',
-      tag: '',
-      cover: '/books/courage.jpg'
+      title: 'Python编程 ：从入门到实践',
+      spine: '#fae977',
+      tag: 'py',
+      cover: '/books/python-snake.jpg'
     }
-  ]
-  const frontBook = [
+  ], [])
+  const frontBook = useMemo(() => [
     {
       title: '深入浅出Vue.js',
       spine: '#52B47E',
@@ -97,15 +98,21 @@ export default function books() {
       cover: '/books/img-http.jpeg'
     }
 
-  ]
-  const otherBook = [
+  ], [])
+  const otherBook = useMemo(() => [
     {
       title: '被讨厌的勇气',
       spine: '#3090e6',
       tag: '',
       cover: '/books/courage.jpg'
+    },
+    {
+      title: 'Python编程 ：从入门到实践',
+      spine: '#fae977',
+      tag: 'py',
+      cover: '/books/python-snake.jpg'
     }
-  ]
+  ], [])
 
   return (
     <div className="container mb-5">
