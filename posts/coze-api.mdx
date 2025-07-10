@@ -2,6 +2,7 @@
 title: CozeAPI 源码学习记录
 date: 2025-06-30
 category: blog
+updatedTime: 2025-07-10
 ---
 
 # CozeAPI 介绍
@@ -77,13 +78,13 @@ export class CozeAPI extends APIClient {
 }
 ```
 
-我在打开这个类的时候就觉得这个类很优雅，它是作为入口类来调用的，而继承的 `APIClient` 类作为**基类**来使用。
+它是作为入口类来调用的，而继承的 `APIClient` 类作为**父类**来使用。
 
 你可以看到`new API.XXX(this)` 这样的代码，注入整个 CozeAPI 实例，CozeAPI 继承的 APIClient 类背后大有文章，也是整个类的核心所在。
 
 <ImagePreview src='/img/coze-framework.webp' />
 
-> 让我启发的点在于：这种模式其实也很适合平时开发项目的时候去封装API
+> 让我启发的点在于：平时编程大多都是面向过程编程，其实面向对象的编码模式有时候会让代码看起来清楚很多，所以我要多学习运用这种编程模式
 
 ## APIClient
 
@@ -493,12 +494,12 @@ fetchAPI 方法调用会回返回三个参数：
 
 ## 补充
 
-基类 `ApiClient` 仅封装了请求方面，对于请求拦截功能没有实现，我觉得也是因为请求拦截是比较自定义化比较高的功能，所以它交给用户去实现，我在 `@Coze/sdk` 的源码中也找到了作者对 `CozeAPI` 类的扩展：[源码链接](https://github.com/coze-dev/coze-js/blob/main/packages/chat-sdk/src/libs/utils/mini-coze-api.ts)。
+父类 `ApiClient` 仅封装了请求方面，对于请求拦截功能没有实现，我觉得也是因为请求拦截是比较自定义化比较高的功能，所以它交给用户去实现，我在 `@Coze/sdk` 的源码中也找到了作者对 `CozeAPI` 类的扩展：[源码链接](https://github.com/coze-dev/coze-js/blob/main/packages/chat-sdk/src/libs/utils/mini-coze-api.ts)。
 
 核心思想是新建一个类去继承 `CozeAPI` 做扩展，根据自己的业务规则去定制拦截器和集成一些和业务相关的通用方法。
 
 ## 结尾
 
-@Coze/api 包也有针对 `Taro` 、`Uniapp` 这种跨平台开发框架的包，其原理也是一样。看完这个包，我觉得有时间也可以自己封装一个 `ApiClinet` 这种通用的基类的工具包，放在项目里使用，比起每次写项目都要打开以前的项目去复制一下封装好的请求方法要高效多了。
+@Coze/api 包也有针对 `Taro` 、`Uniapp` 这种跨平台开发框架的包，其原理也是一样。看完这个包，我觉得有时间也可以自己封装一个 `ApiClinet` 这种通用的父类的工具包，放在项目里使用，比起每次写项目都要打开以前的项目去复制一下封装好的请求方法要高效多了。
 
 并且 Coze 对错误的处理分类很细致，对方法的权限级别也是用了类修饰符来区分，有很多值得我去学习的地方。

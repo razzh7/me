@@ -2,6 +2,7 @@
 title: 前端测试框架选型调研
 date: 2022-10-23
 category: blog
+updatedTime: 2025-07-10
 ---
 
 最近项目有单元测试和 `E2E` 单元测试的需求，市面上测试框架很多，所以开启了框架的选型之路。
@@ -13,6 +14,7 @@ category: blog
 
 Jest 的下载量较大，一部分原因是因为 create-react-app 脚手架默认内置了 Jest, 而大部分 React 项目都是用它生成的。
 
+> 2025年另外的选择：[Vitest](https://www.npmjs.com/package/vitest) 也是非常好的选择，这两年也是我的首选测试框架，它很好的继承了 Jest 的 API，开箱即用，上手和测试速度都很快，值得用一用！
 
 ## Github stars & issues
 <ImagePreview src='/img/stats.png' />
@@ -84,3 +86,5 @@ describe('Array', function () {
 ## 结尾
 笔者最终在项目中使用了 `Jest` 和 `Cypress`，它们都集成在 [Vue Cli](https://cli.vuejs.org/core-plugins/) 中，如果你是 `Vue Cli` 创建的项目，那么你可以通过 `vue add` 来安装它们，配置这些事就交给 `Cli` 来做吧！
 
+## 25年的更新
+目前我认为 `Vitest` 和 `Playwright` 已经都很成熟了，可以作为项目的首选测试框架。
