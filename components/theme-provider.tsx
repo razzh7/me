@@ -14,7 +14,14 @@ export const ThemeContext = createContext<Context>({
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
   const [theme, setTheme] = useState<theme>('dark')
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light')
+    if (!document.startViewTransition) {
+      setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light')
+      return
+    }
+
+    document.startViewTransition(() => {
+      setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light')
+    })
   }
 
   useEffect(() => {

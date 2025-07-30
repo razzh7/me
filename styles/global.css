@@ -1,5 +1,6 @@
 @import 'xgplayer/dist/index.min.css';
 @import 'twist-aplayer/dist/index.min.css';
+@import './animation.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
