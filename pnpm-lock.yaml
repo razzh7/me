@@ -81,6 +81,9 @@ importers:
       '@commitlint/config-angular':
         specifier: ^18.6.0
         version: 18.6.0
+      '@types/dom-view-transitions':
+        specifier: ^1.0.6
+        version: 1.0.6
       '@types/node':
         specifier: 18.11.18
         version: 18.11.18
@@ -873,6 +876,9 @@ packages:
 
   '@types/debug@4.1.7':
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
+
+  '@types/dom-view-transitions@1.0.6':
+    resolution: {integrity: sha512-Q5IoDouTOcZKEs4nDpmUti2MXP48MQDBkS2nUQKFrsDeTFIaArVmhWUon28vlDfNkbbaK4EROu4Fv0iKObWjSg==}
 
   '@types/estree-jsx@1.0.4':
     resolution: {integrity: sha512-5idy3hvI9lAMqsyilBM+N+boaCf1MgoefbDxN6KEO5aK17TOHwFAYT9sjxzeKAiIWRUBgLxmZ9mPcnzZXtTcRQ==, tarball: https://registry.npmmirror.com/@types/estree-jsx/-/estree-jsx-1.0.4.tgz}
@@ -4628,6 +4634,8 @@ snapshots:
   '@types/debug@4.1.7':
     dependencies:
       '@types/ms': 0.7.31
+
+  '@types/dom-view-transitions@1.0.6': {}
 
   '@types/estree-jsx@1.0.4':
     dependencies:
