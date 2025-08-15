@@ -10,7 +10,8 @@ updatedTime: 2025-07-10
 [@Coze/api](https://github.com/coze-dev/coze-js) 是 [Coze](https://www.coze.com) 官方提供的API调用服务接口，我在看官方SDK源码的时候注意到了这个包，我也很好奇它的封装原理，那就写下这篇文章记录一下吧。
 
 > Cozejs 提供了由 DeepWiki 生成的 [AI文档](https://deepwiki.com/coze-dev/coze-js/1-overview)，里面详述了 @coze/api 整体的架构
-## 基本用法
+
+## 基本用法. 
 
 ```js
 import { CozeAPI, COZE_CN_BASE_URL, ChatStatus, RoleType } from '@coze/api';
@@ -49,8 +50,6 @@ async function quickChat() {
 可以看出 `CozeAPI` 是一个类，在简单的初始化之后我们就可以使用它的实例来调用 Coze 平台的对话服务了。
 
 接下来我们重点关注它是如何将 Coze 服务集成到这个类中的。
-
-
 
 ## CozeAPI
 
