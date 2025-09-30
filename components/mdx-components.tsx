@@ -9,6 +9,7 @@ import TwistAPlayer from './twist-aplayer'
 import TheEnd from './the-end'
 import OutLink from './outlink'
 import BetweenArticle from './between-article'
+import MomentsImageGrid from './moments-image-grid'
 
 const components = {
   ImagePreview,
@@ -20,6 +21,7 @@ const components = {
   TheEnd,
   OutLink,
   BetweenArticle,
+  MomentsImageGrid,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(

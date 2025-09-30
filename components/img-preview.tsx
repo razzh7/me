@@ -8,6 +8,28 @@ interface ImagePreviewProps {
   alt?: string
   remote?: boolean
 }
+
+interface PreviewProps {
+  src: string
+  alt?: string
+  onClose: () => void
+}
+
+export function Preview({ src, alt, onClose }: PreviewProps) {
+  return (
+    <div
+      className="fixed top-0 left-0 right-0 bottom-0 z-50 backdrop-blur-md image-preview transition-all"
+      onClick={onClose}
+    >
+      <img
+        className="w-full h-full object-contain image-preview"
+        src={src}
+        alt={alt ? alt : 'image'}
+      />
+    </div>
+  )
+}
+
 function ImagePreview({ src, alt, remote = false }: ImagePreviewProps) {
   const [show, setShow] = useState(false)
   const _src = useMemo(() => remote ? `https://${process.env.NEXT_PUBLIC_ASSETS_URL}/${src.replace('/', '')}` : src, [remote, src])
@@ -27,16 +49,11 @@ function ImagePreview({ src, alt, remote = false }: ImagePreviewProps) {
       </div>
       {
         show ? (
-          <div
-            className="fixed top-0 left-0 right-0 bottom-0 z-50 backdrop-blur-md image-preview transition-all"
-            onClick={() => setShow(false)}
-          >
-            <img
-              className="w-full h-full object-contain image-preview"
-              src={_src}
-              alt={alt ? alt : 'image'}
-            />
-          </div>
+          <Preview
+            src={_src}
+            alt={alt}
+            onClose={() => setShow(false)}
+          />
         ) : null
       }
     </div>
