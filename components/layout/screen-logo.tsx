@@ -12,6 +12,9 @@ function ScreenLogo() {
     setStartAnimation(true)
 
     const timer = setTimeout(() => {
+      document.documentElement.classList.add('loaded')
+
+      document.body.style.overflow = ''
       setShowLogo(false)
     }, 1500)
 

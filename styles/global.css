@@ -50,6 +50,11 @@
   html {
     @apply bg-background text-accent transition-all duration-300;
     scroll-behavior: smooth;
+    overflow: hidden;
+  }
+
+  html.loaded {
+    overflow: auto;
   }
 
   ::selection {
@@ -72,7 +77,7 @@ iframe {
 }
 
 /** reference https://github.com/antfu/antfu.me/blob/main/src/styles/main.css#L90 */
-@keyframes slide-enter {
+/* @keyframes slide-enter {
   0% {
     transform: translateY(10px);
     opacity: 0;
@@ -82,9 +87,9 @@ iframe {
     transform: translateY(0);
     opacity: 1;
   }
-}
+} */
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   [data-slide-enter],
   .slide-enter,
   .slide-enter-content > *:not(:has(.image-preview)) {
@@ -155,4 +160,4 @@ iframe {
   .slide-enter-content > *:nth-child(20) {
     --enter-stage: 20 !important;
   }
-}
+} */
