@@ -32,36 +32,36 @@ function Navbar() {
 
       <nav className="flex items-center gap-5 text-primary font-[500] p-8">
         {/* PC */}
-        <Link className="hidden md:block hover:text-hover2 transition-all" href="/">
+        <Link className="hidden md:block hover:text-hover2 transition-all" href="/" title='Me'>
           Me
         </Link>
-        <Link className="hidden md:block hover:text-hover2 transition-all" href="/posts">
+        <Link className="hidden md:block hover:text-hover2 transition-all" href="/posts" title='Posts'>
           Blog
         </Link>
-        <Link className="hidden md:block hover:text-hover2 transition-all" href="/memoirs">
+        <Link className="hidden md:block hover:text-hover2 transition-all" href="/memoirs" title='Memoirs'>
           Memoirs
         </Link>
-        <Link className="hidden md:block hover:text-hover2 transition-all" href="/projects">
+        <Link className="hidden md:block hover:text-hover2 transition-all" href="/projects" title='Projects'>
           Projects
         </Link>
-        <Link className="hidden md:block hover:text-hover2 transition-all" href="/books">
+        <Link className="hidden md:block hover:text-hover2 transition-all" href="/books" title='Books'>
           Books
         </Link>
         {/* Mobile */}
-        <Link className="block md:hidden hover:text-hover2 transition-all" href="/posts">
+        <Link className="block md:hidden hover:text-hover2 transition-all" href="/posts" title='Posts'>
           <MiArticleOutline size={20} />
         </Link>
-        <Link className="block md:hidden hover:text-hover2 transition-all" href="/memoirs">
+        <Link className="block md:hidden hover:text-hover2 transition-all" href="/memoirs" title='Memoirs'>
           <PhButterfly size={20} />
         </Link>
-        <Link className="block md:hidden hover:text-hover2 transition-all" href="/projects">
+        <Link className="block md:hidden hover:text-hover2 transition-all" href="/projects" title='Projects'>
           <SoLightbulbMinimalisticOutline size={20} />
         </Link>
-        <Link className="block md:hidden hover:text-hover2 transition-all" href="/books">
+        <Link className="block md:hidden hover:text-hover2 transition-all" href="/books" title='Books'>
           <TaBrandBooking size={20} />
         </Link>
         {/* Universal */}
-        <a className="hover:text-hover2 transition-all" href="https://github.com/razzh7" target="_blank" rel="noreferrer">
+        <a className="hover:text-hover2 transition-all" href="https://github.com/razzh7" target="_blank" rel="noreferrer" title='Github'>
           <AiGithubFilled size={20} />
         </a>
         <ThemeButton
