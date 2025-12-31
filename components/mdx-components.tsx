@@ -1,4 +1,4 @@
-import { useMDXComponent } from 'next-contentlayer/hooks'
+import * as runtime from 'react/jsx-runtime'
 import { cn } from '@/util/merge'
 import ImagePreview from '@/components/img-preview'
 import MdxPre from '@/components/mdx-pre'
@@ -11,7 +11,7 @@ import OutLink from './outlink'
 import BetweenArticle from './between-article'
 import MomentsImageGrid from './moments-image-grid'
 
-const components = {
+const sharedComponents = {
   ImagePreview,
   VideoPlayer,
   YouTubeEmbed,
@@ -155,15 +155,22 @@ const components = {
   )
 }
 
-interface MdxProps {
-  code: string
+const useMDXComponent = (code: string) => {
+  const fn = new Function(code)
+  return fn({ ...runtime }).default
 }
 
-export default function Mdx({ code }: MdxProps) {
-  const MDXComponent = useMDXComponent(code)
+interface MDXProps {
+  code: string
+  components?: Record<string, React.ComponentType>
+  [key: string]: any
+}
+
+export default function MdxContent({ code, components, ...props }: MDXProps) {
+  const Component = useMDXComponent(code)
   return (
     <div className='mdx slide-enter-content'>
-      <MDXComponent components={components} />
+      <Component components={{ ...sharedComponents, ...components }} {...props} />
     </div>
   )
 }

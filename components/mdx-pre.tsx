@@ -26,7 +26,7 @@ function MdxPre({ __rawString__, ...props }: MdxPreProps) {
         <div>{lang}</div>
         <CopyButton value={__rawString__ as string} />
       </div>
-      <pre className={cn('max-h-[650px] overflow-x-auto py-4')} {...props} />
+      <pre className={cn('max-h-[650px] overflow-x-auto p-4')} {...props} />
     </div>
   )
 }

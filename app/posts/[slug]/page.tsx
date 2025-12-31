@@ -1,41 +1,22 @@
-import { allPosts, Post } from 'contentlayer/generated'
+import { PostPageProps, getSpecialPost, generateMetadata, generateStaticParams } from '@/util/post'
 import { notFound } from 'next/navigation'
-import Mdx from '@/components/mdx-components'
+import MdxContent from '@/components/mdx-components'
 import { getTableOfContents } from "@/util/toc"
 import DashboardTableOfContents from '@/components/toc'
 import { ScrollArea } from '@/components/scroll-area'
 import { postTimeHandler } from '@/util/post'
 import Badge from '@/components/badge'
 
-interface PostPageProps {
-  params: {
-    slug: string
-  }
-}
-
-export async function generateMetadata({ params }: PostPageProps) {
-  const post = await getSpecialPost({ params })
-
-  return {
-    title: post?.title
-  }
-}
-
-export async function generateStaticParams() {
-  return allPosts.map((post) => ({
-    slug: post._raw.flattenedPath
-  }))
-}
-
-function getSpecialPost({ params }: PostPageProps) {
-  return allPosts.find((post: Post) => post._raw.flattenedPath === params.slug)
+export {
+  generateMetadata,
+  generateStaticParams
 }
 
 export default async function PostPage({ params }: PostPageProps) {
   const post = await getSpecialPost({ params })
   if (!post) notFound()
   const { mouthDay, readtime, updatedTime, preview } = postTimeHandler(post)
-  const toc = await getTableOfContents(post.body.raw)
+  const toc = await getTableOfContents(post?.raw || '')
 
   return (
     <div>
@@ -52,7 +33,7 @@ export default async function PostPage({ params }: PostPageProps) {
         </p>
       </div>
       <article className="pt-6 lg:py-8">
-        <Mdx code={post.body.code} />
+        <MdxContent code={post.body} />
         {
           post.toc ? (
             <div className="hidden text-sm xl:block">
@@ -67,6 +48,6 @@ export default async function PostPage({ params }: PostPageProps) {
           ) : null
         }
       </article>
-​    </div>
+    </div>
   )
 }

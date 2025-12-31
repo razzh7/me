@@ -1,6 +1,7 @@
 import readTime from '@/util/readtime'
 import dayjs from 'dayjs'
-import { allPosts, Post } from 'contentlayer/generated'
+import { posts } from '#velite'
+import type { Post } from '#velite'
 
 export interface PostsProps extends Post {
   id: string
@@ -11,19 +12,43 @@ export interface PostsProps extends Post {
   words: string
 }
 
-const _cache:PostsProps[] = []
+export interface PostPageProps {
+  params: {
+    slug: string
+  }
+}
+
+export async function generateMetadata({ params }: PostPageProps) {
+  const post = await getSpecialPost({ params })
+
+  return {
+    title: post?.title
+  }
+}
+
+export async function generateStaticParams() {
+  return posts.map((post) => ({
+    slug: post.slug
+  }))
+}
+
+export function getSpecialPost({ params }: PostPageProps) {
+  return posts.find((post: Post) => post.slug === params.slug)
+}
+
+const _cache: PostsProps[] = []
 
 export const getAllSortedPosts = () => {
   if (!_cache.length) {
-    allPosts.forEach((post: Post) => {
-      const { readtime, words } = readTime(post?.body?.code)
-      const mouthDay = dayjs(post?.date).format('MMM D')
-      const year = dayjs(post?.date).format('YYYY')
+    posts.forEach((post: Post) => {
+      const { readtime, words } = readTime(post.body)
+      const mouthDay = dayjs(post.date).format('MMM D')
+      const year = dayjs(post.date).format('YYYY')
       const updatedTime = post?.updatedTime ? dayjs(post.updatedTime).format('YYYY MMM D') : ''
 
       _cache.push({
         ...post,
-        id: post?._raw?.flattenedPath,
+        id: post.slug,
         year,
         mouthDay,
         updatedTime,
@@ -43,8 +68,8 @@ export const getAllSortedPosts = () => {
 }
 
 export const postTimeHandler = (post: Post) => {
-  const { readtime } = readTime(post?.body?.code)
-  const mouthDay = dayjs(post?.date).format('MMM D')
+  const { readtime } = readTime(post.body)
+  const mouthDay = dayjs(post.date).format('MMM D')
   const updatedTime = post?.updatedTime ? dayjs(post.updatedTime).format('YYYY MMM D') : ''
 
   return {
