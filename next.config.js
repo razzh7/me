@@ -22,13 +22,6 @@ module.exports = {
   swcMinify: true,
   webpack: config => {
     config.plugins.push(new VeliteWebpackPlugin())
-    config.module.rules.push({
-      test: /\.m?js$/,
-      type: "javascript/auto",
-      resolve: {
-        fullySpecified: false
-      }
-    })
     return config
   }
 }
