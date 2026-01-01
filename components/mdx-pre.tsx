@@ -18,7 +18,7 @@ function MdxPre(props: MdxPreProps) {
     }
     return ''
   }, [props])
-  console.log('data-raw-string', rawString)
+
   return (
     <div
       className="relative bg-code rounded-lg border border-muted2"

@@ -1,16 +1,15 @@
 import readTime from '@/util/readtime'
 import dayjs from 'dayjs'
-import { posts } from '#velite'
-import type { Post } from '#velite'
+import { posts, Post } from '#velite'
 
-export interface PostsProps extends Post {
+export type PostsProps = {
   id: string
   year: string
   mouthDay: string
   readtime: string
   updatedTime: string
   words: string
-}
+} & Post
 
 export interface PostPageProps {
   params: {

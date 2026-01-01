@@ -26,7 +26,7 @@ export default defineConfig({
         .transform((data, { meta }) => ({
           ...data,
           slug: meta.basename!.replace(/\.mdx$/, ''),
-          raw: meta.content
+          raw: meta.content || ''
         }))
     }
   },
