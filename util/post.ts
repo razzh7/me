@@ -26,13 +26,15 @@ export async function generateMetadata({ params }: PostPageProps) {
 }
 
 export async function generateStaticParams() {
-  return posts.map((post) => ({
-    slug: post.slug
-  }))
+  return posts
+    .filter((post) => post.publish)
+    .map((post) => ({
+      slug: post.slug
+    }))
 }
 
 export function getSpecialPost({ params }: PostPageProps) {
-  return posts.find((post: Post) => post.slug === params.slug)
+  return posts.find((post: Post) => post.slug === params.slug && post.publish)
 }
 
 const _cache: PostsProps[] = []
@@ -63,7 +65,7 @@ export const getAllSortedPosts = () => {
     })
   }
 
-  return _cache
+  return _cache.filter((post) => post.publish)
 }
 
 export const postTimeHandler = (post: Post) => {
