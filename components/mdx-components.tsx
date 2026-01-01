@@ -102,20 +102,20 @@ const sharedComponents = {
     />
   ),
   table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
-    <div className='my-6 md:w-full sm:w-full lg:w-2/3 xl:2/3 2xl:2/3 overflow-y-auto'>
-      <table className={cn(className)} {...props} />
+    <div className='my-6 w-full overflow-x-auto'>
+      <table className={cn('w-full border-collapse', className)} {...props} />
     </div>
   ),
   tr: ({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
     <tr
-      className={cn('m-0 border-t p-0', className)}
+      className={cn('m-0 border-t border-border p-0', className)}
       {...props}
     />
   ),
   th: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
     <th
       className={cn(
-        'border border-border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right',
+        'border border-border px-6 py-3 text-left text-secondary font-semibold bg-muted/50 whitespace-nowrap [&[align=center]]:text-center [&[align=right]]:text-right',
         className
       )}
       {...props}
@@ -124,7 +124,7 @@ const sharedComponents = {
   td: ({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
     <td
       className={cn(
-        'border border-border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right',
+        'border border-border px-3 py-3 text-left leading-relaxed first:whitespace-nowrap [&[align=center]]:text-center [&[align=right]]:text-right',
         className
       )}
       {...props}
