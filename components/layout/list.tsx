@@ -7,16 +7,17 @@ import type { CSSProperties } from 'react'
 import { AiBilibiliOutlined as BIcon } from '@twistify/react-icons/ai'
 import { useContext } from "react"
 import { PostsContext } from "@/components/layout/posts"
+import type { BlogType } from '@/types/main'
 
 interface PageLinkProps {
   item: PostsProps
   children: React.ReactNode
 }
 
-function ListLayout() {
+function ListLayout(props: { type: BlogType }) {
   const { posts } = useContext(PostsContext)
+  const link = props.type === 'posts' ? 'posts' : 'memoirs'
   const getNowYear = (date: string) => new Date(date).getFullYear()
-
   const isSameYear = (a: string, b: string) => a && b && getNowYear(a) === getNowYear(b)
 
   const PageLink = (props: PageLinkProps) => {
@@ -35,7 +36,7 @@ function ListLayout() {
 
     return (
       <Link
-        href={`/posts/${item.id}`}
+        href={`/${link}/${item.id}`}
         className="group md:flex items-center gap-2 cursor-pointer">
         {props.children}
       </Link>

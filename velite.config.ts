@@ -1,4 +1,4 @@
-import { defineConfig, s } from 'velite'
+import { defineConfig, defineCollection, s } from 'velite'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -6,29 +6,39 @@ import process from 'process'
 
 const cwd = process.cwd()
 
+const schema = s.object({
+  title: s.string(),
+  date: s.isodate(),
+  updatedTime: s.isodate().optional(),
+  toc: s.boolean().default(true),
+  link: s.string().optional(),
+  preview: s.boolean().optional(),
+  publish: s.boolean().default(true),
+  body: s.mdx()
+})
+  .transform((data, { meta }) => ({
+    ...data,
+    slug: meta.basename!.replace(/\.mdx$/, ''),
+    raw: meta.content || ''
+  }))
+
+const posts = defineCollection({
+  name: 'Post',
+  pattern: 'posts/**/*.mdx',
+  schema
+})
+
+const memoirs = defineCollection({
+  name: 'Memoirs',
+  pattern: 'memoirs/**/*.mdx',
+  schema
+})
+
 export default defineConfig({
-  root: `${cwd}/posts`,
+  root: `${cwd}/content`,
   collections: {
-    posts: {
-      name: 'Post',
-      pattern: '**/*.mdx',
-      schema: s.object({
-        title: s.string(),
-        date: s.isodate(),
-        category: s.string(),
-        updatedTime: s.isodate().optional(),
-        toc: s.boolean().default(true),
-        link: s.string().optional(),
-        preview: s.boolean().optional(),
-        publish: s.boolean().default(true),
-        body: s.mdx()
-      })
-        .transform((data, { meta }) => ({
-          ...data,
-          slug: meta.basename!.replace(/\.mdx$/, ''),
-          raw: meta.content || ''
-        }))
-    }
+    posts,
+    memoirs
   },
   mdx: {
     gfm: true,

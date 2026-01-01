@@ -1,0 +1,276 @@
+---
+title: 我的 Twist-Icons
+date: 2024-03-14
+category: blog
+updatedTime: 2025-02-26
+---
+
+今天来介绍一下我自己写的小家伙 [Twist-Icons](https://github.com/twist-space/twist-icons)，它是一个 `SVG` 图标库，可以在 `React`、`Vue3`、`Vue2` 中使用。具体使用方法可以在[文档](https://icons.razzh.cn/)中看到，这篇文章主要是介绍一下这个项目的由来和一些灵感由来。
+
+<ImagePreview src='/img/twist-icons.png' />
+
+## 项目的由来
+
+在23年，我其实想着写一个属于自己的组件库，但那时候我对组件库的打包流程处于一个“懵懂”的状态，同时我也对它们内部的运行流程充满好奇，我希望通过写一个组件库的方式，对组件库的开发流程有一个深入的了解。
+
+我先是研究了 `AntDesignVue` 的打包工具 `vc-tools`，之后字节开源了 `Arco-Design` 组件库，我深入研究它自研的打包脚本 `arco-script`，对组件库的打包流程有了一个整体的了解后，自己模仿着两款工具折腾着写了一个打包工具库，只不过还是初始的形态，所以并没有上传到Github上:)
+
+打包工具有了，我就想着可以动手写一个组件库了！但是如果要写一套比较完整的组件库项目，那么图标(Icons)库是必不可少的，所以 `Icons` 库是我要开发的第一步，于是 Twist-Icons 就这样制作出来了。
+
+## 名字由来
+
+关于包名前缀 `@twist-space`，为什么叫 `twist`？其实这跟我很喜欢的一位游戏 Pro 有关，他叫 [Twistzz](https://liquipedia.net/counterstrike/Twistzz)，一名 `CS Pro`。正好它也有"曲折"的意思，我当时觉得 `twist` 很符合我写这个项目的心路历程，也是 `twists and turns`（一波三折）。
+
+## 项目的灵感
+
+一波三折，为什么这么说呢？首先图标库首先得有图标才能开发对吧，其次我开始并不知道一个图标库该怎么开发，我花了一些时间看了 `Ant-Design` 和 `Arco-Design` Icons 代码，写了两篇文章 [Ant-Design-Icons 的生成之旅(上)](https://razzh.cn/posts/ant-design-icons-part-one/)和 [Ant-Design-Icons 的生成之旅(下)](https://razzh.cn/posts/ant-design-icons-part-two/)，分析了 `Antd Icons` 的生成流程，里面的用函数式的方法处理 `SVG` 数据的过程让我大开眼界，我当时也想着跟着它的处理过程模仿着做一个图标库，但是当时我又纠结于没有 `SVG` 图标为我所用（因为我不想抄得跟 Antd Icons 一模一样哈哈哈哈哈）。
+
+后来我想着多看看几家的图标库的处理过程，将它们的亮点整合一下，我找到了 `naive-ui` 作者开发的 [xicons](https://github.com/07akioni/xicons)，当时看到它文档的时候我就觉得 `amazing`，xicons 是集成了多个流行的图标库，我很好奇它是怎么做到的，就 `clone` 下它的代码看了一下。  
+
+它使用的是 [@iconify/json](https://www.npmjs.com/package/@iconify/json) 这个库，它收集了很多开源图标库的图标，将这些图标经过处理后存入 `JSON` 文件中，之后我就拿着 `@iconify/json` 做了 **0.1.x** 的 Twist-icons，并在 `npm` 上发布 Twist-icons，跟 xicons 一样，支持 React、Vue3/Vue2，也支持修改图标的大小、颜色等选项，也可以像 Antd icons 那样支持 `spin`、`rotate` 这样的样式效果，同时提供了 `IconProvider`。做到这样很好了对吧？  
+
+但是我很快发现，如果我喜欢的图标在多个不同的包下面，那么我就得将这些包**全都安装**在我的项目中，因为 **0.1.x** 的打包逻辑是将多个图标库拆分成多个 `npm` 包，它的导入方式是这样的：
+
+```js
+import { AntdIcons } from "@twist-icons-vue3/antd"
+import { TdesignIcons } from "@twist-icons-vue3/tdesign"
+```
+
+经过几天的思考，我想起之前我写博客的时候用到的 `react-icons`，它支持将多个包的图标打包到 `npm` 包中，通过指定包的路径将其导入就像这样：
+
+```js
+import { IconName } from "react-icons/ai"
+```
+
+这样的打包方式让开发者不需要在项目中安装多个 `npm` 包，只需要安装一个包就可以使用全部图标了。  
+
+所以我决定将打包流程改成这样的形式，于是就有了这次[重构](https://github.com/twist-space/twist-icons/commit/2286957c37bdc273cb0401a1f20dafbbf4d59a21)的提交，也就是 Twist-icons **0.2.x**版本，它可以像上述的导入方式一样导入图标，方便了很多，后续只需要在 `@iconify` 中挑选自己喜欢的图标库，然后加入到 `config` 中，其余的操作交给打包脚本一起打包发布就好了～  
+
+### 测试环境
+
+在开发 Twist 的时候，我觉得完整的项目少不了**单元测试**，所以我写了各个版本的 `Twist-icons` 单元测试和搭建本地测试环境配合上 [stackblitz](https://stackblitz.com/) 在线 `demo`，虽然有些费时，但方便了自测的同时也方便开发者调试。
+
+### Vue 自动导入插件
+
+现在很多新出的Vue组件库都支持组件的自动导入，我也想着给 `Twist-icons` 做一个插件出来，让开发者在使用的时候不需要导入，而是直接在文档中复制后就能在代码中使用了。
+
+这个插件的实现原理是基于 [unplugin-vue-components](https://www.npmjs.com/package/unplugin-vue-components) 来实现的，它需要我们给它提供 `Resolver`，但我刚开始并不知道这个 `Resolver` 需要开发者提供什么，跌跌撞撞看了一下它的源码这一部分的实现，折腾出了 [twist-icons-plugins](https://www.npmjs.com/package/@twist-space/twist-icons-plugins)。
+
+## 文档
+
+第一版文档的开发刚开始是使用 `arco-design` 组件库来搭建的，后面在开发 Twist-icons 0.2.x 的时候，我接触到了 `icones` ，它也是使用 `@iconify/json` 为基础来开发的，并且展示了 `@iconify` 下所有的图标库。之后我还接触到了 `shadcn/ui`，这个 `ui` 库让我眼前一亮，现在的文档就是基于 `icones` + `shadcn/ui` 的风格去写的，这是它的样子：
+
+<ImagePreview src='/img/twist-icons-detail.png' />
+
+做到这里，我目前是对这个项目比较满意了，我终于也拥有了自己的图标库。
+
+## 更新
+### 24.06.01
+在 `v0.3.0-aplha.2` 版本中，我再一次重构了打包脚本，将原有的 `tsc` 编译 `React` 代码的方式改成使用 `Bable` 编译，`tsc` 只负责**类型文件**的生成。  
+为什么这样做呢？因为我最近在写 `twist-scripts` 打包脚本的时候发现，使用 `Rollup` 打包带有 `twist-icons` 的项目，编译输出格式为 `UMD` 的时候，`Rollup` 会抛出一些警告：
+
+<ImagePreview src='/img/twist-icons-build-warning.png' />
+
+意思是说 `IconBase` 组件打包似乎有些问题，我看了一下编译后的 `IconBase` 代码：
+
+<ImagePreview src='/img/icon-base.png' />
+
+可以看到文件顶部的 `rest` 辅助变量使用了 `this` 关键字，但是在 `es modules` 中的顶部 `this` 始终是 `undefined`，所以 `Rollup` 抛出了[警告](https://rollupjs.org/troubleshooting/#error-this-is-undefined)，并将 `this` 替换成了 `undefined`。  
+
+后面经过一番折腾，我确定这是 `tsc` 编译的行为。所以我打算换成 `Babel` 编译来解决这个问题，Babel编译的结果：
+
+<ImagePreview src='/img/babel-icon-base.png' />
+
+`Babel` 的编译行为是将兼容的辅助函数放在顶部，但并没有在顶部使用 `this`，这也就解决了 `Rollup` 的警告问题。  
+
+同时在这次重构中我也发现了之前的打包脚本的很多问题，比如没有正确处理异步错误、打包后的目录结构存在一些问题，这次重构也解决了这些问题。
+
+``` js
+├── @twist-space/react-icons
+  ├── lib
+  │   ├── esm
+  │   │   ├── index.js
+  │   │   ├── index.d.ts
+  │   └── cjs
+  │       ├── index.js
+  │       ├── index.d.ts
+  ├── package.json
+```
+这次重构之后，我修改了 `lib` 文件夹的生成结构：
+  
+``` js
+├── @twist-space/react-icons
+  ├── lib
+  │     ├── index.js
+  │     ├── index.mjs
+  │     ├── index.d.ts
+  │     ├── package.json
+```
+
+优化之前的 `lib` 目录结构其实存在着耦合的情况，它们使用的类型文件其实是一样的，所以现在我将 `esm` 和 `cjs` 目录铺平，可以减少耦合和一些打包体积。  
+
+通过这次优化，我对打包后的结果有了一些浅薄的了解，今天是儿童节，正如这个节日一样，我在这个项目中也像儿童一样在蹒跚学步。
+
+### 24.09.07
+在之前发布 `0.3.1` 的版本后，我在使用中发现导入的 `icons` 没有被编译到目标文件下，也就是某些库的 icons 没有生成。
+
+```tsx
+// no export member AiBook in @twist-space/react-icons/ai
+import { AiBook } from '@twist-space/react-icons/ai'
+```
+
+引起这个问题的原因在如下代码：
+
+<ImagePreview src='/img/twist-icons-bad-code.png' />
+
+这段代码有两个问题：  
+1. 重复向目标文件使用 `writeFile` 方法覆盖之前的写入的内容，导致之前通过 `appendFile` 方法写入的 `icon` 数据被覆盖，
+所以就存在一个库可能就存在几行 icon data 的存在。
+2. 在 `for` 循环中使用了过多的写入操作是不合理的，它会严重拖慢 `icon` 文件的生成速度  
+
+举个例子：
+```js showLineNumbers
+import fs from 'fs'
+
+for(let i = 0; i < 10000; i++) {
+  fs.appendFile('react-icons/ai/index.mjs', icon)
+}
+```
+
+这种写法在循环次数少的情况下，看不出写入速度的差异，但是一旦循环次数变多，那么大量的循环频繁操作文件导致生成速度会变得非常慢，这在 `windows` 的机器上尤为明显，在我的 `Mac M1` 上
+打包 `twist-icons` 基本也需要1分多钟，但是在 `9700K` + `2060s` 的配置上跑 `0.3.2` 版本的打包代码，打包的速度、成功率都是非常低的，这也是 `v1.0.0-alpha` 需要解决的核心问题。  
+
+正确的作法是将步骤1拆出去，在初始化文件的时候就添加 `headerTemplate` 内容，步骤2的写入操作可以先放在一个数组中（内存），
+等 `data` 全部存入数组中的时候，我们再将数组中的数据一次性追加到目标文件中。
+
+这是优化后的结果：  
+**v0.3.2**
+<ImagePreview src='/img/twist-icons-build-0.3.2.png' />
+
+**v1.0.0-alpha.1**
+<ImagePreview src='/img/twist-icons-build-1.0-alpha.png' />
+
+<ImagePreview src='/img/twist-icons-build-windows.png' />
+
+此外 `v1.0.0-alpha.1` 版本中还优化了 `Icon` 组件的性能，因为 `twist-icons` 内置 `spin` 选项，开启后可以让 `Icon` 旋转，
+在之前的写法中是通过组件 `hooks` 的方式向 `head` 标签中插入 `style` 标签样式，也就是每一个 `Icon` 组件都会执行一个判断是否挂载 `style` 的方法：
+
+<ImagePreview src='/img/twist-spin-v0.3.2.png' />
+
+这会造成不必要的性能开销，这个操作步骤完全可以放在我们程序的启动文件中来执行，所以 `v1.0.0-alpha.1` 抽离了这段逻辑：
+
+<ImagePreview src='/img/twist-icons-spin-1.0.0.png' />
+
+如果需要让 `Icon` 组件旋转，我们可以选择在主文件中导入：
+
+```tsx
+// main file
+import { mountedTwistIconsStyles } from '@twist-space/xxx-icons'
+
+mountedTwistIconsStyles()
+```
+当然你也可以自己编写 `Icon` 的动画。  
+
+还有一些更新的内容，比如打包后的根目录 `package.json` 增加了 `peerDependencies` 和 `exports` 字段、新增 `Lucide Icon`、小错误的修复。  
+
+还有目前我能体验到的使用上的**痛点**是：导入的名字过长了：
+
+```tsx
+import { AiBook } from '@twist-space/react-icons/ai'
+```
+
+说实话有点小后悔用了 `@twist-space` 作为这个库的前缀名，因为本身这个库的使用方式就需要多级访问  
+我想过把 `@twist-space` 改成更短的名字比如 `@twist`，但是这个组织名已经被注册了，还是 `adobe` 公司使用的，但好在 `Vue` 的使用上我写的自动导入插件，
+所以稍微弥补了一下这点不足吧😂
+
+### 24.09.22
+
+#### 迁移命名空间
+在 `v1.0.0-beta.1` 中为了解决上面提到的命名空间过长的痛点，这次更新我把 `@twist-space` 替换成了 `@twistify`。迁移的主要目的是为了简化开发过程中引入该包的便捷性，因为 `@twist-space` 在输入的过程中字母较多，此外需要输入“-”，特别在频繁的引入多个库的图标时显得非常繁琐，而 `@twistify` 的命名空间虽说字母也没少几个，但是在一定程度下减少了这一痛点。
+所以 `@twist-space` 下的所有包已经全部迁移至 `@twistify` 命名空间下：  
+
+- 旧包名:
+  - @twist-space/react-icons
+  - @twist-space/vue3-icons
+  - @twist-space/vue2-icons
+  - @twist-space/twist-icons-plugins
+- 新包名:
+  - @twistify/react-icons
+  - @twistify/vue3-icons
+  - @twistify/vue2-icons
+  - @twistify/icons-plugins
+
+这么对比简洁了很多。  
+
+#### Icons 文档更新
+
+为了彻底解决开发时需要输入一长串的命名空间，这次我在 [twist-icons-docs](https://icons.razzh.cn/) 文档中加上了 `copy import` 的功能，意思是如果图标是第一次引入的，
+点击这个按钮它就会自动帮你生成你使用库的导入语句并复制到粘贴板，这样在开发的时候想要引入一个库的图标就不需要我们再手动再输入较长的导入语句了  
+
+<ImagePreview src='/img/twist-icons-import.png' />
+
+之前为什么在写文档的时候不添加这项 `copy` 功能呢？那时我并没有找到一个能够兼容「快捷复制」和「交互优雅」的方案。  
+我尝试过将要复制的 `import` 语法用代码块的方式展示出来的方案，就像这样：
+
+```ts
+import { AiCiCircleFilled } from '@twistify/react-icons/ai';
+```
+这样的交互方式是导致两个问题，因为有三个图标库需要复制，要么在右上角点击复制按钮的时候展示一个 `select` 来选择要你粘贴的框架，
+要么就是三种框架全部用代码块的方式展示出来。  
+但是它们都有一个问题是不够「便捷」。
+- `select` 的方式需要用户点击一下按钮，然后再次选择要复制的框架。
+- 将三个框架的代码块都展示出来的方式即乱又可能遇上名字长的图标展示不全并且需要拖动 `Srcollbar`。  
+
+这样的体验是不好的。  
+
+#### 重构 IconBase 组件
+此外这次更新还重构了 `Vue3` 的 `IconBase` 组件。
+之前的写法解构了 `props`，这在 `Vue3.5` 以下的版本中会丢失依赖「响应式」，所以新版的代码也是使用 `computed` 计算属性来做这件事。另外也修复了组件内 `ts` 的类型错误问题。
+
+之前 `Vue2/3` 的组件中均使用了 `JSX` 的语法，这次我将它们都改写成了使用 `render` 函数的渲染方式。  
+原因是在安装 `vue2` 版本的图标库时，需要额外安装 `babel` 转化插件。
+才能正常运行，当然这个过程在用户安装 `Vue2` 图标库的过程中会被自动安装，因为我在 `package.json` 中添加了开发依赖。  
+
+<ImagePreview src='/img/remove-jsx.png' />
+
+这个插件主要是将 `Vue2` 的 `JSX` 写法转换成 `render` 函数的形式，但是这会导致额外的安装时间，也因为 `JSX` 语法在组件中使用的比较少，所以很容易就改成 `render` 函数的语法。  
+
+这次更新是因为我在使用 `Vue3` 写一个自己用的后台重度使用了 `twist-icons`，导入不够友好我是能够深刻体验到的，所以我下定决定进行了这次更新，现在的版本下不管是组件质量、还是使用体验上
+，我觉得已经可以上生产环境了，我想 `v1.0.0` 版本是可以发布了。
+
+### 25.02.26
+
+今天在运行 `realease:all` 命令打包项目的时候出现了报错：
+
+<ImagePreview src='/img/twist-build-error.webp' />
+
+首先我来简单介绍一下 `realease:all` 这个命令的运行逻辑，在打包 `icons` 库之前，它会检查 `@iconify/json` 是否已经有新版本发布，如有发布，就会更新本地的 `iconify` 的包版本，随后打包各个版本的 `icons` 库。  
+
+从图中我们可以看到报错是指向 `@iconify/json@2.2.299` 这个旧版本，也就意味着打包时引用的是旧版本的方法，可是现在这个版本已经被更新成了 `2.2.310`。检查时我发现，打包脚本时使用了 iconify/json 提供的方法 `locate` 方法：
+
+```ts showLineNumbers
+import { locate } from '@iconfiy/json'
+
+async function generateIconsModule(iconConfig) {
+  const { prefix } = iconConfig
+  const iconifyPath = await locate(prefix)
+  ...
+}
+```
+
+我想如果把 `locate` 方法从静态导入改成动态导入这个问题就能迎刃而解了。
+
+```ts showLineNumbers
+async function generateIconsModule(iconConfig) {
+  const { prefix } = iconConfig
+  const { locate } = await importModule('@iconify/json')
+  const iconifyPath = await locate(prefix)
+  ...
+}
+```
+
+这里用了一下 `antfu` 的包 [local-pkg](https://www.npmjs.com/package/local-pkg)。
+
+> 这里没有使用 `await import` 的方式是因为，这种动态导入方式 `ts` 编译要求 `module` 必须是 `esnext`，而我的目标配置是 `es6`。  
+
+修改完成后，以后的打包只需要一条指令就能帮我做完全部的事情，再也不需要担心报错啦。

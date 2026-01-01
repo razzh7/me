@@ -1,6 +1,7 @@
 import readTime from '@/util/readtime'
 import dayjs from 'dayjs'
-import { posts, Post } from '#velite'
+import { posts, memoirs, Post, Memoirs } from '#velite'
+import type { BlogType } from '@/types/main'
 
 export type PostsProps = {
   id: string
@@ -17,55 +18,42 @@ export interface PostPageProps {
   }
 }
 
-export async function generateMetadata({ params }: PostPageProps) {
-  const post = await getSpecialPost({ params })
-
-  return {
-    title: post?.title
-  }
-}
-
-export async function generateStaticParams() {
-  return posts
-    .filter((post) => post.publish)
-    .map((post) => ({
-      slug: post.slug
-    }))
-}
-
 export function getSpecialPost({ params }: PostPageProps) {
   return posts.find((post: Post) => post.slug === params.slug && post.publish)
 }
 
-const _cache: PostsProps[] = []
+export function getSpecialMemoirs({ params }: PostPageProps) {
+  return memoirs.find((memoir: Memoirs) => memoir.slug === params.slug && memoir.publish)
+}
 
-export const getAllSortedPosts = () => {
-  if (!_cache.length) {
-    posts.forEach((post: Post) => {
-      const { readtime, words } = readTime(post.body)
-      const mouthDay = dayjs(post.date).format('MMM D')
-      const year = dayjs(post.date).format('YYYY')
-      const updatedTime = post?.updatedTime ? dayjs(post.updatedTime).format('YYYY MMM D') : ''
+export const getPosts = (type: BlogType) => {
+  const pagePosts: PostsProps[] = []
+  const targetPosts = type === 'posts' ? posts : memoirs
 
-      _cache.push({
-        ...post,
-        id: post.slug,
-        year,
-        mouthDay,
-        updatedTime,
-        readtime,
-        words
-      })
+  targetPosts.forEach((post: Post) => {
+    const { readtime, words } = readTime(post.body)
+    const mouthDay = dayjs(post.date).format('MMM D')
+    const year = dayjs(post.date).format('YYYY')
+    const updatedTime = post?.updatedTime ? dayjs(post.updatedTime).format('YYYY MMM D') : ''
+
+    pagePosts.push({
+      ...post,
+      id: post.slug,
+      year,
+      mouthDay,
+      updatedTime,
+      readtime,
+      words
     })
+  })
 
-    _cache.sort(({ date: a }, { date: b }) => {
-      const timeA = new Date(a)
-      const timeB = new Date(b)
-      return timeB.getTime() - timeA.getTime()
-    })
-  }
+  pagePosts.sort(({ date: a }, { date: b }) => {
+    const timeA = new Date(a)
+    const timeB = new Date(b)
+    return timeB.getTime() - timeA.getTime()
+  })
 
-  return _cache.filter((post) => post.publish)
+  return pagePosts.filter((post) => post.publish)
 }
 
 export const postTimeHandler = (post: Post) => {

@@ -21,6 +21,8 @@ export interface Posts {
   posts: PostContent[]
 }
 
+export type BlogType = 'posts' | 'memoirs'
+
 export interface Books {
   books: BooksItem[]
 }

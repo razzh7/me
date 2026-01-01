@@ -3,29 +3,27 @@ import { usePathname } from 'next/navigation'
 import { createContext, useMemo } from "react"
 import Badge from '@/components/badge'
 import { cn } from "@/util/merge"
-import { getAllSortedPosts, type PostsProps } from '@/util/post'
+import { getPosts, type PostsProps } from '@/util/post'
 import Link from 'next/link'
 import type { PropsWithChildren } from "react"
+import type { BlogType } from '@/types/main'
 
-type PostType = 'posts' | 'logs'
 type Category = {
   name: string;
   link: string;
-  type: PostType;
+  type: BlogType;
   tag?: boolean;
-};
+}
 
-const allPosts = getAllSortedPosts()
-const postsBlog = allPosts.filter((cat) => cat.category === 'blog')
-const postsLogs = allPosts.filter((cat) => cat.category === 'logs')
-
+const postsBlog = getPosts('posts')
+const postsMemoirs = getPosts('memoirs')
 export const PostsContext = createContext<{ posts: PostsProps[] | null }>({
   posts: null
 })
 
 function PostsLayout({ children }: PropsWithChildren) {
   const pathname = usePathname()
-  const posts = useMemo<PostsProps[]>(() => pathname === '/posts/' ? postsBlog : postsLogs, [pathname])
+  const posts = useMemo<PostsProps[]>(() => pathname === '/posts/' ? postsBlog : postsMemoirs, [pathname])
   const categories = useMemo<Category[]>(() => [
     {
       name: 'Blog',
@@ -35,7 +33,7 @@ function PostsLayout({ children }: PropsWithChildren) {
     {
       name: 'Memoirs',
       link: '/memoirs',
-      type: 'logs',
+      type: 'memoirs',
       tag: true
     }
   ], [])

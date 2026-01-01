@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 function Memoirs() {
   return (
-    <ListLayout />
+    <ListLayout type="memoirs" />
   )
 }
 

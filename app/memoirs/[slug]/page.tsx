@@ -1,4 +1,4 @@
-import { PostPageProps, getSpecialPost } from '@/util/post'
+import { PostPageProps, getSpecialMemoirs } from '@/util/post'
 import { notFound } from 'next/navigation'
 import MdxContent from '@/components/mdx-components'
 import { getTableOfContents } from "@/util/toc"
@@ -6,10 +6,10 @@ import DashboardTableOfContents from '@/components/toc'
 import { ScrollArea } from '@/components/scroll-area'
 import { postTimeHandler } from '@/util/post'
 import Badge from '@/components/badge'
-import { posts } from '#velite'
+import { memoirs } from '#velite'
 
 export async function generateMetadata({ params }: PostPageProps) {
-  const post = await getSpecialPost({ params })
+  const post = await getSpecialMemoirs({ params })
 
   return {
     title: post?.title
@@ -17,15 +17,15 @@ export async function generateMetadata({ params }: PostPageProps) {
 }
 
 export async function generateStaticParams() {
-  return posts
-    .filter((post) => post.publish)
-    .map((post) => ({
-      slug: post.slug
+  return memoirs
+    .filter((memoir) => memoir.publish)
+    .map((memoir) => ({
+      slug: memoir.slug
     }))
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const post = await getSpecialPost({ params })
+  const post = await getSpecialMemoirs({ params })
 
   if (!post) {
     notFound()
