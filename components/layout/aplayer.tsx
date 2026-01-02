@@ -1,8 +1,7 @@
-'use clinet'
+'use client'
 import TwistAPlayerWraper from '../twist-aplayer'
 import type { AudioInfo } from 'twist-aplayer'
 import { memo } from 'react'
-import { useIsMobile } from '@/hooks/useIsMobile'
 
 const layoutAudioList: AudioInfo[] = [
   {
@@ -80,9 +79,11 @@ const MemoizedPlayer = memo(function MemoizedPlayer() {
 
 
 function LayoutAplayer() {
-  const isMobile = useIsMobile()
-
-  return !isMobile ? <MemoizedPlayer /> : null
+  return (
+    <div className="hidden md:block">
+      <MemoizedPlayer />
+    </div>
+  )
 }
 
 export default LayoutAplayer
