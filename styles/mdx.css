@@ -36,16 +36,16 @@
   @apply px-0;
 }
 
-[data-rehype-pretty-code-fragment] .line {
+[data-rehype-pretty-code-fragment] [data-line] {
   @apply p-4 min-h-[1rem] py-0.5 w-full inline-block;
   border: none;
 }
 
-[data-rehype-pretty-code-fragment] .line--highlighted {
+[data-rehype-pretty-code-fragment] [data-highlighted-line] {
   @apply bg-hightlight;
 }
 
-[data-rehype-pretty-code-fragment] .line-highlighted span {
+[data-rehype-pretty-code-fragment] [data-highlighted-line] span {
   @apply relative;
 }
 
@@ -54,7 +54,7 @@ code[data-line-numbers] {
   counter-reset: line;
 }
  
-code[data-line-numbers] > .line::before {
+code[data-line-numbers] > [data-line]::before {
   counter-increment: line;
   content: counter(line);
  
@@ -66,14 +66,37 @@ code[data-line-numbers] > .line::before {
   color: rgb(102, 102, 102);
 }
  
-code[data-line-numbers-max-digits="2"] > .line::before {
+code[data-line-numbers-max-digits="2"] > [data-line]::before {
   width: 1.25rem;
 }
  
-code[data-line-numbers-max-digits="3"] > .line::before {
+code[data-line-numbers-max-digits="3"] > [data-line]::before {
   width: 1.75rem;
 }
  
-code[data-line-numbers-max-digits="4"] > .line::before {
+code[data-line-numbers-max-digits="4"] > [data-line]::before {
   width: 2.25rem;
+}
+
+/* Shiki dual theme support */
+/* Light mode: use --shiki-light variables */
+.light pre,
+.light code,
+.light code span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+/* Dark mode: use --shiki-dark variables */
+.dark pre,
+.dark code,
+.dark code span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+/* Only apply background to pre, not to individual spans */
+.light code span,
+.dark code span {
+  background-color: transparent;
 }

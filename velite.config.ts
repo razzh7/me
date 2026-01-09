@@ -45,7 +45,10 @@ export default defineConfig({
     rehypePlugins: [
       rehypeSlug,
       [rehypePrettyCode, {
-        theme: 'vitesse-dark',
+        theme: {
+          dark: 'vitesse-dark',
+          light: 'vitesse-light'
+        },
         transformers: [
           {
             name: 'preserve-raw-string',

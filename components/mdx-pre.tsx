@@ -21,9 +21,9 @@ function MdxPre(props: MdxPreProps) {
 
   return (
     <div
-      className="relative bg-code rounded-lg border border-muted2 my-3"
+      className="relative bg-code rounded-lg border border-round my-3 overflow-hidden"
     >
-      <div className="flex justify-between border-b border-muted2 px-[1rem] py-[0.3rem]">
+      <div className="flex justify-between border-b border-round px-[1rem] py-[0.3rem]">
         <div>{lang}</div>
         <CopyButton value={rawString as string} />
       </div>
