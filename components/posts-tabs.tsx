@@ -2,6 +2,7 @@
 import { useMemo } from "react"
 import Badge from '@/components/badge'
 import { cn } from '@/util/merge'
+import { animatedCache } from '@/util/animation-cache'
 import Link from 'next/link'
 import type { BlogType } from '@/types/main'
 
@@ -39,6 +40,7 @@ function PostsTabs({ type }: PostsTabsProps) {
         categories.map((item) => (
           <Link
             href={item.link}
+            onClick={() => animatedCache.delete(item.type)}
             onTouchStart={(e) => e.currentTarget.click()}
             className="relative flex"
             key={item.name}

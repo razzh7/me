@@ -1,16 +1,18 @@
 'use client'
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { cn } from "@/util/merge"
 import styles from '@/styles/posts.module.css'
 import { AiBilibiliOutlined as BIcon } from '@twistify/react-icons/ai'
 import PostsTabs from '@/components/posts-tabs'
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import type { PostsProps } from '@/util/post'
 import type { BlogType } from '@/types/main'
+import { animatedCache } from '@/util/animation-cache'
 
 interface PageLinkProps {
   item: PostsProps
-  children: React.ReactNode
+  children: ReactNode
 }
 
 interface ListLayoutProps {
@@ -21,6 +23,13 @@ interface ListLayoutProps {
 function ListLayout(props: ListLayoutProps) {
   const { posts, type } = props
   const link = type === 'posts' ? 'posts' : 'memoirs'
+
+  const hasAnimated = animatedCache.has(type)
+
+  useEffect(() => {
+    animatedCache.add(type)
+  }, [type])
+
   const getNowYear = (date: string) => new Date(date).getFullYear()
   const isSameYear = (a: string, b: string) => a && b && getNowYear(a) === getNowYear(b)
 
@@ -59,7 +68,7 @@ function ListLayout(props: ListLayoutProps) {
                   !isSameYear(item.date, posts[idx - 1]?.date)
                     ? (
                       <div
-                        className="relative h-16 md:h-20 slide-enter"
+                        className={cn("relative h-16 md:h-20", !hasAnimated && "slide-enter")}
                         style={{ '--enter-stage': idx - 2 } as CSSProperties}
                       >
                         <p className={cn('absolute -z-10 top-6 -left-10', styles.posts)}>{getNowYear(item.date)}</p>
@@ -68,7 +77,7 @@ function ListLayout(props: ListLayoutProps) {
                     : null
                 }
                 <li
-                  className="mb-5 slide-enter"
+                  className={cn("mb-5", !hasAnimated && "slide-enter")}
                   style={{ '--enter-stage': idx + 1 } as CSSProperties}
                 >
                   <PageLink item={item}>
