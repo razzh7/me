@@ -49,7 +49,6 @@
 
   html {
     @apply bg-background text-accent transition-all duration-300;
-    scroll-behavior: smooth;
   }
 
   ::selection {

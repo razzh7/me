@@ -86,12 +86,29 @@ interface TreeProps {
 }
 
 function Tree({ tree, level = 1, activeItem }: TreeProps) {
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, url: string) => {
+    e.preventDefault()
+    const element = document.querySelector(url)
+    if (element) {
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY
+      const offsetPosition = elementPosition - 20
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
+
+      history.pushState(null, '', url)
+    }
+  }
+
   return tree?.items?.length && level < 3 ? (
     <ul className={cn("m-0 list-none", { "pl-4": level !== 1 })}>
       {tree.items.map((item, index) => (
         <li key={index} className={cn("mt-0 pt-2")}>
           <a
             href={item.url}
+            onClick={(e) => handleScroll(e, item.url)}
             className={cn(
               "inline-block no-underline transition-colors hover:text-secondary",
               item.url === `#${activeItem}`
