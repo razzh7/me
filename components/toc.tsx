@@ -89,6 +89,7 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, url: string) => {
     e.preventDefault()
     const element = document.querySelector(url)
+
     if (element) {
       const elementPosition = element.getBoundingClientRect().top + window.scrollY
       const offsetPosition = elementPosition - 20
@@ -97,8 +98,6 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
         top: offsetPosition,
         behavior: 'smooth'
       })
-
-      history.pushState(null, '', url)
     }
   }
 
