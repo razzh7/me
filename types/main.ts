@@ -33,3 +33,33 @@ export interface BooksItem {
   tag: string
   cover: string
 }
+
+export type CodeLanguages =
+  'js' |
+  'ts' |
+  'jsx' |
+  'tsx' |
+  'react' |
+  'vue' |
+  'css' |
+  'less' |
+  'scss' |
+  'sass' |
+  'html' |
+  'json' |
+  'bash' |
+  'shell' |
+  'yaml' |
+  'markdown' |
+  'mdx' |
+  'python' |
+  'java' |
+  'csharp' |
+  'cpp' |
+  'ruby' |
+  'go' |
+  'php' |
+  'rust' |
+  'dockerfile' |
+  'sql' |
+  'nginx'
