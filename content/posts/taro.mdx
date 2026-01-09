@@ -119,7 +119,7 @@ npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 
 用于记录 CHANGELOG 日志，可以看到团队的更新日志，并能点击对应的 commit 看相应的代码
 
-```
+``` shell
 pnpm add conventional-changelog conventional-changelog-cli -D
 ```
 
@@ -127,7 +127,7 @@ pnpm add conventional-changelog conventional-changelog-cli -D
 
 ### 5、standard-version
 
-```
+``` shell
 pnpm add standard-version -D
 # 配置脚本
 npm set-script release "standard-version"
@@ -154,20 +154,21 @@ npm run release -- --release-as xxx (you want version)
 
 ## 四、安装 unocss
 
-```js
+```shell
 pnpm add unocss @unocss/webpack -D
 ```
 
 在入口文件 [app.ts](https://github.com/rzhAvenir/taro-vue3-template/blob/master/src/app.ts) 中引入 `unocss`
 
 添加 `Unocss` 小程序预设（用来转换 `px` 和 `rpx` 的单位换算）
-```js
+
+```shell
 pnpm add unocss-preset-weapp -D
 ```
 
 在根目录下新增 `unocss.config.ts`，引入如下代码：
 
-```js
+```shell
 import presetWeapp from 'unocss-preset-weapp'
 import { transformerAttributify, transformerClass } from 'unocss-preset-weapp/transformer'
 

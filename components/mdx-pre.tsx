@@ -3,11 +3,21 @@ import { useMemo } from 'react'
 import CopyButton from '@/components/copy-button'
 import { cn } from '@/util/merge'
 import type { CodeLanguages } from '@/types/main'
-import { SkTypescript, SkJavascript, SkJavaLight, SkLessLight, SkNginx, SkPythonLight } from '@twistify/react-icons/sk'
+import {
+  SkTypescript,
+  SkJavascript,
+  SkJavaLight,
+  SkLessLight,
+  SkNginx,
+  SkPythonLight,
+  SkHtml,
+  SkCss
+} from '@twistify/react-icons/sk'
 import { MdiVuejs } from '@twistify/react-icons/mdi'
 import { IonLogoSass, IonLogoReact } from '@twistify/react-icons/ion'
 import { MiFileJsonRounded } from '@twistify/react-icons/mi'
 import { TaBrandPowershell, TaBrandDocker } from '@twistify/react-icons/ta'
+import { PhMarkdownLogoFill } from '@twistify/react-icons/ph'
 
 interface MdxPreProps extends React.HTMLAttributes<HTMLPreElement> {
   'data-raw-string'?: string,
@@ -66,6 +76,18 @@ function MdxPre(props: MdxPreProps) {
 
     if (lang === 'python') {
       return <SkPythonLight size={20} />
+    }
+
+    if (lang === 'html') {
+      return <SkHtml size={20} />
+    }
+
+    if (lang === 'css') {
+      return <SkCss size={20} />
+    }
+
+    if (lang === 'markdown') {
+      return <PhMarkdownLogoFill size={20} />
     }
 
     return null
