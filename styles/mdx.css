@@ -24,7 +24,7 @@
 }
 
 .mdx blockquote > p {
-  @apply leading-8;
+  @apply leading-5;
   @apply my-0;
 }
 
