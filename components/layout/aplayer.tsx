@@ -66,24 +66,27 @@ const layoutAudioList: AudioInfo[] = [
   }
 ]
 
-const MemoizedPlayer = memo(function MemoizedPlayer() {
+const LayoutAplayer = memo(function MemoizedPlayer() {
   return (
-    <TwistAPlayerWraper
-      audio={layoutAudioList}
-      appearance='fixed'
-      mini
-      mutex
-    />
+    <>
+      <div className='hidden md:block'>
+        <TwistAPlayerWraper
+          audio={layoutAudioList}
+          appearance='fixed'
+          mini
+          mutex
+        />
+      </div>
+      <div className='block md:hidden'>
+        <TwistAPlayerWraper
+          audio={layoutAudioList}
+          appearance='fixed'
+          superMini
+          mutex
+        />
+      </div>
+    </>
   )
 })
-
-
-function LayoutAplayer() {
-  return (
-    <div className="hidden md:block">
-      <MemoizedPlayer />
-    </div>
-  )
-}
 
 export default LayoutAplayer
