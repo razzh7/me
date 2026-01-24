@@ -1,0 +1,35 @@
+.iconBlock {
+  display: inline-flex;
+  background: #8882;
+  transform: translateY(3px);
+  line-height: 100%;
+  color: #888;
+  gap: .25rem;
+  border-radius: .25rem;
+  padding: .25rem .375rem;
+  font-family: Roboto Condensed;
+  font-size: 1rem;
+  font-weight: 500;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+  transition-duration: .15s;
+}
+
+.iconBlock:hover {
+  background: #8883;
+  color: hsl(var(--accent));
+}
+
+.iconBlock span {
+  font-size: 0.95em;
+}
+
+.icon {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 2px;
+}

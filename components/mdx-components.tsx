@@ -10,6 +10,7 @@ import TheEnd from './the-end'
 import OutLink from './outlink'
 import BetweenArticle from './between-article'
 import MomentsImageGrid from './moments-image-grid'
+import IconBlock from './icon/icon-blcok'
 
 const sharedComponents = {
   ImagePreview,
@@ -22,6 +23,7 @@ const sharedComponents = {
   OutLink,
   BetweenArticle,
   MomentsImageGrid,
+  IconBlock,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(
