@@ -1,11 +1,8 @@
 import { TiModeDark, TiSunny } from '@twistify/react-icons/ti'
+import { useTheme } from '@/hooks/useTheme'
 
-interface ThemeButton {
-  theme: 'dark' | 'light'
-  toggleTheme: () => void
-}
-
-function ThemeButton({ theme, toggleTheme }: ThemeButton) {
+function ThemeButton() {
+  const { theme, toggleTheme } = useTheme()
   return theme === 'dark'
     ? (
       <span
