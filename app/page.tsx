@@ -28,9 +28,9 @@ const InnerLink = ({ link, children }: LinkProps) => (
 const Ruby = ({ rb, rp }: { rb: string, rp: string }) => <ruby> {rb} <rp>(</rp><rt>{rp}</rt><rp>)</rp> </ruby>
 
 const Home = () => (
-  <div className="container px-5 py-10">
+  <div className="container">
     <p className="font-[800] text-4xl text-secondary">Razzh</p>
-    <p className='text-sm mt-2 text-muted'>天眞的孩子找不到他的天堂</p>
+    <p className='text-sm mt-3 text-muted'>天眞的孩子找不到他的天堂</p>
     <p className='text-sm mt-1 mb-5 text-muted'>An innocent child finds no path to Paradise</p>
     <article className="linetext-base font-[500] leading-7 text-primary slide-enter-content">
       <div>
@@ -40,7 +40,7 @@ const Home = () => (
           <IconBlock
             href="https://wuyasaas.com/"
             icon="/icons/wuya.svg"
-            name="XI Cloud"
+            name="Xi Cloud"
           />
           {" / "}
           <IconBlock
@@ -49,11 +49,14 @@ const Home = () => (
             name="Twist Space"
           />
         </div>
-        <p className="mx-0 my-1">
+        <p className="mt-2 leading-8 md:leading-9">
           I live in <Ruby rb='杭州' rp='Hangzhou' /> now. "zzh" is the Chinese abbreviation of my name. My friends call me <Ruby rb='小豪' rp='Xiǎoháo' /> as my nickname.
         </p>
+        <p className="mt-2 leading-8 md:leading-9">
+          I watched the documentary Return to the Wolves and designed my blog logo featuring its protagonist, <Ruby rb='格林' rp='Ge Lin' />, the wolf, which you can now see in the blog’s top-right corner.
+        </p>
         <Divider />
-        <div className="mx-0 my-1">
+        <div className="mx-0 my-2">
           <Text>
             <InnerLink link="projects">Awesome projects</InnerLink>
           </Text>

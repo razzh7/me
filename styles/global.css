@@ -109,10 +109,11 @@
     stroke-dasharray: 0 350px;
   }
 }
+
 .path1 {
   stroke-dashoffset: 1px;
   stroke-dasharray: 350px 0;
-  animation: grow 12s ease forwards infinite;
+  animation: grow 10s ease forwards infinite;
   transform-origin: center;
   stroke: #303030;
   animation-delay: 0s;
