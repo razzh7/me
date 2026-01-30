@@ -53,7 +53,7 @@ const Home = () => (
           I live in <Ruby rb='杭州' rp='Hangzhou' /> now. "zzh" is the Chinese abbreviation of my name. My friends call me <Ruby rb='小豪' rp='Xiǎoháo' /> as my nickname.
         </p>
         <p className="mt-2 leading-8 md:leading-9">
-          I watched the documentary Return to the Wolves and designed my blog logo featuring its protagonist, <Ruby rb='格林' rp='Ge Lin' />, the wolf, which you can now see in the blog’s top-right corner.
+          I watched the documentary Return to the Wolves and designed my blog logo featuring its protagonist, <Ruby rb='格林' rp='Ge Lin' />, the wolf, which you can see in the blog’s top-right corner.
         </p>
         <Divider />
         <div className="mx-0 my-2">
