@@ -2,17 +2,20 @@
 import Image from "next/image"
 import { useState } from "react"
 import { Preview } from "./img-preview"
+import { blurhashToGradientCssObject } from '@unpic/placeholder'
+import { getBlurhashes } from '@/util/blurhash'
 
 interface MomentsImageGridProps {
   desc?: string;
   images: string[];
+  blurhashes?: Record<string, string>;
 }
 
 /**
  * 九宫格图片展示组件
  * @param {string[]} images - 图片URL数组，最多展示9张
  */
-function MomentsImageGrid({ images = [], desc = '' }: MomentsImageGridProps) {
+function MomentsImageGrid({ images = [], desc = '', blurhashes = {} }: MomentsImageGridProps) {
   const [show, setShow] = useState(false)
   const [index, setIndex] = useState(0)
   const imageCount = images.length
@@ -35,6 +38,7 @@ function MomentsImageGrid({ images = [], desc = '' }: MomentsImageGridProps) {
             width={240}
             height={240}
             className="h-auto w-full object-cover"
+            style={blurhashes[displayImages[0]] ? blurhashToGradientCssObject(blurhashes[displayImages[0]]) as React.CSSProperties : undefined}
             priority
             onClick={() => {
               setIndex(0)
@@ -72,6 +76,7 @@ function MomentsImageGrid({ images = [], desc = '' }: MomentsImageGridProps) {
               fill
               className="image-preview object-cover"
               sizes="(max-width: 768px) 33vw, (max-width: 1200px) 25vw, 20vw"
+              style={blurhashes[src] ? blurhashToGradientCssObject(blurhashes[src]) as React.CSSProperties : undefined}
               priority={index < 3} // 优先加载前三张图片
               onClick={() => {
                 setIndex(index)
@@ -94,4 +99,8 @@ function MomentsImageGrid({ images = [], desc = '' }: MomentsImageGridProps) {
   )
 }
 
-export default MomentsImageGrid
+function MomentsImageGridWithBlur(props: React.ComponentProps<typeof MomentsImageGrid>) {
+  return <MomentsImageGrid {...props} blurhashes={props.blurhashes || getBlurhashes(props.images || [])} />
+}
+
+export default MomentsImageGridWithBlur

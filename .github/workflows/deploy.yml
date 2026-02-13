@@ -24,6 +24,8 @@ jobs:
           node-version: 20
       - run: npm install -g pnpm@10
       - run: pnpm install
+      - run: pnpm compress
+      - run: pnpm blurhash
       - run: pnpm build
 
       - name: 部署博客

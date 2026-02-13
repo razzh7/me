@@ -2,11 +2,14 @@
 'use client'
 import { useState, useMemo } from 'react'
 import Image from 'next/image'
+import { blurhashToGradientCssObject } from '@unpic/placeholder'
+import { getBlurhash } from '@/util/blurhash'
 
 interface ImagePreviewProps {
   src: string
   alt?: string
   remote?: boolean
+  blurhash?: string
 }
 
 interface PreviewProps {
@@ -30,9 +33,10 @@ export function Preview({ src, alt, onClose }: PreviewProps) {
   )
 }
 
-function ImagePreview({ src, alt, remote = false }: ImagePreviewProps) {
+function ImagePreview({ src, alt, remote = false, blurhash }: ImagePreviewProps) {
   const [show, setShow] = useState(false)
   const _src = useMemo(() => remote ? `https://${process.env.NEXT_PUBLIC_ASSETS_URL}/${src.replace('/', '')}` : src, [remote, src])
+  const blurStyle = blurhash ? blurhashToGradientCssObject(blurhash) as React.CSSProperties : undefined
 
   return (
     <div className='my-5'>
@@ -44,6 +48,8 @@ function ImagePreview({ src, alt, remote = false }: ImagePreviewProps) {
           width={0}
           height={0}
           sizes="100vw"
+          style={blurStyle}
+          loading="lazy"
           onClick={() => setShow(!show)}
         />
       </div>
@@ -60,4 +66,8 @@ function ImagePreview({ src, alt, remote = false }: ImagePreviewProps) {
   )
 }
 
-export default ImagePreview
+function ImagePreviewWithBlur(props: React.ComponentProps<typeof ImagePreview>) {
+  return <ImagePreview {...props} blurhash={props.blurhash || getBlurhash(props.src)} />
+}
+
+export default ImagePreviewWithBlur
