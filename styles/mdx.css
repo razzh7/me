@@ -100,3 +100,13 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
 .dark code span {
   background-color: transparent;
 }
+
+.light p > code {
+  color: #222 !important;
+  background-color: #aaaaaa18 !important;
+}
+
+.dark p > code {
+  color: #ddd !important;
+  background-color: #aaaaaa18 !important;
+}
