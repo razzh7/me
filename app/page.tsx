@@ -1,10 +1,10 @@
 "use client"
-import Link from 'next/link'
+import IconBlock from '@/components/icon/icon-blcok'
 import Footer from '@/components/layout/footer'
+import { AiBilibiliOutlined as BIcon } from '@twistify/react-icons/ai'
 import { BiTwitterX } from '@twistify/react-icons/bi'
 import { TiLogoGithub } from '@twistify/react-icons/ti'
-import { AiBilibiliOutlined as BIcon } from '@twistify/react-icons/ai'
-import IconBlock from '@/components/icon/icon-blcok'
+import Link from 'next/link'
 
 interface LinkProps {
   link: string;
@@ -79,18 +79,18 @@ const Home = () => (
           </div>
         </div>
         <div className='mt-4'>
-          I'm currently learning how to implement RPA with AI-driven workflows. I'm analyzing platforms like
+          I'm working on TwistBot, a personal AI Agent assistant. I'm analyzing existing agents like
           {" "}
           <IconBlock
-            href="https://coze.ai/"
-            icon="/icons/coze.jpg"
-            name="Coze Studio"
+            href="https://hermes-agent.nousresearch.com/"
+            icon="/icons/hermes-agent.png"
+            name="Hermes Agent"
           />
           {" "}and{" "}
           <IconBlock
-            href="https://yindao.com/"
-            icon="/icons/yindao-rpa.png"
-            name="影刀 RPA"
+            href="https://github.com/earendil-works/pi"
+            icon="/icons/pi.svg"
+            name="Pi"
           />
           , and if possible, I'd like to code my own implementation down the line.
         </div>
