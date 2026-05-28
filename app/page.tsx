@@ -49,6 +49,26 @@ const Home = () => (
             name="Twist Space"
           />
         </div>
+        <div className='mb-3'>
+          Contribute to{" "}
+          <IconBlock
+            href="https://github.com/HKUDS/nanobot"
+            icon="/icons/nanobot.png"
+            name="Nanobot"
+          />
+          {" / "}
+          <IconBlock
+            href="https://github.com/vexip-ui/vexip-ui/"
+            icon="/icons/vexip-ui.svg"
+            name="Vexip UI"
+          />
+          {" / "}
+          <IconBlock
+            href="https://github.com/ErlichLiu/Proma"
+            icon="/icons/proma.svg"
+            name="Proma"
+          />
+        </div>
         <p className="mt-2 leading-8 md:leading-9">
           I live in <Ruby rb='杭州' rp='Hangzhou' /> now. "zzh" is the Chinese abbreviation of my name. My friends call me <Ruby rb='小豪' rp='Xiǎoháo' /> as my nickname.
         </p>
