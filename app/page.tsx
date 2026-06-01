@@ -50,6 +50,15 @@ const Home = () => (
           />
         </div>
         <div className='mb-3'>
+          Building {" "}
+          <IconBlock
+            href="https://github.com/twist-space/twistbot"
+            icon="/icons/twistbot.png"
+            name="Twistbot"
+          />
+          , a personal AI Agent assistant.
+        </div>
+        <div className='mb-3'>
           Contribute to{" "}
           <IconBlock
             href="https://github.com/HKUDS/nanobot"
@@ -99,7 +108,7 @@ const Home = () => (
           </div>
         </div>
         <div className='mt-4'>
-          I'm working on TwistBot, a personal AI Agent assistant. I'm analyzing existing agents like
+          I'm analyzing existing agents like
           {" "}
           <IconBlock
             href="https://hermes-agent.nousresearch.com/"
