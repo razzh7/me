@@ -115,13 +115,19 @@ const Home = () => (
             icon="/icons/hermes-agent.png"
             name="Hermes Agent"
           />
-          {" "}and{" "}
+          、
           <IconBlock
             href="https://github.com/earendil-works/pi"
             icon="/icons/pi.svg"
             name="Pi"
           />
-          , and if possible, I'd like to code my own implementation down the line.
+          {" "} and {" "}
+          <IconBlock 
+            href="https://github.com/MoonshotAI/kimi-code"
+            icon="/icons/kimi-logo.png"
+            name="Kimi Code"
+          />
+          , and learning their architectural design in order to design and implement my own Harness Agent.
         </div>
       </div>
       <Divider />
