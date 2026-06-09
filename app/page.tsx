@@ -122,7 +122,7 @@ const Home = () => (
             name="Pi"
           />
           {" "} and {" "}
-          <IconBlock 
+          <IconBlock
             href="https://github.com/MoonshotAI/kimi-code"
             icon="/icons/kimi-logo.png"
             name="Kimi Code"
