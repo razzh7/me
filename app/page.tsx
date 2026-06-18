@@ -30,8 +30,8 @@ const Ruby = ({ rb, rp }: { rb: string, rp: string }) => <ruby> {rb} <rp>(</rp><
 const Home = () => (
   <div className="container">
     <p className="font-[800] text-4xl text-secondary">Razzh</p>
-    <p className='text-sm mt-3 text-muted'>天眞的孩子找不到他的天堂</p>
-    <p className='text-sm mt-1 mb-5 text-muted'>An innocent child finds no path to Paradise</p>
+    <p className='text-sm mt-3 text-muted'>我獨自升級</p>
+    <p className='text-sm mt-1 mb-5 text-muted'>Solo Leveling</p>
     <article className="linetext-base font-[500] leading-7 text-primary slide-enter-content">
       <div>
         <p className='mb-2'>Hey, I’m Razzh. I love programming and do it as my job.</p>
