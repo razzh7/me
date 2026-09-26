@@ -1,0 +1,34 @@
+.wordmark {
+  display: block;
+  width: 48px;
+  max-width: 100%;
+  height: 48px;
+  color: hsl(var(--secondary));
+}
+
+@media (min-width: 768px) {
+  .wordmark {
+    width: 72px;
+  }
+}
+
+/* Browsers without piecewise easing display the complete static signature. */
+@supports (animation-timing-function: linear(0, 1)) {
+  .slice {
+    animation: reveal 10s infinite;
+  }
+}
+
+@keyframes reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slice, .ink {
+    animation: none;
+  }
+  .ink {
+    mask: none;
+  }
+}

@@ -10,13 +10,13 @@ import Logo from './logo'
 function Navbar() {
   return (
     <header>
-      <Link className='w-12 h-12 absolute xl:fixed m-5 select-none outline-none' href="/">
+      <Link className='w-12 md:w-[72px] h-12 flex items-center absolute xl:fixed m-5 select-none outline-none' href="/" aria-label="Razzh — 首页">
         <Logo />
       </Link>
 
-      <nav className="grid grid-cols-[auto_max-content] w-full p-8 box-border">
+      <nav className="grid grid-cols-[auto_max-content] w-full px-6 py-8 sm:p-8 box-border">
         <div className='spacer'></div>
-        <div className='grid gap-[1.2rem] grid-flow-col'>
+        <div className='grid gap-2.5 sm:gap-[1.2rem] grid-flow-col'>
           <Link className="hidden md:block hover:text-hover2 transition-all" href="/" title='Me'>
           Me
           </Link>
