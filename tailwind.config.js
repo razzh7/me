@@ -1,3 +1,6 @@
+// Preserve the original 65ch width in Inter (656.094px at the default 16px root size).
+const contentWidth = '41.006rem'
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
@@ -10,7 +13,7 @@ module.exports = {
     container: {
       center: true,
       screens: {
-        "2xl": "65ch"
+        "2xl": contentWidth
       }
     },
     colors: {
@@ -32,6 +35,9 @@ module.exports = {
       badge: 'hsl(var(--badge))'
     },
     extend: {
+      maxWidth: {
+        prose: contentWidth
+      },
       animation: {
         'fade-out': 'fadeOut 1s ease-in-out'
       },

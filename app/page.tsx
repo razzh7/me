@@ -32,7 +32,7 @@ const Home = () => (
     <p className="font-[800] text-4xl text-secondary">Razzh</p>
     <p className='text-sm mt-3 text-muted'>我獨自升級</p>
     <p className='text-sm mt-1 mb-5 text-muted'>Solo Leveling</p>
-    <article className="linetext-base font-[500] leading-7 text-primary slide-enter-content">
+    <article className="linetext-base font-[500] leading-7 text-[#bbbbbb] slide-enter-content">
       <div>
         <p className='mb-2'>Hey, I’m Razzh. I love programming and do it as my job.</p>
         <div className='mb-3'>
@@ -79,7 +79,9 @@ const Home = () => (
           />
         </div>
         <p className="mt-2 leading-8 md:leading-9">
-          I live in <Ruby rb='杭州' rp='Hangzhou' /> now. "zzh" is the Chinese abbreviation of my name. My friends call me <Ruby rb='小豪' rp='Xiǎoháo' /> as my nickname.
+          I live in <Ruby rb='杭州' rp='Hangzhou' /> now.
+          <br />
+          "zzh" is short for my Chinese name. My friends call me <Ruby rb='小豪' rp='Xiǎoháo' />.
         </p>
         <Divider />
         <div className="mx-0 my-2">

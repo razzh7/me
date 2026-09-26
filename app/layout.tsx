@@ -27,12 +27,12 @@ export const viewport: Viewport = {
   themeColor: 'black'
 }
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], variable: '--font-inter' })
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" className="dark">
-      <body className={inter.className} suppressHydrationWarning={true}>
+      <body className={inter.variable} suppressHydrationWarning={true}>
         <Layout>
           {children}
         </Layout>

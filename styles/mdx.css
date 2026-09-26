@@ -1,6 +1,6 @@
 .mdx {
   margin: auto;
-  max-width: 65ch;
+  @apply max-w-prose;
   font-size: 1em;
 }
 
