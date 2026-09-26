@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     name: 'razzh7'
   },
   icons: {
-    icon: '/logo.svg'
+    icon: { url: '/logo.svg?v=razzh', type: 'image/svg+xml', sizes: 'any' }
   },
   generator: 'react nextjs blog',
   keywords: "blog,razzh,razzh blog,xiaohao,xiaohao's blog,Xiaohao's Blog,小豪的博客"
