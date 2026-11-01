@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 }
 
 const ProjectLayout = ({ children }: PropsWithChildren) => (
-  <main className="container">
+  <main className="mx-auto w-full max-w-[820px] px-8">
     {children}
     <Footer />
   </main>
