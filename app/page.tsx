@@ -38,12 +38,6 @@ const Home = () => (
         <div className='mb-3'>
           Working at{" "}
           <IconBlock
-            href="https://wuyasaas.com/"
-            icon="/icons/wuya.svg"
-            name="Xi Cloud"
-          />
-          {" / "}
-          <IconBlock
             href="https://github.com/twist-space"
             icon="/icons/twist-space-logo.svg"
             name="Twist Space"
