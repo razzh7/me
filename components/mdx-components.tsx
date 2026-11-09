@@ -144,7 +144,7 @@ const sharedComponents = {
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement> & { 'data-language'?: string }) => !props['data-language'] ? (
     <code
       className={cn(
-        'relative rounded bg-round px-[0.3rem] py-[0.2rem] font-mono text-sm text-block',
+        'relative rounded bg-round px-[0.3rem] py-[0.1rem] font-mono text-sm text-block',
         className
       )}
       {...props}
