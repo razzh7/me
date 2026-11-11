@@ -63,8 +63,8 @@ importers:
         specifier: ^1.5.0
         version: 1.5.0
       twist-aplayer:
-        specifier: 1.4.17
-        version: 1.4.17(react@18.2.0)
+        specifier: 1.4.18
+        version: 1.4.18(react@18.2.0)
       typescript:
         specifier: 4.9.4
         version: 4.9.4
@@ -3599,8 +3599,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  twist-aplayer@1.4.17:
-    resolution: {integrity: sha512-WvmXDA09jcvbnkSZxt2rfFYHxpYxVCo46m5sG1b+FUmFYH+8WAZel0/fsa8y9lEq7v8GHB30H7ANegQs3Po7+w==}
+  twist-aplayer@1.4.18:
+    resolution: {integrity: sha512-qIMvcqd4vsR4gHhxl6tuywRJGt7iVeoLolGy41HS2B51no8UfBY67erwJ4++TzHWzqiw+wCe4zkMYkIXFCUUvQ==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -7960,7 +7960,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  twist-aplayer@1.4.17(react@18.2.0):
+  twist-aplayer@1.4.18(react@18.2.0):
     dependencies:
       '@twistify/react-icons': 1.0.4(react@18.2.0)
       '@twistui/bem-helper': 1.0.1
