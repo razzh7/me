@@ -277,3 +277,9 @@ iframe {
 .light a[class*='hover:bg-border']:hover {
   background-color: #ece9e1;
 }
+
+/* List titles hover via group-hover:text-secondary. Light --secondary is the same
+   ink as the resting title, so the hover was invisible. Use the accent token. */
+.light .group:hover .text-primary.group-hover\:text-secondary {
+  color: hsl(var(--hover));
+}
