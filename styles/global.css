@@ -5,16 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Geist Serif';
-  src: url('/fonts/geist-serif/GeistSerif-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  /* Keep CJK and shared punctuation (curly quotes, em dash, ellipsis) on the existing font stack. */
-  unicode-range: U+0000-024F, U+0300-036F, U+1E00-1EFF, U+2010-2011;
-}
-
 @layer base {
   /* Claude warm-paper preset. Dark tokens below are unchanged. */
   .light {
@@ -64,7 +54,7 @@
   }
 
   body {
-    font-family: 'Geist Serif', var(--font-inter);
+    font-family: var(--font-source-serif), Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Source Serif 4', 'Source Serif', 'Liberation Serif', 'Sarasa Gothic SC', 'Sarasa UI SC', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', sans-serif;
   }
 
   ::selection {
@@ -227,15 +217,10 @@ iframe {
   }
 }
 
-/* Light theme reading column and chrome. Unlayered so these beat Tailwind utilities.
-   Dark mode is not targeted. */
-.light body {
-  font-family: var(--font-source-serif), Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Source Serif 4', 'Source Serif', 'Liberation Serif', 'Sarasa Gothic SC', 'Sarasa UI SC', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', sans-serif;
-}
-
-.light header,
-.light nav,
-.light button {
+/* UI chrome is Inter in both themes. Unlayered so it beats the body serif. */
+header,
+nav,
+button {
   font-family: var(--font-inter), 'Sarasa Gothic SC', 'Sarasa UI SC', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Noto Sans CJK SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', ui-sans-serif, system-ui, sans-serif;
 }
 
