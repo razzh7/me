@@ -54,7 +54,7 @@
   }
 
   body {
-    font-family: var(--font-source-serif), Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Source Serif 4', 'Source Serif', 'Liberation Serif', 'Sarasa Gothic SC', 'Sarasa UI SC', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', sans-serif;
+    font-family: var(--font-geist-serif-regular), Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Liberation Serif', 'Sarasa Gothic SC', 'Sarasa UI SC', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', sans-serif;
   }
 
   ::selection {
