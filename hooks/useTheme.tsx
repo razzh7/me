@@ -4,7 +4,7 @@ import { ThemeContext } from "@/components/theme-provider"
 export function useTheme() {
   const { theme, toggleTheme } = useContext(ThemeContext)
   const darkColor = '#ffffff'
-  const lightColor = '#060606'
+  const lightColor = '#D97757'
 
   return {
     theme,

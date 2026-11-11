@@ -20,6 +20,18 @@
   color: hsl(var(--accent));
 }
 
+:global(.light) .iconBlock {
+  background: #f7f5f0;
+  color: #57534e;
+  font-family: var(--font-inter), 'Sarasa Gothic SC', 'Sarasa UI SC', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Noto Sans CJK SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+  box-shadow: inset 0 0 0 1px rgba(44, 43, 41, 0.15);
+}
+
+:global(.light) .iconBlock:hover {
+  background: #f7efe6;
+  color: #74221a;
+}
+
 .iconBlock span {
   font-size: 0.95em;
 }
