@@ -1,3 +1,12 @@
+/* View transitions own the theme animation. CSS color transitions would make
+   the snapshots capture intermediate colors and flash at the hand-off. */
+:root.theme-switching,
+:root.theme-switching *,
+:root.theme-switching *::before,
+:root.theme-switching *::after {
+    transition: none !important;
+}
+
 @keyframes light-to-dark {
     from {
         clip-path: polygon(0 0,

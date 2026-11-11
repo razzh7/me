@@ -50,7 +50,7 @@
 @layer base {
 
   html {
-    @apply bg-background text-accent transition-all duration-300;
+    @apply bg-background text-accent;
   }
 
   body {
