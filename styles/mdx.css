@@ -118,7 +118,6 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
 
 .light .mdx {
   color: #1f1e1d;
-  font-family: var(--font-source-serif), Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Source Serif 4', 'Source Serif', 'Liberation Serif', 'Sarasa Gothic SC', 'Sarasa UI SC', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', sans-serif;
 }
 
 .light .mdx :is(h1, h2, h3, h4, h5, h6) {
@@ -160,7 +159,7 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
   background-color: #fbf9f5;
 }
 
-.light .mdx :is(pre, code, kbd) {
+.mdx :is(pre, code, kbd) {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Sarasa Mono SC', 'Sarasa Gothic SC', monospace;
 }
 

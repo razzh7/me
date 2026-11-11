@@ -29,15 +29,13 @@ export const viewport: Viewport = {
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
-// Reading face for the light theme only. Dark mode keeps Geist Serif.
-// Source Serif 4 is OFL and loaded by next/font (not committed). Georgia covers the gap.
+// Reading face for both themes. Source Serif 4 is OFL and loaded by next/font (not committed).
 const sourceSerif = Source_Serif_4({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
   style: ['normal', 'italic'],
   variable: '--font-source-serif',
   display: 'swap',
-  preload: false,
   fallback: ['Georgia', 'Palatino Linotype', 'Palatino']
 })
 
