@@ -8,6 +8,10 @@
   opacity: .1;
 }
 
+:global(.light) .posts {
+  -webkit-text-stroke-color: rgba(116, 34, 26, 0.55);
+}
+
 .posts-link .posts-link:first-child:hover {
   @apply text-secondary;
 }

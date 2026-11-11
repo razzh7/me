@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react'
-import { Inter } from 'next/font/google'
+import { Inter, Source_Serif_4 } from 'next/font/google'
 import Layout from '@/components/layout'
 import type { Metadata, Viewport } from 'next'
 import { NavigationTracker, BaiduAnlaysisScript } from '@/components/layout/baidu-anlaysis'
@@ -27,12 +27,24 @@ export const viewport: Viewport = {
   themeColor: 'black'
 }
 
-const inter = Inter({ subsets: ["latin"], variable: '--font-inter' })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+
+// Reading face for the light theme only. Dark mode keeps Geist Serif.
+// Source Serif 4 is OFL and loaded by next/font (not committed). Georgia covers the gap.
+const sourceSerif = Source_Serif_4({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  style: ['normal', 'italic'],
+  variable: '--font-source-serif',
+  display: 'swap',
+  preload: false,
+  fallback: ['Georgia', 'Palatino Linotype', 'Palatino']
+})
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" className="dark">
-      <body className={inter.variable} suppressHydrationWarning={true}>
+      <body className={`${inter.variable} ${sourceSerif.variable}`} suppressHydrationWarning={true}>
         <Layout>
           {children}
         </Layout>

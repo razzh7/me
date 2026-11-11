@@ -79,12 +79,16 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
 }
 
 /* Shiki dual theme support */
-/* Light mode: use --shiki-light variables */
-.light pre,
+/* Light mode keeps vitesse-light token colors on the warm code tint. */
+.light pre {
+  color: var(--shiki-light);
+  background-color: #f7efe6;
+}
+
 .light code,
 .light code span {
   color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
+  background-color: transparent;
 }
 
 /* Dark mode: use --shiki-dark variables */
@@ -101,12 +105,76 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
   background-color: transparent;
 }
 
-.light p > code {
-  color: #222 !important;
-  background-color: #aaaaaa18 !important;
+.light :not(pre) > code {
+  color: #1f1e1d !important;
+  background-color: #f7efe6 !important;
+  box-shadow: inset 0 0 0 1px rgba(44, 43, 41, 0.15);
 }
 
 .dark p > code {
   color: #ddd !important;
   background-color: #aaaaaa18 !important;
+}
+
+.light .mdx {
+  color: #1f1e1d;
+  font-family: var(--font-source-serif), Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Source Serif 4', 'Source Serif', 'Liberation Serif', 'Sarasa Gothic SC', 'Sarasa UI SC', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Noto Sans CJK SC', 'Source Han Sans SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', 'Droid Sans Fallback', sans-serif;
+}
+
+.light .mdx :is(h1, h2, h3, h4, h5, h6) {
+  color: #1f1e1d;
+}
+
+.light .mdx a:not([class*='iconBlock']):not([class*='rounded-md']) {
+  color: #d97757;
+  border-color: #d97757;
+}
+
+.light .mdx a:not([class*='iconBlock']):not([class*='rounded-md']):hover {
+  color: #c86646;
+  border-color: #c86646;
+}
+
+.light .mdx blockquote {
+  color: #57534e;
+  background-color: #f8f3ec;
+  border-left-color: #d97757;
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 0.7rem 1rem;
+}
+
+.light .mdx :is(th, td, tr) {
+  border-color: rgba(44, 43, 41, 0.15);
+}
+
+.light .mdx th {
+  background-color: #f7f5f0;
+  color: #1f1e1d;
+}
+
+.light .mdx td {
+  color: #1f1e1d;
+}
+
+.light .mdx tbody tr:nth-child(even) {
+  background-color: #fbf9f5;
+}
+
+.light .mdx :is(pre, code, kbd) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Sarasa Mono SC', 'Sarasa Gothic SC', monospace;
+}
+
+.light .code-frame {
+  background-color: #f7efe6;
+  border-color: rgba(44, 43, 41, 0.15);
+}
+
+.light .code-toolbar {
+  background-color: #f1e8dc;
+  border-bottom-color: rgba(44, 43, 41, 0.15);
+  color: #57534e;
+}
+
+.light code[data-line-numbers] > [data-line]::before {
+  color: #6e665c;
 }

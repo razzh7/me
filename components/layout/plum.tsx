@@ -4,18 +4,20 @@ import { useWindowSize } from 'react-use'
 import styles from '@/styles/plum.module.css'
 import clsx from 'clsx'
 import { useRafFn } from '@/hooks/useRafFn'
+import { useTheme } from '@/hooks/useTheme'
 import { usePathname } from 'next/navigation'
 
 type Fn = () => void
 
 const Plum = () => {
   const pathname = usePathname()
+  const { theme } = useTheme()
   const size = useWindowSize()
   const r180 = Math.PI
   const r90 = Math.PI / 2
   const r15 = Math.PI / 12
   const MIN_BRANCH = 30
-  const color = '#88888825'
+  const color = theme === 'dark' ? '#88888825' : 'rgba(116, 34, 26, 0.16)'
 
   const { random } = Math
   const [mouted, setMouted] = useState(false)
@@ -156,7 +158,7 @@ const Plum = () => {
   useEffect(() => {
     fn()
     // eslint-disable-next-line
-  }, [pathname])
+  }, [pathname, theme])
 
   return isRender ? (
     <div className={clsx(styles.plum, styles.mask_image)}>

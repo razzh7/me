@@ -11,7 +11,7 @@ import type { CSSProperties } from 'react'
 
 function Projects() {
   const { theme } = useTheme()
-  const color = theme === 'dark' ? '#ffffff' : '#060606'
+  const color = theme === 'dark' ? '#ffffff' : '#1F1E1D'
   const projectsInfo = [
     {
       title: 'twist-aplayer',
