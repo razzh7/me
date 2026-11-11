@@ -85,15 +85,28 @@ interface TreeProps {
   activeItem?: string
 }
 
+// Heading ids from github-slugger can start with a digit (`24.06.01` → `240601`)
+// or contain characters that are not a valid CSS identifier. querySelector('#240601')
+// throws, so hash links must be resolved with getElementById.
+function hashId(url: string) {
+  const raw = url.charAt(0) === '#' ? url.slice(1) : url
+  try {
+    return decodeURIComponent(raw)
+  } catch (error) {
+    return raw
+  }
+}
+
 function Tree({ tree, level = 1, activeItem }: TreeProps) {
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, url: string) => {
     e.preventDefault()
-    const element = document.querySelector(url)
+    const element = document.getElementById(hashId(url))
 
     if (element) {
       const elementPosition = element.getBoundingClientRect().top + window.scrollY
       const offsetPosition = elementPosition - 20
 
+      window.history.pushState(null, '', url)
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
