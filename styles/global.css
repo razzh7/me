@@ -268,3 +268,10 @@ button {
 .light .group:hover .text-primary.group-hover\:text-secondary {
   color: hsl(var(--hover));
 }
+
+/* TOC links use text-secondary for hover and the active section. Light --secondary
+   matches the resting ink, so neither state changes color. */
+.light a.hover\:text-secondary:hover,
+.light a.text-secondary.hover\:text-secondary {
+  color: hsl(var(--hover));
+}
