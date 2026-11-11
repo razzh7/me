@@ -40,23 +40,34 @@
 }
 
 :root::view-transition-group(root) {
-    animation-duration: 1s;
+    animation: none;
+}
+
+:root::view-transition-image-pair(root) {
+    isolation: isolate;
 }
 
 :root::view-transition-new(root),
 :root::view-transition-old(root) {
     mix-blend-mode: normal;
+    opacity: 1;
 }
 
-:root::view-transition-old(root),
-:root.dark::view-transition-old(root) {
+:root::view-transition-old(root) {
     animation: none;
+    z-index: 1;
 }
 
 :root::view-transition-new(root) {
-    animation-name: dark-to-light;
+    /* Stay clipped even before the first animation frame is composed. */
+    clip-path: polygon(calc((tan(8deg) * 100vh) + 100%) 0,
+            calc((tan(8deg) * 100vh) + 100%) 0, 100% 100%, 100% 100%);
+    animation: dark-to-light 1s ease both;
+    z-index: 2;
 }
 
 :root.dark::view-transition-new(root) {
+    clip-path: polygon(0 0, 0 0,
+            calc(tan(8deg) * -100vh) 100%, calc(tan(8deg) * -100vh) 100%);
     animation-name: light-to-dark;
 }

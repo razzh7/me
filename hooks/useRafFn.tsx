@@ -4,27 +4,33 @@ type Fn = () => void
 
 export function useRafFn(fn: Fn) {
   const isActive = React.useRef(false)
-  let rafId: null | number = null
+  const rafId = React.useRef<number | null>(null)
+
+  const pause = React.useCallback(() => {
+    isActive.current = false
+    if (rafId.current !== null) {
+      window.cancelAnimationFrame(rafId.current)
+      rafId.current = null
+    }
+  }, [])
+
+  React.useEffect(() => pause, [pause])
 
   const loop = () => {
-    if (!isActive.current || !window) return
+    rafId.current = null
+    if (!isActive.current) return
 
     fn()
-    rafId = window.requestAnimationFrame(loop)
-  }
-
-  const resume = () => {
-    if (!isActive.current && window) {
-      isActive.current = true
-      loop()
+    // The callback may pause the loop when its work is complete.
+    if (isActive.current) {
+      rafId.current = window.requestAnimationFrame(loop)
     }
   }
 
-  const pause = () => {
-    isActive.current = false
-    if (rafId != null && window) {
-      window.cancelAnimationFrame(rafId)
-      rafId = null
+  const resume = () => {
+    if (!isActive.current && typeof window !== 'undefined') {
+      isActive.current = true
+      loop()
     }
   }
 
