@@ -20,12 +20,6 @@
 
 .mdx strong {
   @apply text-block;
-  @apply mx-1;
-}
-
-.mdx blockquote > p {
-  @apply leading-7;
-  @apply my-0;
 }
 
 [data-rehype-pretty-code-fragment] {
@@ -78,20 +72,6 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
   width: 2.25rem;
 }
 
-/* Shiki dual theme support */
-/* Light mode keeps vitesse-light token colors on the warm code tint. */
-.light pre {
-  color: var(--shiki-light);
-  background-color: #f7efe6;
-}
-
-.light code,
-.light code span {
-  color: var(--shiki-light);
-  background-color: transparent;
-}
-
-/* Dark mode: use --shiki-dark variables */
 .dark pre,
 .dark code,
 .dark code span {
@@ -99,16 +79,8 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
   background-color: var(--shiki-dark-bg);
 }
 
-/* Only apply background to pre, not to individual spans */
-.light code span,
 .dark code span {
   background-color: transparent;
-}
-
-.light :not(pre) > code {
-  color: #1f1e1d !important;
-  background-color: #f7efe6 !important;
-  box-shadow: inset 0 0 0 1px rgba(44, 43, 41, 0.15);
 }
 
 .dark p > code {
@@ -116,64 +88,95 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
   background-color: #aaaaaa18 !important;
 }
 
-.light .mdx {
-  color: #1f1e1d;
-}
-
-.light .mdx :is(h1, h2, h3, h4, h5, h6) {
-  color: #1f1e1d;
-}
-
-.light .mdx a:not([class*='iconBlock']):not([class*='rounded-md']) {
-  color: #d97757;
-  border-color: #d97757;
-}
-
-.light .mdx a:not([class*='iconBlock']):not([class*='rounded-md']):hover {
-  color: #c86646;
-  border-color: #c86646;
-}
-
-.light .mdx blockquote {
-  color: #57534e;
-  background-color: #f8f3ec;
-  border-left-color: #d97757;
-  border-radius: 0 0.5rem 0.5rem 0;
-  padding: 0.7rem 1rem;
-}
-
-.light .mdx :is(th, td, tr) {
-  border-color: rgba(44, 43, 41, 0.15);
-}
-
-.light .mdx th {
-  background-color: #f7f5f0;
-  color: #1f1e1d;
-}
-
-.light .mdx td {
-  color: #1f1e1d;
-}
-
-.light .mdx tbody tr:nth-child(even) {
-  background-color: #fbf9f5;
-}
-
 .mdx :is(pre, code, kbd) {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Sarasa Mono SC', 'Sarasa Gothic SC', monospace;
 }
 
-.light .code-frame {
-  background-color: #f7efe6;
-  border-color: rgba(44, 43, 41, 0.15);
+/* Article typography and spacing adapted from Shittori. See /licenses/shittori.txt. */
+.article-title,
+.mdx { font-family: var(--article-font); }
+
+h1.article-title {
+  text-align: center;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
-.light .code-toolbar {
-  background-color: #f1e8dc;
-  border-bottom-color: rgba(44, 43, 41, 0.15);
-  color: #57534e;
+@screen md {
+  h1.article-title { font-size: 2.5rem; }
 }
 
-.light code[data-line-numbers] > [data-line]::before {
-  color: #6e665c;
+.article-meta { justify-content: center; }
+.mdx { line-height: 2rem; overflow-wrap: break-word; }
+.mdx p { margin: 1rem 0; line-height: inherit; }
+.mdx :is(h1, h2, h3, h4, h5, h6) {
+  letter-spacing: normal;
+  font-weight: 600;
+  line-height: 2rem;
 }
+.mdx h1 { margin: 3rem 0 2rem; line-height: 1.4; font-weight: 700; }
+.mdx h2 {
+  margin: 4rem 0 1rem;
+  padding-bottom: 0.4375rem;
+  border-bottom: 1px solid var(--article-rule, hsl(var(--border)));
+}
+.mdx h3 { margin: 3rem 0 1rem; }
+.mdx :is(h4, h5, h6) { margin: 2rem 0 0.5rem; }
+.mdx :is(h4, h5) { font-weight: 700; }
+.mdx > :first-child { margin-top: 0; }
+.mdx :is(h1 + h2, h2 + h3, h3 + h4) { margin-top: 1rem; }
+
+.mdx strong { margin: 0; font-weight: 700; }
+.mdx em { font-family: var(--article-latin), 'LXGW WenKai', KaiTi, var(--article-font); }
+.mdx a:not([class*='iconBlock']):not([class*='rounded-md']):not(.subheading-anchor) {
+  border-bottom: 0;
+  text-decoration: underline hsl(var(--link)) 1px;
+  text-underline-offset: .2em;
+}
+
+.mdx :is(ul, ol) { margin: 1rem 0; padding-left: 2em; }
+.mdx li { margin: 0; }
+.mdx li :is(ul, ol) { margin: 0; }
+.mdx :is(li, blockquote) > p { margin: .5rem 0; }
+.mdx blockquote {
+  margin: 1.5rem 0;
+  padding: 0 0 0 1em;
+  border-left-width: 2px;
+  font-family: var(--article-latin), 'Kaiti SC', KaiTi, var(--article-font);
+}
+
+.mdx table { line-height: 1.5rem; font-variant-numeric: tabular-nums; }
+.mdx :is(tr, th, td) { border-width: 0; }
+.mdx :is(th, td) { padding: .5rem 1em; border-bottom-width: 1px; }
+.mdx hr { width: 10em; max-width: 100%; margin: 3rem auto; }
+.mdx [data-footnotes] { margin-top: 3rem; border-top: 1px solid var(--article-rule, hsl(var(--border))); }
+.mdx :not(pre) > code,
+.mdx kbd { padding: .1em .25em; border-radius: 2px; }
+.mdx .code-frame { margin: 1.5rem 0; border-radius: 4px; }
+.mdx pre { line-height: 1.5rem; }
+
+.light .mdx { color: var(--article-ink); }
+.light .article-title,
+.light .mdx :is(h1, h2, h3, h4, strong) { color: var(--article-heading); }
+.light .mdx :is(h5, h6, blockquote, del),
+.light .mdx li::marker { color: var(--article-muted); }
+.light .mdx em { color: var(--article-green); }
+.light .mdx a:not([class*='iconBlock']):not([class*='rounded-md']):not(.subheading-anchor) {
+  color: var(--article-green);
+  text-decoration-color: rgba(66, 96, 45, .38);
+}
+.light .mdx a:hover { text-decoration-color: currentColor; }
+.light .mdx mark { background: #f5dc7d; color: var(--article-heading); }
+.light .mdx input[type='checkbox'] { accent-color: var(--article-green); }
+.light .mdx :is(blockquote, hr, .code-frame, .code-toolbar) { border-color: var(--article-rule); }
+.light .mdx :is(tr, th, td) { background: transparent; }
+.light .mdx :is(th, td) { border-color: rgb(43 41 38 / 7%); }
+.light .mdx :is(th, tr:last-child td) { border-color: rgb(43 41 38 / 22%); }
+.light .mdx tbody tr:hover,
+.light .mdx .code-frame { background: var(--article-surface); }
+.light .mdx :not(pre) > code,
+.light .mdx :is(kbd, pre) { color: var(--article-ink); background: var(--article-surface); }
+.light .mdx .code-toolbar { background: transparent; color: var(--article-muted); }
+.light .mdx pre :is(code, span) { color: var(--shiki-light, inherit); }
+.light .mdx [data-highlighted-line] { background: #e5e5d6; }
+.light .mdx code[data-line-numbers] > [data-line]::before { color: var(--article-muted); }

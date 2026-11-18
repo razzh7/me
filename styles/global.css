@@ -6,10 +6,20 @@
 @tailwind utilities;
 
 @layer base {
-  /* Claude warm-paper preset. Dark tokens below are unchanged. */
+  :root {
+    --article-font: 'Article Punctuation', var(--article-latin), 'Local Source Han Serif', 'Source Han Serif SC VF', 'Songti SC', SimSun, serif;
+  }
+
+  /* Light interface colors on Shittori paper. */
   .light {
+    --article-ink: #2b2926;
+    --article-heading: #1c1b19;
+    --article-muted: #6a655c;
+    --article-rule: #ddd6c8;
+    --article-surface: #f2eee4;
+    --article-green: #42602d;
     color-scheme: light;
-    --background: 60 14.3% 98.6%; /* #FCFCFB paper */
+    --background: 42 45.45% 95.69%; /* Shittori paper, #f9f6ef */
     --hover: 14.8 63.1% 59.6%; /* #D97757 accent */
     --hover2: 14.8 54.2% 52.9%; /* #C86646 accent hover */
     --icon: 30 3.3% 11.8%; /* #1F1E1D */
@@ -49,6 +59,21 @@
 
 @layer base {
 
+  @font-face {
+    font-family: 'Local Source Han Serif';
+    src: local('SourceHanSerifSCVF-Regular'), local('Source Han Serif SC VF');
+    font-weight: 250 900;
+  }
+
+  @font-face {
+    font-family: 'Article Punctuation';
+    src: local('SourceHanSerifSCVF-Regular'), local('Source Han Serif SC VF'),
+      url('../node_modules/cn-fontsource-source-han-serif-sc-vf/L3_2014_32.woff2') format('woff2');
+    font-weight: 250 900;
+    font-display: swap;
+    unicode-range: U+2014, U+201C-201D, U+2026;
+  }
+
   html {
     @apply bg-background text-accent;
   }
@@ -77,11 +102,13 @@
   -webkit-backdrop-filter: blur(12px) saturate(180%);
 }
 
+.light .twist-aplayer :is(.twist-aplayer__miniswitcher, .twist-aplayer__super-miniswitcher) {
+  --tp-muted-foreground: 39 7% 39%;
+  background-color: #ebe6da;
+}
+
 .light .twist-aplayer .twist-aplayer__super-miniswitcher {
   border-radius: 0 8px 8px 0;
-  background: rgba(247, 245, 240, 0.88);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
 }
 
 .dark .path1 {
@@ -240,6 +267,7 @@ button {
 
 /* Home intro hardcodes a dark-theme gray. Restore ink, and paint links with the accent. */
 .light article.slide-enter-content {
+  font-family: var(--article-font);
   color: #1f1e1d;
 }
 

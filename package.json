@@ -26,6 +26,7 @@
     "@vercel/analytics": "^1.2.2",
     "blurhash": "^2.0.5",
     "clsx": "^1.2.1",
+    "cn-fontsource-source-han-serif-sc-vf": "1.0.9",
     "copy-to-clipboard": "^3.3.3",
     "dayjs": "^1.11.10",
     "geist": "1.9.2",
@@ -37,7 +38,7 @@
     "react-use": "^17.4.0",
     "reading-time": "^1.5.0",
     "twist-aplayer": "1.4.18",
-    "typescript": "4.9.4",
+    "typescript": "4.9.5",
     "xgplayer": "^3.0.20",
     "xgplayer-hls": "^3.0.20"
   },
