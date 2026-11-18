@@ -47,7 +47,18 @@ export default defineConfig({
       [rehypePrettyCode, {
         theme: {
           dark: 'vitesse-dark',
-          light: 'vitesse-light'
+          light: {
+            name: 'shittori-light',
+            type: 'light',
+            colors: { 'editor.background': '#f2eee4', 'editor.foreground': '#2b2926' },
+            tokenColors: [
+              { scope: ['keyword', 'storage', 'entity.name.tag', 'support.type'], settings: { foreground: '#42602d' } },
+              { scope: ['string', 'entity.other.attribute-name'], settings: { foreground: '#8a4b2d' } },
+              { scope: ['constant.numeric', 'constant.language'], settings: { foreground: '#7d5f16' } },
+              { scope: ['entity.name.function', 'entity.name.type', 'support.function'], settings: { foreground: '#1f5a73' } },
+              { scope: ['comment', 'punctuation.definition.comment'], settings: { foreground: '#857d70' } }
+            ]
+          }
         },
         transformers: [
           {

@@ -37,8 +37,8 @@ export default async function PostPage({ params }: PostPageProps) {
   return (
     <div>
       <div className="max-w-prose m-auto">
-        <p className="text-4xl font-[800] text-secondary">{post.title}</p>
-        <p className="flex items-center mt-4 text-muted">
+        <h1 className="article-title text-4xl font-[800] text-secondary">{post.title}</h1>
+        <p className="article-meta flex items-center mt-4 text-muted">
           {mouthDay} · {readtime}
           {updatedTime ? ` · updated on ${updatedTime}` : ''}
           {preview ? (

@@ -3,19 +3,20 @@ import { useState, useRef, useEffect, createContext, type PropsWithChildren } fr
 import { flushSync } from 'react-dom'
 
 type theme = 'dark' | 'light'
+const defaultTheme: theme = 'light'
 interface Context {
   theme: theme
   isSwitching: boolean
   toggleTheme: () => void
 }
 export const ThemeContext = createContext<Context>({
-  theme: 'dark',
+  theme: defaultTheme,
   isSwitching: false,
   toggleTheme: () => {}
 })
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
-  const [theme, setTheme] = useState<theme>('dark')
+  const [theme, setTheme] = useState<theme>(defaultTheme)
   const [isSwitching, setIsSwitching] = useState(false)
   const switching = useRef(false)
   const lastInput = useRef(-Infinity)
@@ -42,6 +43,7 @@ export const ThemeProvider = ({ children }: PropsWithChildren) => {
       // Commit both CSS and React consumers before the new snapshot is taken.
       root.classList.toggle('light', nextTheme === 'light')
       root.classList.toggle('dark', nextTheme === 'dark')
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', nextTheme === 'light' ? '#f9f6ef' : 'black')
       flushSync(() => setTheme(nextTheme))
     }
     const finish = () => {
