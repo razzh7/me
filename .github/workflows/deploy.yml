@@ -23,6 +23,7 @@ jobs:
         with:
           node-version: 20
       - run: npm install -g pnpm@10
+      - uses: astral-sh/setup-uv@v6
       - run: pnpm install
       - run: pnpm compress
       - run: pnpm blurhash
