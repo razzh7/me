@@ -71,7 +71,7 @@
     src: local('SourceHanSerifSCVF-Regular'), local('Source Han Serif SC VF'),
       url('../node_modules/cn-fontsource-source-han-serif-sc-vf/L3_2014_32.woff2') format('woff2');
     font-weight: 250 900;
-    font-display: swap;
+    font-display: optional;
     unicode-range: U+2014, U+201C-201D, U+2026;
   }
 

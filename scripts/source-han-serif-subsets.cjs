@@ -6,7 +6,7 @@ module.exports = () => ({
     if (!/[\\/]cn-fontsource-source-han-serif-sc-vf[\\/]font\.css$/.test(file)) return
     root.walkAtRules('font-face', face => {
       face.append({ prop: 'font-weight', value: '250 900' })
-      face.walkDecls('font-display', display => { display.value = 'swap' })
+      face.walkDecls('font-display', display => { display.value = 'optional' })
     })
   }
 })
