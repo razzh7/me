@@ -6,6 +6,7 @@ import DashboardTableOfContents from '@/components/toc'
 import { ScrollArea } from '@/components/scroll-area'
 import { postTimeHandler } from '@/util/post'
 import Badge from '@/components/badge'
+import ArticleIntroFont from '@/components/article-intro-font'
 import { posts } from '#velite'
 
 export async function generateMetadata({ params }: PostPageProps) {
@@ -35,7 +36,8 @@ export default async function PostPage({ params }: PostPageProps) {
   const toc = await getTableOfContents(post?.raw || '')
 
   return (
-    <div>
+    <div className={post.introFont ? `intro-${post.introFont.id}` : undefined}>
+      {post.introFont && <ArticleIntroFont {...post.introFont} />}
       <div className="max-w-prose m-auto">
         <h1 className="article-title text-4xl font-[800] text-secondary">{post.title}</h1>
         <p className="article-meta flex items-center mt-4 text-muted">
