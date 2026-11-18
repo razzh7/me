@@ -28,6 +28,8 @@ jobs:
       - run: pnpm compress
       - run: pnpm blurhash
       - run: pnpm build
+      - name: Make exported article fonts readable by the web server
+        run: chmod 644 out/fonts/intro/*.woff2
 
       - name: 部署博客
         uses: appleboy/scp-action@master
