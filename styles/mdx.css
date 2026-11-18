@@ -107,7 +107,7 @@ h1.article-title {
 }
 
 .article-meta { justify-content: center; }
-.mdx { line-height: 2rem; overflow-wrap: break-word; }
+.mdx { line-height: 2rem; font-weight: 450; overflow-wrap: break-word; }
 .mdx p { margin: 1rem 0; line-height: inherit; }
 .mdx :is(h1, h2, h3, h4, h5, h6) {
   letter-spacing: normal;
@@ -127,7 +127,6 @@ h1.article-title {
 .mdx :is(h1 + h2, h2 + h3, h3 + h4) { margin-top: 1rem; }
 
 .mdx strong { margin: 0; font-weight: 700; }
-.mdx em { font-family: var(--article-latin), 'LXGW WenKai', KaiTi, var(--article-font); }
 .mdx a:not([class*='iconBlock']):not([class*='rounded-md']):not(.subheading-anchor) {
   border-bottom: 0;
   text-decoration: underline hsl(var(--link)) 1px;
@@ -142,7 +141,6 @@ h1.article-title {
   margin: 1.5rem 0;
   padding: 0 0 0 1em;
   border-left-width: 2px;
-  font-family: var(--article-latin), 'Kaiti SC', KaiTi, var(--article-font);
 }
 
 .mdx table { line-height: 1.5rem; font-variant-numeric: tabular-nums; }
