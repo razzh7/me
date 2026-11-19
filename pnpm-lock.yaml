@@ -32,9 +32,6 @@ importers:
       clsx:
         specifier: ^1.2.1
         version: 1.2.1
-      cn-fontsource-source-han-serif-sc-vf:
-        specifier: 1.0.9
-        version: 1.0.9
       copy-to-clipboard:
         specifier: ^3.3.3
         version: 3.3.3
@@ -1482,9 +1479,6 @@ packages:
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
-
-  cn-fontsource-source-han-serif-sc-vf@1.0.9:
-    resolution: {integrity: sha512-YiSuKDshvSBV/RK99wi7Y7MCQmEPpkyQw4IyHH5vYWL90pwHPmY9XSHiLfkly2KA8RsV8P0GXwPMCMaoQtRiNg==}
 
   collapse-white-space@2.1.0:
     resolution: {integrity: sha512-loKTxY1zCOuG4j9f6EPnuyyYkf58RnhhWTvRoZEokgB+WbdXehfjFviyOVYkqzEWz1Q5kRiZdBYS5SwxbQYwzw==}
@@ -4969,8 +4963,6 @@ snapshots:
   clsx@1.2.1: {}
 
   clsx@2.1.1: {}
-
-  cn-fontsource-source-han-serif-sc-vf@1.0.9: {}
 
   collapse-white-space@2.1.0: {}
 
