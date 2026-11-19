@@ -54,13 +54,10 @@ jobs:
         with:
           node-version: 20
       - run: npm install -g pnpm@10
-      - uses: astral-sh/setup-uv@v6
       - run: pnpm install
       - run: pnpm compress
       - run: pnpm blurhash
       - run: pnpm build
-      - name: Make exported article fonts readable by the web server
-        run: chmod 644 out/fonts/intro/*.woff2
 
       - name: 部署博客
         if: github.event.action != 'edited'

@@ -93,9 +93,6 @@ code[data-line-numbers-max-digits="4"] > [data-line]::before {
 }
 
 /* Article typography and spacing adapted from Shittori. See /licenses/shittori.txt. */
-.article-title,
-.mdx { font-family: var(--article-font); }
-
 h1.article-title {
   text-align: center;
   font-weight: 700;
@@ -107,7 +104,7 @@ h1.article-title {
 }
 
 .article-meta { justify-content: center; }
-.mdx { line-height: 2rem; font-weight: 450; overflow-wrap: break-word; }
+.mdx { line-height: 2rem; overflow-wrap: break-word; }
 .mdx p { margin: 1rem 0; line-height: inherit; }
 .mdx :is(h1, h2, h3, h4, h5, h6) {
   letter-spacing: normal;

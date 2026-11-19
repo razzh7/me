@@ -6,11 +6,6 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --article-base-font: 'Article Punctuation', var(--article-latin), 'Local Source Han Serif', 'Source Han Serif SC VF', 'Songti SC', SimSun, serif;
-    --article-font: var(--article-base-font);
-  }
-
   /* Light interface colors on Shittori paper. */
   .light {
     --article-ink: #2b2926;
@@ -59,22 +54,6 @@
 }
 
 @layer base {
-
-  @font-face {
-    font-family: 'Local Source Han Serif';
-    src: local('SourceHanSerifSCVF-Regular'), local('Source Han Serif SC VF');
-    font-weight: 250 900;
-  }
-
-  @font-face {
-    font-family: 'Article Punctuation';
-    src: local('SourceHanSerifSCVF-Regular'), local('Source Han Serif SC VF'),
-      url('../node_modules/cn-fontsource-source-han-serif-sc-vf/L3_2014_32.woff2') format('woff2');
-    font-weight: 250 900;
-    font-display: optional;
-    unicode-range: U+2014, U+201C-201D, U+2026;
-  }
-
   html {
     @apply bg-background text-accent;
   }
@@ -268,7 +247,6 @@ button {
 
 /* Home intro hardcodes a dark-theme gray. Restore ink, and paint links with the accent. */
 .light article.slide-enter-content {
-  font-family: var(--article-font);
   color: #1f1e1d;
 }
 
